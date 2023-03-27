@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
+    tools:context=".Profile">
 
     <TextView
         android:id="@+id/textView"
@@ -13,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
         android:layout_marginEnd="100dp"
-        android:text="Nghe ngay"
+        android:text="Profile"
         android:textSize="50dp"
         app:layout_constraintBottom_toTopOf="@+id/botNavView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,5 +32,7 @@
 
 
 
+
         />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
