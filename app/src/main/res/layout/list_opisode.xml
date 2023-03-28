@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingHorizontal="10dp">
+
+    <TextView
+        android:id="@+id/dateUpload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="16 tháng 3"
+        android:textSize="16dp"/>
+
+    <TextView
+        android:id="@+id/nameOpisode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="#25 - người lớn cô đơn"
+        android:textSize="20dp"
+        android:textColor="#000000"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/descriptOpisode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mình là Giang, mình là người lớn và mình thỉnh thoảng cũng cô đơn"
+        android:textSize="18dp"/>
+
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/play_arrow_purple"
+        android:background="@drawable/bg_icon_circle"/>
+
+
+</LinearLayout>

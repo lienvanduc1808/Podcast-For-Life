@@ -1,4 +1,4 @@
-package com.example.podcast_for_life
+package com.example.channel
 
 import org.junit.Test
 

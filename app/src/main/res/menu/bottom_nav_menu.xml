@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-
-
     <item
         android:id="@+id/action_NgheNgay"
         android:title="Nghe Ngay"
@@ -22,6 +19,4 @@
         android:id="@+id/action_Timkiem"
         android:title="Tìm kiếm "
         android:icon="@drawable/baseline_search_24"/>
-
-
 </menu>

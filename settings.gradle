@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "Podcast-For-Life"
+rootProject.name = "Channel"
 include ':app'
