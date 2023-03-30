@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EpisodeFragment"
-    android:background="@color/white">
+    tools:context=".EpisodeBottomSheet"
+    android:background="@color/white" >
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
             <ImageView
                 android:id="@+id/ivCoverImage"
                 android:layout_width="374dp"
@@ -73,8 +73,8 @@
                 android:layout_width="375dp"
                 android:layout_height="33dp"
                 android:layout_marginTop="4dp"
-                android:text="Đồ không ngon là đồ dở, người không thở là người âm"
-                android:textColor="@color/purple_200"
+                android:text="Đồ không ngon là đồ dở, người không thở là người ra đi"
+                android:textColor="@color/voilet"
                 android:textSize="18dp"
                 android:ellipsize="marquee"
                 app:layout_constraintEnd_toEndOf="@+id/tvTitle"
@@ -92,7 +92,7 @@
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvDate"
-                app:srcCompat="@drawable/baseline_pause" />
+                app:srcCompat="@drawable/baseline_pause_40" />
 
             <ImageButton
                 android:id="@+id/ibForward"
@@ -112,14 +112,14 @@
                 app:layout_constraintEnd_toStartOf="@+id/ibPause"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/ibPause"
-                app:srcCompat="@drawable/baseline_replay_10_24" />
+                app:srcCompat="@drawable/baseline_replay_15" />
 
             <SeekBar
                 android:id="@+id/sbVolume"
                 android:layout_width="311dp"
                 android:layout_height="25dp"
                 android:layout_marginTop="32dp"
-                android:thumb="@color/white"
+                android:thumbTint="@color/super_light_gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ibPause" />
@@ -142,16 +142,40 @@
                 app:srcCompat="@drawable/baseline_volume_up_24"
                 app:tint="@color/light_gray" />
 
+
+
             <ImageButton
                 android:id="@+id/ibMore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="20dp"
                 android:background="@color/white"
-                android:tint="@color/purple_200"
+                app:tint="@color/purple_200"
                 app:layout_constraintEnd_toEndOf="@+id/ivMaxVolume"
                 app:layout_constraintTop_toBottomOf="@+id/sbVolume"
                 app:srcCompat="@drawable/more_horiz" />
+
+            <ImageView
+                android:id="@+id/ivAirPlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/baseline_airplay"
+                app:tint="@color/voilet"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sbVolume" />
+
+            <TextView
+                android:id="@+id/tvSpeed"
+                android:layout_width="61dp"
+                android:layout_height="29dp"
+                android:layout_marginTop="20dp"
+                android:text="1x"
+                android:textSize="22dp"
+                android:textColor="@color/voilet"
+                app:layout_constraintStart_toStartOf="@+id/ivMute"
+                app:layout_constraintTop_toBottomOf="@+id/sbVolume" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

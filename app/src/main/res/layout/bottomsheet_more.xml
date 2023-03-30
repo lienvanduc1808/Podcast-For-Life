@@ -12,31 +12,32 @@
 
     <ImageView
         android:id="@+id/ivCoverImage2"
-        android:layout_width="75dp"
-        android:layout_height="79dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginStart="25dp"
         android:layout_marginTop="25dp"
         android:src="@drawable/trikycamxuc"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <TextView
         android:id="@+id/tvTitle2"
-        android:layout_width="250dp"
-        android:layout_height="37dp"
-        android:layout_marginStart="12dp"
+        android:layout_width="214dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="20dp"
         android:text="nhạc k hay trách đồ không ngon"
+        android:textColor="@color/black"
         android:textSize="20dp"
         android:textStyle="bold"
-        android:textColor="@color/black"
         app:layout_constraintStart_toEndOf="@+id/ivCoverImage2"
         app:layout_constraintTop_toTopOf="@+id/ivCoverImage2" />
 
     <TextView
         android:id="@+id/tvDate2"
-        android:layout_width="250dp"
-        android:layout_height="26dp"
-        android:layout_marginStart="12dp"
+        android:layout_width="214dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="20dp"
         android:text="nang tho can da"
         android:textSize="18dp"
         app:layout_constraintBottom_toBottomOf="@+id/ivCoverImage2"
@@ -64,8 +65,20 @@
         android:id="@+id/lvMore"
         android:layout_width="357dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="98dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/vLine" />
+
+    <ImageButton
+        android:id="@+id/ibClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="18dp"
+        android:background="@color/super_light_gray"
+        android:src="@drawable/close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

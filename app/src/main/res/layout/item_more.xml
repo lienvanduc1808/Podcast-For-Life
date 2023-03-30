@@ -9,23 +9,32 @@
 
     <TextView
         android:id="@+id/tvNameFeature"
-        android:layout_width="295dp"
-        android:layout_height="60dp"
+        android:layout_width="300dp"
+        android:layout_height="59dp"
         android:layout_marginStart="5dp"
         android:gravity="left"
-        android:padding="15dp"
+        android:padding="18dp"
         android:text="Chia se?"
         android:textAllCaps="false"
         android:textColor="@color/black"
-        android:textSize="20dp"
+        android:textSize="18dp"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/ivIconFeature"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="5dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="6dp"
         app:layout_constraintStart_toEndOf="@+id/tvNameFeature"
         app:layout_constraintTop_toTopOf="@+id/tvNameFeature"
         app:srcCompat="@drawable/baseline_ios_share_24" />
+
+    <View
+        android:id="@+id/vLine2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="0dp"
+        android:background="@color/super_light_gray"
+        app:layout_constraintTop_toBottomOf="@+id/tvNameFeature"
+        tools:layout_editor_absoluteX="13dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

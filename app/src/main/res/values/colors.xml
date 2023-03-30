@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="light_gray">#bcbcbc</color>
     <color name="super_light_gray">#e2e2e2</color>
+    <color name="dark_gray">#3e3d3d</color>
+    <color name="voilet">#7a31d6</color>
 </resources>
