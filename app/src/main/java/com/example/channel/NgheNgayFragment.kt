@@ -5,11 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ListView
-
+import android.widget.*
 class NgheNgayFragment : Fragment() {
     private lateinit var listView: ListView
     private lateinit var adapter: listOpisodeAdapter
+    private lateinit var moreHoriz: ImageButton
+    private var test = false
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,10 +30,27 @@ class NgheNgayFragment : Fragment() {
 
         adapter = listOpisodeAdapter(requireContext(), R.layout.list_opisode, items)
         listView = view.findViewById(R.id.listView)
-//        listView.setOnTouchListener { _, _ -> true }
-//        listView.setOnTouchListener(null)
         listView.adapter = adapter
 
+        moreHoriz = view.findViewById(R.id.moreHorizBtn)
+        var popupWindow: PopupWindow? = null
+        moreHoriz?.setOnClickListener {
+            if(popupWindow == null){
+//                popupWindow = PopupWindow(requireContext())
+                val popupView = layoutInflater.inflate(R.layout.popup_more_horiz, null)
+                popupWindow = PopupWindow(popupView,800, ViewGroup.LayoutParams.WRAP_CONTENT)
+//                popupWindow?.setBackgroundDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.round_popup_morehoriz))
 
+                popupWindow?.setOnDismissListener {
+                    popupWindow = null
+                }
+            }
+            if (popupWindow?.isShowing == true) {
+                popupWindow?.dismiss()
+            } else {
+                popupWindow?.showAsDropDown(moreHoriz, 0, 30)
+            }
+
+        }
     }
 }
