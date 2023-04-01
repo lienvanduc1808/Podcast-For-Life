@@ -18,11 +18,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        replaceFragment(NgheNgayFragment())
-
+       // replaceFragment(NgheNgayFragment())
+        replaceFragment(HomeFragment())
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
-                R.id.action_NgheNgay -> replaceFragment(NgheNgayFragment())
+                R.id.action_NgheNgay -> replaceFragment(HomeFragment())
                 R.id.action_Profile -> replaceFragment(ProfileFragment())
                 R.id.action_ThuVien -> replaceFragment(LibraryFragment())
                 R.id.action_Timkiem -> replaceFragment(SearchFragment())
