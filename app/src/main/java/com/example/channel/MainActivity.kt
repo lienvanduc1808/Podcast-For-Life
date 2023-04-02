@@ -19,10 +19,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
        // replaceFragment(NgheNgayFragment())
-        replaceFragment(XemTatCaFragment())
+        replaceFragment(HomeFragment())
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
-                R.id.action_NgheNgay -> replaceFragment(XemTatCaFragment())
+                R.id.action_NgheNgay -> replaceFragment(HomeFragment())
                 R.id.action_Profile -> replaceFragment(ProfileFragment())
                 R.id.action_ThuVien -> replaceFragment(LibraryFragment())
                 R.id.action_Timkiem -> replaceFragment(SearchFragment())

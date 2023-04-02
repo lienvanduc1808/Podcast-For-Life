@@ -37,6 +37,10 @@ class HomeFragment : Fragment() {
             Album("Title 3", "Subtitle 3",R.drawable.trikycamxuc ),
             Album("Title 4", "Subtitle 4", R.drawable.trikycamxuc),
             Album("Title 5", "Subtitle 5", R.drawable.trikycamxuc),
+            Album("Title 6", "Subtitle 6",R.drawable.trikycamxuc ),
+            Album("Title 3", "Subtitle 3",R.drawable.trikycamxuc ),
+            Album("Title 4", "Subtitle 4", R.drawable.trikycamxuc),
+            Album("Title 5", "Subtitle 5", R.drawable.trikycamxuc),
             Album("Title 6", "Subtitle 6",R.drawable.trikycamxuc )
         )
 

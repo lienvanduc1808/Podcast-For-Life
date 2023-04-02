@@ -10,6 +10,8 @@
         android:layout_width="152dp"
         android:layout_height="157dp"
         android:layout_marginStart="10dp"
+        android:background="@drawable/card_background"
+        android:elevation="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher_background" />
