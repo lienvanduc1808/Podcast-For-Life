@@ -10,7 +10,7 @@ class NgheNgayFragment : Fragment() {
     private lateinit var listView: ListView
     private lateinit var adapter: listOpisodeAdapter
     private lateinit var moreHoriz: ImageButton
-    private var test = false
+    private var popupWindow: PopupWindow? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,7 +33,6 @@ class NgheNgayFragment : Fragment() {
         listView.adapter = adapter
 
         moreHoriz = view.findViewById(R.id.moreHorizBtn)
-        var popupWindow: PopupWindow? = null
         moreHoriz?.setOnClickListener {
             if(popupWindow == null){
 //                popupWindow = PopupWindow(requireContext())
@@ -51,6 +50,13 @@ class NgheNgayFragment : Fragment() {
                 popupWindow?.showAsDropDown(moreHoriz, 0, 30)
             }
 
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if(popupWindow != null && popupWindow?.isShowing() == true){
+            popupWindow?.dismiss()
         }
     }
 }

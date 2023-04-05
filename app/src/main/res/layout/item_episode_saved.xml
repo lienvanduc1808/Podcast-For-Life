@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="15dp"
+    android:paddingVertical="15dp"
+    android:background="#FFFFFF">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/rivCover"
+        android:layout_width="103dp"
+        android:layout_height="103dp"
+        android:src="@drawable/trikycamxuc"
+        app:riv_corner_radius="5dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="10dp">
+
+        <TextView
+            android:id="@+id/dateUpload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:text="16 tháng 3"
+            android:textSize="16dp"/>
+
+        <TextView
+            android:id="@+id/nameEpisode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:text="#25 - người lớn cô đơn"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="20dp"
+            android:textColor="#000000"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/descriptEpisode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:text="Mình là Giang, mình là người lớn và mình thỉnh thoảng cũng cô đơn"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="18dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            <ImageButton
+                android:id="@+id/ibPlayEpisode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/bg_icon_circle"
+                android:backgroundTint="#E9E8E9"
+                android:src="@drawable/play_arrow_purple" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="110dp"
+                android:text="Đã phát"
+                android:layout_gravity="center"
+                android:textColor="#929292"/>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="8dp"
+                android:background="#FFFFFF"
+                android:src="@drawable/baseline_bookmark_24"
+                app:tint="#929292" />
+            <ImageButton
+                android:id="@+id/ibMoreHoriz"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/more_horiz"
+                android:background="#FFFFFF"
+                app:tint="#929292"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
