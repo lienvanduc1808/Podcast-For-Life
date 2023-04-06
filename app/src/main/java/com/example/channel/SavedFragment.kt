@@ -41,9 +41,6 @@ class SavedFragment : Fragment() {
         adapter = listSavedAdapter(requireContext(), R.layout.list_opisode, items)
         listViewSaved.adapter = adapter
 
-
-
-
     }
 
     override fun onPause() {

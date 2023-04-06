@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.PopupWindow
-import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -16,6 +15,7 @@ class DownloadedFragment : Fragment() {
     private lateinit var rvListAlbumDownloaded: RecyclerView
     private lateinit var ibMoreHoriz: ImageButton
 
+    private var popupWindow: PopupWindow? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +37,7 @@ class DownloadedFragment : Fragment() {
             Album("Tri ki cam xuc", "10 tap", R.drawable.trikycamxuc),
         )
 
-        rvListAlbumDownloaded.adapter = XemTatCaAdapter(items)
+        rvListAlbumDownloaded.adapter = XemTatCaAdapter(items, requireContext())
         rvListAlbumDownloaded.layoutManager = GridLayoutManager(context, 2)
         return view
     }
@@ -50,11 +50,10 @@ class DownloadedFragment : Fragment() {
             parentFragmentManager.popBackStack()
         }
 
-        var popupWindow: PopupWindow? = null
+
 
         ibMoreHoriz = view.findViewById(R.id.ibMoreHoriz)
         ibMoreHoriz?.setOnClickListener {
-            Toast.makeText(context,"co", Toast.LENGTH_LONG ).show()
             if(popupWindow == null){
                 val popupView = LayoutInflater.from(context).inflate(R.layout.popup_menu_downloaded, null)
                 popupWindow = PopupWindow(popupView,900, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -69,5 +68,10 @@ class DownloadedFragment : Fragment() {
                 popupWindow?.showAsDropDown(ibMoreHoriz, 0, 30)
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        popupWindow?.dismiss()
     }
 }

@@ -31,32 +31,32 @@ class LibraryFragment : Fragment() {
         clDownloaded = view.findViewById<ConstraintLayout>(R.id.clDownloaded)
         clFollowed = view.findViewById<ConstraintLayout>(R.id.clFollowed)
 
+//        clSaved.setOnClickListener {
+//            val subFragment = SavedFragment()
+//            parentFragmentManager.beginTransaction()
+//                .replace(R.id.frame_layout, subFragment)
+//                .addToBackStack(null)
+//                .commit()
+//        }
+
         clSaved.setOnClickListener {
-            val subFragment = SavedFragment()
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, subFragment)
-                .addToBackStack(null)
-                .commit()
+            replaceFragment(SavedFragment())
         }
 
         clDownloaded.setOnClickListener {
-            val subFragment = DownloadedFragment()
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, subFragment)
-                .addToBackStack(null)
-                .commit()
+            replaceFragment(DownloadedFragment())
         }
 
         clFollowed.setOnClickListener {
-            val subFragment = FollowedFragment()
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, subFragment)
-                .addToBackStack(null)
-                .commit()
+            replaceFragment(FollowedFragment())
         }
-
-
     }
 
+    private fun replaceFragment(fragment: Fragment){
+        val fragmentManager = parentFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.frame_layout, fragment)
+        fragmentTransaction.commit()
+    }
 
 }

@@ -5,17 +5,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ListView
 
 class NgheNgayFragment : Fragment() {
     private lateinit var listView: ListView
     private lateinit var adapter: listOpisodeAdapter
+    private lateinit var ibBack: ImageButton
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_nghe_ngay, container, false)
+        val view = inflater.inflate(R.layout.fragment_nghe_ngay, container, false)
+        ibBack = view.findViewById(R.id.ibBack)
+        ibBack.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -33,6 +40,11 @@ class NgheNgayFragment : Fragment() {
 //        listView.setOnTouchListener(null)
         listView.adapter = adapter
 
-
     }
+
+    override fun onResume() {
+        super.onResume()
+//        parentFragmentManager.popBackStack()
+    }
+
 }

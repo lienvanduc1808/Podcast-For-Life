@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import com.makeramen.roundedimageview.RoundedImageView
 
 class listSavedAdapter(context: Context, resource: Int, objects: List<episodeData>):
@@ -51,10 +52,12 @@ class listSavedAdapter(context: Context, resource: Int, objects: List<episodeDat
 
         }
 
-        //Pop
+        //open bottom sheet play episode
+        var episodeBS = EpisodeBottomSheet()
         val itemButtonPlay = itemView?.findViewById<ImageButton>(R.id.ibPlayEpisode)
         itemButtonPlay?.setOnClickListener{
             //Mở tập podcast và đổi podcast thu nhỏ hiện tại
+            episodeBS.show((context as AppCompatActivity).getSupportFragmentManager(), "Episode screen")
         }
 
         return itemView!!

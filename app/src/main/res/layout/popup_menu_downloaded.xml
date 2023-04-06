@@ -186,7 +186,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF"
+        android:background="@drawable/bg_last_item"
         android:layout_marginBottom="2dp"
         android:paddingVertical="13dp"
         android:paddingRight="15dp"
