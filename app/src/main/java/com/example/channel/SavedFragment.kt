@@ -29,6 +29,10 @@ class SavedFragment : Fragment() {
         returnLibraryBtn = view.findViewById(R.id.ibReturnLibrary)
         returnLibraryBtn.setOnClickListener {
             parentFragmentManager.popBackStack()
+//            val fragmentManager = supportFragmentManager
+//            val fragmentTransaction = fragmentManager.beginTransaction()
+//            fragmentTransaction.replace(R.id.frame_layout, parentFragmentManager)
+//            fragmentTransaction.commit()
         }
 
         listViewSaved = view.findViewById(R.id.lvSaved)
