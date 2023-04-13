@@ -13,7 +13,7 @@ import com.example.channel.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var listView: ListView
-    private lateinit var adapter: listOpisodeAdapter
+    private lateinit var adapter: ListOpisodeAdapter
     lateinit var binding: ActivityMainBinding
     lateinit var play_layout: LinearLayout
 

@@ -13,7 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 class SavedFragment : Fragment() {
     private lateinit var returnLibraryBtn: ImageButton
     private lateinit var listViewSaved: ListView
-    private lateinit var adapter: listSavedAdapter
+    private lateinit var listSavedAdapter: ListSavedAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,14 +38,14 @@ class SavedFragment : Fragment() {
             episodeData(R.drawable.trikycamxuc, "15 tháng 2","#25 - người lớn cô đơn", "Mình là Giang, mình là người lớn và mình thỉnh thoảng cũng cô đơn"),
         )
 
-        adapter = listSavedAdapter(requireContext(), R.layout.list_opisode, items)
-        listViewSaved.adapter = adapter
+        listSavedAdapter = ListSavedAdapter(requireContext(), R.layout.list_opisode, items)
+        listViewSaved.adapter = listSavedAdapter
 
     }
 
     override fun onPause() {
         super.onPause()
-        adapter.dismissAllPopups()
+        listSavedAdapter.dismissAllPopups()
     }
 
 }

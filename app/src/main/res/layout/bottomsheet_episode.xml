@@ -74,7 +74,7 @@
                 android:layout_height="33dp"
                 android:layout_marginTop="4dp"
                 android:text="Đồ không ngon là đồ dở, người không thở là người ra đi"
-                android:textColor="@color/voilet"
+                android:textColor="@color/violet"
                 android:textSize="18dp"
                 android:ellipsize="marquee"
                 app:layout_constraintEnd_toEndOf="@+id/tvTitle"
@@ -161,7 +161,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:src="@drawable/baseline_airplay"
-                app:tint="@color/voilet"
+                app:tint="@color/violet"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sbVolume" />
@@ -173,7 +173,7 @@
                 android:layout_marginTop="20dp"
                 android:text="1x"
                 android:textSize="22dp"
-                android:textColor="@color/voilet"
+                android:textColor="@color/violet"
                 app:layout_constraintStart_toStartOf="@+id/ivMute"
                 app:layout_constraintTop_toBottomOf="@+id/sbVolume" />
         </androidx.constraintlayout.widget.ConstraintLayout>

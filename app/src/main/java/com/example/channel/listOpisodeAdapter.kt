@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 
-class listOpisodeAdapter(context: Context, resource: Int, objects: List<testData>):
+class ListOpisodeAdapter(context: Context, resource: Int, objects: List<testData>):
     ArrayAdapter<testData>(context, resource, objects) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var itemView = convertView

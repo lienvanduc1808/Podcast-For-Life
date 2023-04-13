@@ -8,7 +8,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.makeramen.roundedimageview.RoundedImageView
 
-class listSavedAdapter(context: Context, resource: Int, objects: List<episodeData>):
+class ListSavedAdapter(context: Context, resource: Int, objects: List<episodeData>):
     ArrayAdapter<episodeData>(context, resource, objects) {
     private val popupWindows = mutableMapOf<Int, PopupWindow>()
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {

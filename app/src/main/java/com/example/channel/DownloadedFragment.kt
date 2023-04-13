@@ -1,12 +1,15 @@
 package com.example.channel
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.PopupWindow
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -14,9 +17,12 @@ class DownloadedFragment : Fragment() {
     private lateinit var ibReturnLibrary: ImageButton
     private lateinit var rvListAlbumDownloaded: RecyclerView
     private lateinit var ibMoreHoriz: ImageButton
+    private lateinit var ivCheckHide: ImageView
+    private lateinit var clHideEpisode: ConstraintLayout
 
     private var popupWindow: PopupWindow? = null
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,6 +45,8 @@ class DownloadedFragment : Fragment() {
 
         rvListAlbumDownloaded.adapter = XemTatCaAdapter(items, requireContext())
         rvListAlbumDownloaded.layoutManager = GridLayoutManager(context, 2)
+
+
         return view
     }
 
@@ -50,8 +58,6 @@ class DownloadedFragment : Fragment() {
             parentFragmentManager.popBackStack()
         }
 
-
-
         ibMoreHoriz = view.findViewById(R.id.ibMoreHoriz)
         ibMoreHoriz?.setOnClickListener {
             if(popupWindow == null){
@@ -60,6 +66,13 @@ class DownloadedFragment : Fragment() {
                 popupWindow?.setOnDismissListener {
                     popupWindow = null
                 }
+
+                clHideEpisode = popupView.findViewById(R.id.clHideEpisode)
+                ivCheckHide = popupView.findViewById(R.id.ivCheckHide)
+                clHideEpisode?.setOnClickListener {
+                    ivCheckHide.setImageResource(R.drawable.bg_btn_latest)
+                }
+
             }
 
             if (popupWindow?.isShowing == true) {
@@ -68,6 +81,9 @@ class DownloadedFragment : Fragment() {
                 popupWindow?.showAsDropDown(ibMoreHoriz, 0, 30)
             }
         }
+
+
+
     }
 
     override fun onPause() {
