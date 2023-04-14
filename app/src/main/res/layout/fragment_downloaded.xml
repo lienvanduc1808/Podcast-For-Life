@@ -72,6 +72,7 @@
         android:background="#e9e8e9" />
 
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvListAlbumDownloaded"
         android:layout_margin="12dp"
@@ -79,5 +80,6 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+
 
 </LinearLayout>

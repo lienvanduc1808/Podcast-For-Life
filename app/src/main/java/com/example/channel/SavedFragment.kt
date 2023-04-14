@@ -13,7 +13,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 class SavedFragment : Fragment() {
     private lateinit var returnLibraryBtn: ImageButton
     private lateinit var listViewSaved: ListView
+
     private lateinit var listSavedAdapter: ListSavedAdapter
+
+    private lateinit var adapter: listSavedAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,6 +33,12 @@ class SavedFragment : Fragment() {
         returnLibraryBtn = view.findViewById(R.id.ibReturnLibrary)
         returnLibraryBtn.setOnClickListener {
             parentFragmentManager.popBackStack()
+
+//            val fragmentManager = supportFragmentManager
+//            val fragmentTransaction = fragmentManager.beginTransaction()
+//            fragmentTransaction.replace(R.id.frame_layout, parentFragmentManager)
+//            fragmentTransaction.commit()
+
         }
 
         listViewSaved = view.findViewById(R.id.lvSaved)
@@ -38,14 +48,25 @@ class SavedFragment : Fragment() {
             episodeData(R.drawable.trikycamxuc, "15 tháng 2","#25 - người lớn cô đơn", "Mình là Giang, mình là người lớn và mình thỉnh thoảng cũng cô đơn"),
         )
 
+
         listSavedAdapter = ListSavedAdapter(requireContext(), R.layout.list_opisode, items)
         listViewSaved.adapter = listSavedAdapter
+
+        adapter = listSavedAdapter(requireContext(), R.layout.list_opisode, items)
+        listViewSaved.adapter = adapter
+
+
+
 
     }
 
     override fun onPause() {
         super.onPause()
+
         listSavedAdapter.dismissAllPopups()
+
+        adapter.dismissAllPopups()
+
     }
 
 }

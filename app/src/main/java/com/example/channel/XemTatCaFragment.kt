@@ -33,6 +33,9 @@ class XemTatCaFragment : Fragment() {
         )
 
         recyclerView.adapter = XemTatCaAdapter(items, requireContext())
+
+        recyclerView.adapter = XemTatCaAdapter(items)
+
         recyclerView.layoutManager = GridLayoutManager(context, 2)
         //val spacingInPixels = resources.getDimensionPixelSize(R.dimen.spacing)
 

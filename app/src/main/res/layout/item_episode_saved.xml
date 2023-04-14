@@ -54,10 +54,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
+
             <ImageButton
                 android:id="@+id/ibPlayEpisode"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+
+            <ImageButton
+                android:id="@+id/ibPlayEpisode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
                 android:layout_marginRight="8dp"
                 android:background="@drawable/bg_icon_circle"
                 android:backgroundTint="#E9E8E9"

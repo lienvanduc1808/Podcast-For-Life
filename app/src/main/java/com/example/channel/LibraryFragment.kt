@@ -23,6 +23,7 @@ class LibraryFragment : Fragment() {
 
         // Inflate the layout for this fragment
         return view
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,6 +58,41 @@ class LibraryFragment : Fragment() {
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frame_layout, fragment).addToBackStack(null)
         fragmentTransaction.commit()
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        clSaved = view.findViewById<ConstraintLayout>(R.id.clSaved)
+        clDownloaded = view.findViewById<ConstraintLayout>(R.id.clDownloaded)
+        clFollowed = view.findViewById<ConstraintLayout>(R.id.clFollowed)
+
+        clSaved.setOnClickListener {
+            val subFragment = SavedFragment()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, subFragment)
+                .addToBackStack(null)
+                .commit()
+        }
+
+        clDownloaded.setOnClickListener {
+            val subFragment = DownloadedFragment()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, subFragment)
+                .addToBackStack(null)
+                .commit()
+        }
+
+        clFollowed.setOnClickListener {
+            val subFragment = FollowedFragment()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, subFragment)
+                .addToBackStack(null)
+                .commit()
+        }
+
+
+
     }
 
 }

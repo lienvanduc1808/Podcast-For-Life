@@ -1,12 +1,15 @@
 package com.example.channel
 
+
 import android.annotation.SuppressLint
+
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+
 import android.widget.ImageView
 import android.widget.PopupWindow
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -23,11 +26,18 @@ class DownloadedFragment : Fragment() {
     private var popupWindow: PopupWindow? = null
 
     @SuppressLint("MissingInflatedId")
+
+
+class DownloadedFragment : Fragment() {
+    private lateinit var returnLibraryBtn: ImageButton
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
 //        return inflater.inflate(R.layout.fragment_downloaded, container, false)
 
         val view = inflater.inflate(R.layout.fragment_downloaded, container, false)
@@ -48,6 +58,8 @@ class DownloadedFragment : Fragment() {
 
 
         return view
+
+        return inflater.inflate(R.layout.fragment_downloaded, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -89,5 +101,12 @@ class DownloadedFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         popupWindow?.dismiss()
+        returnLibraryBtn = view.findViewById(R.id.ibReturnLibrary)
+        returnLibraryBtn.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
+
+
+
     }
 }

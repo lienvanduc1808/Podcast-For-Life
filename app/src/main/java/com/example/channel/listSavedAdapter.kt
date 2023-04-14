@@ -5,10 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+
 import androidx.appcompat.app.AppCompatActivity
 import com.makeramen.roundedimageview.RoundedImageView
 
 class ListSavedAdapter(context: Context, resource: Int, objects: List<episodeData>):
+import com.makeramen.roundedimageview.RoundedImageView
+
+class listSavedAdapter(context: Context, resource: Int, objects: List<episodeData>):
+
     ArrayAdapter<episodeData>(context, resource, objects) {
     private val popupWindows = mutableMapOf<Int, PopupWindow>()
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -35,6 +40,7 @@ class ListSavedAdapter(context: Context, resource: Int, objects: List<episodeDat
         //Popup
         val itemButtonMoreHoriz = itemView?.findViewById<ImageButton>(R.id.ibMoreHoriz)
         itemButtonMoreHoriz?.setOnClickListener{
+
             if(popupWindow == null){
                 val popupView = LayoutInflater.from(context).inflate(R.layout.popup_more_horiz_saved, null)
                 popupWindow = PopupWindow(popupView,800, ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -58,6 +64,28 @@ class ListSavedAdapter(context: Context, resource: Int, objects: List<episodeDat
         itemButtonPlay?.setOnClickListener{
             //Mở tập podcast và đổi podcast thu nhỏ hiện tại
             episodeBS.show((context as AppCompatActivity).getSupportFragmentManager(), "Episode screen")
+                if(popupWindow == null){
+                    val popupView = LayoutInflater.from(context).inflate(R.layout.popup_more_horiz_saved, null)
+                    popupWindow = PopupWindow(popupView,800, ViewGroup.LayoutParams.WRAP_CONTENT)
+
+                    popupWindow?.setOnDismissListener {
+                        popupWindow = null
+                    }
+                    popupWindows[position] = popupWindow!!
+                }
+                if (popupWindows[position]?.isShowing == true) {
+                    popupWindows[position]?.dismiss()
+                } else {
+                    popupWindows[position]?.showAsDropDown(itemButtonMoreHoriz, 0, 30)
+                }
+
+        }
+
+        //Pop
+        val itemButtonPlay = itemView?.findViewById<ImageButton>(R.id.ibPlayEpisode)
+        itemButtonPlay?.setOnClickListener{
+            //Mở tập podcast và đổi podcast thu nhỏ hiện tại
+
         }
 
         return itemView!!
