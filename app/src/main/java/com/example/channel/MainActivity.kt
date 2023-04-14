@@ -7,6 +7,7 @@ import android.widget.ImageButton
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 import com.example.channel.databinding.ActivityMainBinding
+import com.google.firebase.FirebaseApp
 
 class MainActivity : AppCompatActivity() {
     private lateinit var listView: ListView
@@ -14,12 +15,30 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
 
     var playBtn: ImageButton? = null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        FirebaseApp.initializeApp(this)
        // replaceFragment(NgheNgayFragment())
-        replaceFragment(HomeFragment())
+        replaceFragment(SignUpFragment())
+//        val signInFragment = SignInFragment()
+//        val signUpFragment = SignUpFragment()
+
+//        binding.btnSignIn.setOnClickListener {
+//            supportFragmentManager.beginTransaction()
+//                .replace(R.id.fragment_container, signInFragment)
+//                .commit()
+//        }
+//
+//        binding.btnSignUp.setOnClickListener {
+//            supportFragmentManager.beginTransaction()
+//                .replace(R.id.fragment_container, signUpFragment)
+//                .commit()
+//        }
+//
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.action_NgheNgay -> replaceFragment(HomeFragment())
@@ -56,3 +75,4 @@ class MainActivity : AppCompatActivity() {
 
 
 }
+
