@@ -22,7 +22,11 @@
         android:layout_height="wrap_content"
         android:text="TextView"
         android:textColor="@color/black"
+
+        android:textSize="18dp"
+
         android:textSize="24dp"
+
         app:layout_constraintStart_toStartOf="@+id/ivLogo"
         app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
 
@@ -30,8 +34,14 @@
         android:id="@+id/tvAlbumArtist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+
+        android:layout_marginTop="-3dp"
         android:text="TextView"
+        android:textSize="14dp"
+
+     android:layout_marginTop="5dp"
+        android:text="TextView"
+
         app:layout_constraintStart_toStartOf="@+id/tvAlbumName"
         app:layout_constraintTop_toBottomOf="@+id/tvAlbumName" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MoreBottomSheet"
+    android:background="@color/super_light_gray">
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+    <ImageView
+        android:id="@+id/ivCoverImage2"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        android:src="@drawable/trikycamxuc"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/tvTitle2"
+        android:layout_width="214dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="20dp"
+        android:text="nhạc k hay trách đồ không ngon"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/ivCoverImage2"
+        app:layout_constraintTop_toTopOf="@+id/ivCoverImage2" />
+
+    <TextView
+        android:id="@+id/tvDate2"
+        android:layout_width="214dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="20dp"
+        android:text="nang tho can da"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivCoverImage2"
+        app:layout_constraintStart_toEndOf="@+id/ivCoverImage2" />
+
+    <View
+        android:id="@+id/vLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="25dp"
+        android:background="@color/light_gray"
+        app:layout_constraintTop_toBottomOf="@+id/ivCoverImage2"
+        tools:layout_editor_absoluteX="13dp" />
+
+    <ListView
+        android:id="@+id/lvShareBtn"
+        android:layout_width="357dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vLine" />
+
+    <ListView
+        android:id="@+id/lvMore"
+        android:layout_width="357dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="98dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vLine" />
+
+    <ImageButton
+        android:id="@+id/ibClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="18dp"
+        android:background="@color/super_light_gray"
+        android:src="@drawable/close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
