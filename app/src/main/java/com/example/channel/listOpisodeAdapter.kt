@@ -1,6 +1,7 @@
 package com.example.channel
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,5 +29,4 @@ class listOpisodeAdapter(context: Context, resource: Int, objects: List<testData
 
         return itemView!!
     }
-
 }
