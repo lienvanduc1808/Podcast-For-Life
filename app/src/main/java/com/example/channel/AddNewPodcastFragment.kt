@@ -12,11 +12,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentResultListener
+
 import java.io.IOException
 import java.util.concurrent.ScheduledExecutorService
 
-class AddNewPodcastFragment : Fragment() {
+class AddNewPodcastFragment : Fragment(),FragmentResultListener {
 
    // private var duration: String = ""
     private var mediaPlayer: MediaPlayer? = null
@@ -117,6 +120,9 @@ class AddNewPodcastFragment : Fragment() {
                 var fragment: Fragment? = null
                 if(items[1].equals(spnAlbum.selectedItem.toString())){
                     fragment = NewAlbumFragment()
+
+
+
                 }
                 if(items[2].equals(spnAlbum.selectedItem.toString())){
                     fragment = ExistAlbumFragment()
@@ -213,5 +219,14 @@ class AddNewPodcastFragment : Fragment() {
             }
             true
         }
+    }
+
+    override fun onFragmentResult(requestKey: String, result: Bundle) {
+        if (requestKey != "my_request_key") {
+            return
+        }
+
+        // Handle the result here
+        val resultData = result.getString("key")
     }
 }

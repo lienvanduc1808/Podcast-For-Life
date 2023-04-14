@@ -21,5 +21,8 @@ class NewAlbumFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+
+
+
     }
 }
