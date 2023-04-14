@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txtThoiGian"
+        android:layout_width="match_parent"
+        android:textColor="#929292"
+        android:layout_height="wrap_content"
+        android:text="Ngay-Thang" />
+
+    <TextView
+        android:id="@+id/txtTenTap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:padding="5dp"
+        android:textSize="18dp"
+        android:text="Tên tập podcast " />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/imgBtnPlay"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="9dp"
+            android:background="@drawable/bg_icon_circle_grey"
+            android:src="@drawable/play_arrow_purple"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/txtPhut"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/txtPhut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9dp"
+            android:textColor="#7a31d6"
+            android:text="Phut"
+            app:layout_constraintBottom_toBottomOf="@+id/imgBtnPlay"
+            app:layout_constraintStart_toEndOf="@+id/imgBtnPlay"
+            app:layout_constraintTop_toTopOf="@+id/imgBtnPlay" />
+
+        <ImageButton
+            android:id="@+id/imgBtnMore"
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imgBtnPlay"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imgBtnPlay"
+            app:layout_constraintVertical_bias="1.0"
+            android:background="#e9e8e9"
+            android:src="@drawable/more_horiz_grey"
+             />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>

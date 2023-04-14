@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+            <item
+                android:id="@+id/menuSave"
+                android:title="Lưu tập"
+                android:icon="@drawable/baseline_save_24"
+                app:showAsAction="never"
+
+                />
+            <item
+                android:id="@+id/menuDownload"
+                android:title="Tải về tập"
+                android:icon="@drawable/baseline_arrow_circle_down_24"
+                app:showAsAction="never"
+                />
+            <item
+                android:id="@+id/menuShare"
+                android:icon="@drawable/baseline_share_24"
+                android:title="Chia sẻ tập "
+                app:showAsAction="never"
+                />
+
+
+
+
+
+
+</menu>

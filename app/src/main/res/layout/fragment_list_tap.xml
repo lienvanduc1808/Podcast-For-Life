@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ListTapFragment"
+    android:orientation="vertical"
+    android:background="#e9e8e9">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+        <ImageView
+            android:id="@+id/imgBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_arrow_back_ios_24"/>
+        <TextView
+            android:id="@+id/txtTenKenh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ten cua kenh"
+            android:textSize="17dp"
+            android:textColor="#7a31d6"
+            android:layout_marginLeft="20dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tập"
+            android:textSize="17dp"
+            android:layout_marginLeft="190dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"/>
+
+
+
+        />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/txtNam"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Năm"
+        android:textSize="25dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:padding="20dp"/>
+
+    <ListView
+        android:id="@+id/lvTap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+
+
+</LinearLayout>
