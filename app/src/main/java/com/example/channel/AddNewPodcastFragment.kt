@@ -19,7 +19,7 @@ import androidx.fragment.app.FragmentResultListener
 import java.io.IOException
 import java.util.concurrent.ScheduledExecutorService
 
-class AddNewPodcastFragment : Fragment(),FragmentResultListener {
+class AddNewPodcastFragment : Fragment() {
 
    // private var duration: String = ""
     private var mediaPlayer: MediaPlayer? = null
@@ -221,12 +221,5 @@ class AddNewPodcastFragment : Fragment(),FragmentResultListener {
         }
     }
 
-    override fun onFragmentResult(requestKey: String, result: Bundle) {
-        if (requestKey != "my_request_key") {
-            return
-        }
 
-        // Handle the result here
-        val resultData = result.getString("key")
-    }
 }

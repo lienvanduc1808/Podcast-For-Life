@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -86,15 +87,28 @@
         />
 
 
-    <Button
-        android:textColor="#7a31d6"
-        android:textSize="18dp"
-        android:textStyle="bold"
-        android:layout_margin="20dp"
-        android:id="@+id/btnImage"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Chọn hình ảnh" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="Chọn hình ảnh"
+            android:textColor="#7a31d6"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            tools:src="@tools:sample/avatars" />
+    </LinearLayout>
+
     <TextView
         android:layout_margin="20dp"
         android:id="@+id/textView3"

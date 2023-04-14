@@ -202,14 +202,15 @@
                 android:layout_height="80dp"
                 android:layout_marginLeft="20dp"
                 app:riv_corner_radius="8dp" />
-            <TextView
-                android:layout_marginLeft="20dp"
-                android:id="@+id/txtNewDes"
-                android:lines="9"
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
 
-                 />
+            <TextView
+                android:id="@+id/txtNewDes"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:lines="9"
+
+                />
 
 
         </TableRow>
