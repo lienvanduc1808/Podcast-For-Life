@@ -29,7 +29,7 @@
             android:textSize="20dp"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:text="Ablum đã có " />
+            android:text="Ablum mới " />
 
         <TextView
             android:id="@+id/txtXong"
