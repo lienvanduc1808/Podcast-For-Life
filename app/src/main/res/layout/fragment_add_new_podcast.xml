@@ -72,7 +72,7 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textAlignment="center"
-        android:text="TextView" />
+        android:text="" />
 
     <TextView
         android:layout_margin="30dp"

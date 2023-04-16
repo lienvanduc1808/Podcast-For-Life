@@ -28,6 +28,7 @@ class NewAlbumFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         pickImage(view)
+        turnBack(view)
 
 
 
@@ -81,6 +82,15 @@ class NewAlbumFragment : Fragment() {
 
 
         }
+    }
+    private fun turnBack(view: View) {
+        val imgBack = view.findViewById<ImageView>(R.id.imgBack)
+        imgBack.setOnClickListener {
+            parentFragmentManager.popBackStack()
+
+
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
