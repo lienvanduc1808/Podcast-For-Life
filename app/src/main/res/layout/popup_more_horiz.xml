@@ -18,15 +18,7 @@
         android:paddingVertical="13dp"
         android:paddingRight="15dp"
         android:paddingLeft="20dp"
-        android:id="@+id/clShareChannel"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_first_item"
-            android:layout_marginBottom="13dp"
-            android:paddingVertical="13dp"
-            android:paddingRight="15dp"
-            android:paddingLeft="20dp"
+        >
         <TextView
             android:id="@+id/test"
             android:layout_width="wrap_content"
@@ -51,15 +43,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.4" />
 
-            <ImageView
-                android:id="@+id/ivShareChannel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/baseline_ios_share_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.4" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
