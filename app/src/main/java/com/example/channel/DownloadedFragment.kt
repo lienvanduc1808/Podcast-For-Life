@@ -17,25 +17,31 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class DownloadedFragment : Fragment() {
+
+
+    @SuppressLint("MissingInflatedId")
+
+
+class DownloadedFragment : Fragment() {
+
+
+
+    }
+    private var popupWindow: PopupWindow? = null
+    private lateinit var returnLibraryBtn: ImageButton
     private lateinit var ibReturnLibrary: ImageButton
     private lateinit var rvListAlbumDownloaded: RecyclerView
     private lateinit var ibMoreHoriz: ImageButton
     private lateinit var ivCheckHide: ImageView
     private lateinit var clHideEpisode: ConstraintLayout
 
-    private var popupWindow: PopupWindow? = null
-
-    @SuppressLint("MissingInflatedId")
-
-
-class DownloadedFragment : Fragment() {
-    private lateinit var returnLibraryBtn: ImageButton
-
 
     override fun onCreateView(
+
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         // Inflate the layout for this fragment
 
 //        return inflater.inflate(R.layout.fragment_downloaded, container, false)
@@ -53,7 +59,7 @@ class DownloadedFragment : Fragment() {
             Album("Tri ki cam xuc", "10 tap", R.drawable.trikycamxuc),
         )
 
-        rvListAlbumDownloaded.adapter = XemTatCaAdapter(items, requireContext())
+        rvListAlbumDownloaded.adapter = XemTatCaAdapter(items)
         rvListAlbumDownloaded.layoutManager = GridLayoutManager(context, 2)
 
 
@@ -101,7 +107,7 @@ class DownloadedFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         popupWindow?.dismiss()
-        returnLibraryBtn = view.findViewById(R.id.ibReturnLibrary)
+        returnLibraryBtn = requireView()!!.findViewById(R.id.ibReturnLibrary)
         returnLibraryBtn.setOnClickListener {
             parentFragmentManager.popBackStack()
         }

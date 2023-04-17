@@ -9,8 +9,8 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.makeramen.roundedimageview.RoundedImageView
 
-class ListSavedAdapter(context: Context, resource: Int, objects: List<episodeData>):
-import com.makeramen.roundedimageview.RoundedImageView
+
+
 
 class listSavedAdapter(context: Context, resource: Int, objects: List<episodeData>):
 
@@ -82,11 +82,6 @@ class listSavedAdapter(context: Context, resource: Int, objects: List<episodeDat
         }
 
         //Pop
-        val itemButtonPlay = itemView?.findViewById<ImageButton>(R.id.ibPlayEpisode)
-        itemButtonPlay?.setOnClickListener{
-            //Mở tập podcast và đổi podcast thu nhỏ hiện tại
-
-        }
 
         return itemView!!
     }

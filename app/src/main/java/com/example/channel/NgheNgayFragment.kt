@@ -5,18 +5,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.*
 
-import android.widget.ImageButton
-import android.widget.ListView
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.viewpager2.widget.ViewPager2
 
+
+
+
 class NgheNgayFragment : Fragment() {
+    private lateinit var listView: ListView
+    private lateinit var adapter: listOpisodeAdapter
+    private lateinit var moreHoriz: ImageButton
+    private var popupWindow: PopupWindow? = null
     private lateinit var ibBack: ImageButton
 
     private lateinit var lvListEpisode: ListView
-    private lateinit var listOpisodeAdapter: ListOpisodeAdapter
+    private lateinit var listOpisodeAdapter: listOpisodeAdapter
 
     private lateinit var pb5start: ProgressBar
     private lateinit var pb4start: ProgressBar
@@ -28,13 +32,6 @@ class NgheNgayFragment : Fragment() {
 //    private lateinit var reviewAdapter: ReviewAdapter
 
     private lateinit var tvMakeReview: TextView
-
-import android.widget.*
-class NgheNgayFragment : Fragment() {
-    private lateinit var listView: ListView
-    private lateinit var adapter: listOpisodeAdapter
-    private lateinit var moreHoriz: ImageButton
-    private var popupWindow: PopupWindow? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,7 +61,7 @@ class NgheNgayFragment : Fragment() {
         )
 
 
-        listOpisodeAdapter = ListOpisodeAdapter(requireContext(), R.layout.list_opisode, items)
+        listOpisodeAdapter = listOpisodeAdapter(requireContext(), R.layout.list_opisode, items)
         lvListEpisode = view.findViewById(R.id.lvListEpisode)
 //        listView.setOnTouchListener { _, _ -> true }
 //        listView.setOnTouchListener(null)
@@ -102,7 +99,7 @@ class NgheNgayFragment : Fragment() {
         vpReview.adapter = ReviewAdapter(exReview)
 
         adapter = listOpisodeAdapter(requireContext(), R.layout.list_opisode, items)
-        listView = view.findViewById(R.id.listView)
+        listView = view.findViewById(R.id.lvListEpisode)
         listView.adapter = adapter
 
         moreHoriz = view.findViewById(R.id.moreHorizBtn)

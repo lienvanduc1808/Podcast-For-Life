@@ -14,7 +14,7 @@ class SavedFragment : Fragment() {
     private lateinit var returnLibraryBtn: ImageButton
     private lateinit var listViewSaved: ListView
 
-    private lateinit var listSavedAdapter: ListSavedAdapter
+    private lateinit var listSavedAdapter: listSavedAdapter
 
     private lateinit var adapter: listSavedAdapter
 
@@ -49,7 +49,7 @@ class SavedFragment : Fragment() {
         )
 
 
-        listSavedAdapter = ListSavedAdapter(requireContext(), R.layout.list_opisode, items)
+        listSavedAdapter = listSavedAdapter(requireContext(), R.layout.list_opisode, items)
         listViewSaved.adapter = listSavedAdapter
 
         adapter = listSavedAdapter(requireContext(), R.layout.list_opisode, items)

@@ -12,10 +12,11 @@ import android.widget.ImageView
 import android.widget.TextView
 
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentTransaction
 
 
 import androidx.recyclerview.widget.RecyclerView
+//import kotlin.coroutines.jvm.internal.CompletedContinuation.context
 
 class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val text1: TextView = itemView.findViewById(R.id.tvAlbumName)
@@ -24,7 +25,7 @@ class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 }
 
-class XemTatCaAdapter(private val items: List<Album>, val context: Context) :
+
 
 class XemTatCaAdapter(private val items: List<Album>) :
 
@@ -44,18 +45,16 @@ class XemTatCaAdapter(private val items: List<Album>) :
         holder.image.setImageResource(item.logo)
 
 
-        holder.itemView.setOnClickListener{
-            (context as AppCompatActivity).getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frame_layout, NgheNgayFragment())
-                .addToBackStack(null)
-                .commit()
-        }
+//        holder.itemView.setOnClickListener{
+//            (context as AppCompatActivity).getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.frame_layout, NgheNgayFragment())
+//                .addToBackStack(null)
+//                .commit()
+//        }
     }
 
     override fun getItemCount() = items.size
 
     }
 
-    override fun getItemCount() = items.size
 
-}

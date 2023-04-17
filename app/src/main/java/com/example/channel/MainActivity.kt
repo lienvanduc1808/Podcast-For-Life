@@ -13,7 +13,7 @@ import com.example.channel.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var listView: ListView
-    private lateinit var adapter: ListOpisodeAdapter
+    private lateinit var adapter: listOpisodeAdapter
     lateinit var binding: ActivityMainBinding
     lateinit var play_layout: LinearLayout
 
@@ -29,9 +29,7 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
 
-                R.id.action_NgheNgay -> {
-                    replaceFragment(NgheNgayFragment())
-                }
+
 
                 R.id.action_NgheNgay -> replaceFragment(HomeFragment())
 
