@@ -8,13 +8,9 @@ import android.widget.*
 
 import androidx.appcompat.app.AppCompatActivity
 import com.makeramen.roundedimageview.RoundedImageView
-
-
-
-
-class listSavedAdapter(context: Context, resource: Int, objects: List<episodeData>):
-
+class ListSavedAdapter(context: Context, resource: Int, objects: List<episodeData>):
     ArrayAdapter<episodeData>(context, resource, objects) {
+
     private val popupWindows = mutableMapOf<Int, PopupWindow>()
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var itemView = convertView
@@ -60,8 +56,8 @@ class listSavedAdapter(context: Context, resource: Int, objects: List<episodeDat
 
         //open bottom sheet play episode
         var episodeBS = EpisodeBottomSheet()
-        val itemButtonPlay = itemView?.findViewById<ImageButton>(R.id.ibPlayEpisode)
-        itemButtonPlay?.setOnClickListener{
+        val ibPlayEpisode = itemView?.findViewById<ImageButton>(R.id.ibPlayEpisode)
+        ibPlayEpisode?.setOnClickListener{
             //Mở tập podcast và đổi podcast thu nhỏ hiện tại
             episodeBS.show((context as AppCompatActivity).getSupportFragmentManager(), "Episode screen")
                 if(popupWindow == null){
@@ -80,8 +76,6 @@ class listSavedAdapter(context: Context, resource: Int, objects: List<episodeDat
                 }
 
         }
-
-        //Pop
 
         return itemView!!
     }

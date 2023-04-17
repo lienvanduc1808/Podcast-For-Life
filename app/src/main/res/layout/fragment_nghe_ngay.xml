@@ -44,7 +44,7 @@
                             android:src="@drawable/add" />
 
                         <ImageButton
-                            android:id="@+id/moreHorizBtn"
+                            android:id="@+id/ibMoreHoriz"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/bg_icon_circle"
@@ -122,15 +122,16 @@
                         android:layout_height="wrap_content"
                         android:text="Tập"
                         android:textSize="24dp"
-                        android:textColor="#000000"
+                        android:textColor="@color/black"
                         android:layout_marginRight="230dp"
                         android:layout_marginLeft="15dp"
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvAllEpisode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#894cd2"
+                        android:textColor="@color/violet"
                         android:text="Xem tất cả"
                         android:textSize="20dp" />
                 </LinearLayout>
@@ -138,7 +139,7 @@
                 <ListView
                     android:id="@+id/lvListEpisode"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="430dp"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -160,7 +161,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/textView5"
+                        android:id="@+id/tvAllReview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="25dp"
@@ -203,7 +204,7 @@
                         android:indeterminate="true"
                         android:indeterminateTint="@color/light_gray"
                         android:indeterminateTintMode="src_atop"
-                        app:layout_constraintEnd_toEndOf="@+id/textView5"
+                        app:layout_constraintEnd_toEndOf="@+id/tvAllReview"
                         app:layout_constraintTop_toTopOf="@+id/textView3" />
                     <ImageView
                         android:id="@+id/imageView"
@@ -387,7 +388,7 @@
                         android:text="100 lươt xếp hạng"
                         android:textColor="@color/light_gray"
                         android:textSize="18dp"
-                        app:layout_constraintEnd_toEndOf="@+id/textView5"
+                        app:layout_constraintEnd_toEndOf="@+id/tvAllReview"
                         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
                     <View
@@ -414,10 +415,11 @@
                         android:id="@+id/tvMakeReview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginVertical="15dp"
                         android:text="Viết nhận xét"
                         android:textColor="@color/violet"
                         android:textSize="20dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/textView2"
                         app:layout_constraintTop_toBottomOf="@+id/vpReview" />
 

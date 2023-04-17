@@ -36,13 +36,13 @@
             android:textColor="#7a31d6"
             android:textSize="18dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/ibMoreHoriz"
+            app:layout_constraintEnd_toStartOf="@+id/ibMoreHoriz2"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/ibReturnLibrary"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:id="@+id/ibMoreHoriz"
+            android:id="@+id/ibMoreHoriz2"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center"

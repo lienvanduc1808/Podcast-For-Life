@@ -1,23 +1,36 @@
 package com.example.channel
 
+import android.annotation.SuppressLint
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class XemTatCaFragment : Fragment() {
+    private lateinit var ivBack3: ImageView
 
+    private lateinit var rvListAlbum: RecyclerView
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_xem_tat_ca, container, false)
-        val recyclerView: RecyclerView = view.findViewById(R.id.rvListAlbum)
+        ivBack3 = view.findViewById(R.id.ivBack3)
+        ivBack3?.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
+        return view
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        rvListAlbum = view.findViewById(R.id.rvListAlbum)
 
         val items = listOf(
             Album("Text 1.1", "Text 1.2", R.drawable.trikycamxuc),
@@ -32,10 +45,10 @@ class XemTatCaFragment : Fragment() {
             // add more items here
         )
 
-        recyclerView.adapter = XemTatCaAdapter(items)
 
+        rvListAlbum.adapter = XemTatCaAdapter(items, requireContext())
+        rvListAlbum.layoutManager = GridLayoutManager(context, 2)
 
-        recyclerView.layoutManager = GridLayoutManager(context, 2)
         //val spacingInPixels = resources.getDimensionPixelSize(R.dimen.spacing)
 
 //        recyclerView.apply {
@@ -48,7 +61,5 @@ class XemTatCaFragment : Fragment() {
 //        }
 
 
-        return view
     }
-
 }

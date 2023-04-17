@@ -20,45 +20,42 @@ class LibraryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_library, container, false)
+        clSaved = view.findViewById(R.id.clSaved)
+        clDownloaded = view.findViewById(R.id.clDownloaded)
+        clFollowed = view.findViewById(R.id.clFollowed)
 
-        // Inflate the layout for this fragment
-        return view
-
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        clSaved = view.findViewById<ConstraintLayout>(R.id.clSaved)
-        clDownloaded = view.findViewById<ConstraintLayout>(R.id.clDownloaded)
-        clFollowed = view.findViewById<ConstraintLayout>(R.id.clFollowed)
+//        clSaved.setOnClickListener {
+//            val subFragment = SavedFragment()
+//            parentFragmentManager.beginTransaction()
+//                .replace(R.id.frame_layout, subFragment)
+//                .addToBackStack(null)
+//                .commit()
+//        }
 
         clSaved.setOnClickListener {
-            val subFragment = SavedFragment()
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, subFragment)
-                .addToBackStack(null)
-                .commit()
+            replaceFragment(SavedFragment())
         }
 
         clDownloaded.setOnClickListener {
-            val subFragment = DownloadedFragment()
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, subFragment)
-                .addToBackStack(null)
-                .commit()
+            replaceFragment(DownloadedFragment())
         }
 
         clFollowed.setOnClickListener {
-            val subFragment = FollowedFragment()
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, subFragment)
-                .addToBackStack(null)
-                .commit()
+            replaceFragment(FollowedFragment())
         }
+        return view
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+    }
 
+    private fun replaceFragment(fragment: Fragment){
+        val fragmentManager = parentFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.frame_layout, fragment).addToBackStack(null)
+        fragmentTransaction.commit()
     }
 
 }
