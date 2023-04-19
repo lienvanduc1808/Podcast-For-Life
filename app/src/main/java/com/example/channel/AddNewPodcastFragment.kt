@@ -29,9 +29,9 @@ import java.io.IOException
 class AddNewPodcastFragment : Fragment() {
 
 
+    lateinit var txtShowList: TextView
 
-
-   // private var duration: String = ""
+    // private var duration: String = ""
     private var mediaPlayer: MediaPlayer? = null
    // private var timer: ScheduledExecutorService? = null
 
@@ -50,14 +50,13 @@ class AddNewPodcastFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+
         super.onViewCreated(view, savedInstanceState)
 
 
 
-        val txtXong = view.findViewById<TextView>(R.id.txtXong)
-        txtXong.setOnClickListener {
 
-        }
 
 
 
@@ -90,8 +89,29 @@ class AddNewPodcastFragment : Fragment() {
                 newImage?.setImageURI(taskUri.toUri())
 
             }
+            val txtXong = view.findViewById<TextView>(R.id.txtXong)
+            txtXong.setOnClickListener {
+                txtShowList = view.findViewById<TextView>(R.id.txtChonDanhmuc)
+                val result = Bundle().apply {
+                    putString("task_tenAlbum", taskAlbumName)
+                    putString("task_tenTap", taskTenTap)
+                    putString("task_description", taskDescription)
+                    putString("task_urt",taskUri)
+                    //putString("task_danhmuc",txtShowList.text.toString())
+
+
+
+
+
+                }
+                parentFragmentManager.setFragmentResult("xong_newPodcast", result)
+                parentFragmentManager.popBackStack()
+            }
+
 
         }
+
+
 
 
 
@@ -293,10 +313,10 @@ class AddNewPodcastFragment : Fragment() {
     private fun turnBack(view: View) {
         val imgBack = view.findViewById<ImageView>(R.id.imgBack)
         imgBack.setOnClickListener {
-//                if(fragmentManager!=null){
-//                    fragmentManager?.popBackStack()
-//
-//                }
+                if(fragmentManager!=null){
+                    fragmentManager?.popBackStack()
+
+                }
             //nhớ phải add fragment này vào backStack thì mới dùng được
             //https://www.youtube.com/watch?v=b9a3-gZ9CGc
 
@@ -323,7 +343,7 @@ class AddNewPodcastFragment : Fragment() {
 
 
     private fun chonDanhmuc(view: View) {
-        val txtShowList = view.findViewById<TextView>(R.id.txtChonDanhmuc)
+         txtShowList = view.findViewById<TextView>(R.id.txtChonDanhmuc)
         val popupMenu = PopupMenu(view?.context, txtShowList)
 
         popupMenu.inflate(R.menu.popup_danhmuc)
