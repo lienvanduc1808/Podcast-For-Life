@@ -42,7 +42,22 @@ class MyPodcastFragment : Fragment() {
 
         listView.adapter = adapter
 
+        parentFragmentManager.setFragmentResultListener("xong", this) { _, result ->
 
+            parentFragmentManager.beginTransaction().show(this@MyPodcastFragment)
+//            val taskAlbumName = result.getString("task_tenAlbum")
+//            val taskTenTap = result.getString("task_tenTap")
+//            val taskDescription = result.getString("task_description")
+//            val taskUri = result.getString("task_uri")
+//            val taskDanhMuc = result.getString("task_danhmuc")
+//            val taskAudio = result.getString("task_audio")
+//
+//            list.add(MyPodCastData(taskUri!!.toInt(),taskDanhMuc.toString(),taskAlbumName.toString(),taskTenTap.toString(),taskDescription.toString(),taskAudio.toString()))
+
+
+
+
+        }
 
 
         val listener = object : AdapterView.OnItemClickListener {
@@ -88,23 +103,6 @@ class MyPodcastFragment : Fragment() {
                 .addToBackStack(null)
                 .hide(this@MyPodcastFragment)
                 .commit()
-        }
-
-        parentFragmentManager.setFragmentResultListener("xong_newPodcast", this) { _, result ->
-
-            parentFragmentManager.beginTransaction().show(this@MyPodcastFragment)
-//            val taskAlbumName = result.getString("task_tenAlbum")
-//            val taskTenTap = result.getString("task_tenTap")
-//            val taskDescription = result.getString("task_description")
-//            val taskUri = result.getString("task_uri")
-            // val taskDanhMuc = result.getString("task_danhmuc")
-            // val taskAudio = result.getString("task_audio")
-
-            //list.add(MyPodCastData(taskUri!!.toInt(),"",taskAlbumName.toString(),taskTenTap.toString(),taskDescription.toString(),""))
-
-
-
-
         }
 
 

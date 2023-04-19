@@ -49,7 +49,11 @@ class EditMyPodcastFragment : Fragment() {
             val txtNewEsposideName =  view.findViewById<TextView>(R.id.txtNewEsposideName)
             val txtNewDes = view.findViewById<TextView>(R.id.txtNewDes)
             val newImage =   view.findViewById<RoundedImageView>(R.id.newImage)
-            chonAlbum(view)
+            val spnAlbum =   view.findViewById<TextView>(R.id.txtTenAlbum)
+            val items = mutableListOf<String>()
+            items.add("-------------------------------------------------------------")
+            items.add("Tạo Album mới")
+            items.add("Thêm vào Album đã có")
 
             txtNameUri.setText(taskUri)
             txtChonDanhmuc.setText(taskDanhmuc)
@@ -78,62 +82,6 @@ class EditMyPodcastFragment : Fragment() {
 
 
 
-
-    }
-    private fun chonAlbum(view: View) {
-        val items = mutableListOf<String>()
-        items.add("-------------------------------------------------------------")
-        items.add("Tạo Album mới")
-        items.add("Thêm vào Album đã có")
-
-        val adt = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,items)
-        val spnAlbum  = view.findViewById<Spinner>(R.id.spnAlbum)
-        spnAlbum.adapter = adt
-        spnAlbum.onItemSelectedListener = object :AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-
-
-                val selectedFragment = p0?.getItemAtPosition(p2).toString()
-
-                when (selectedFragment) {
-
-                    "Tạo Album mới" -> {
-                        val fragment = NewAlbumFragment()
-                        parentFragmentManager.beginTransaction()
-                            .add(R.id.frame_layout, fragment)
-
-                            .addToBackStack(null)
-                            .hide(this@EditMyPodcastFragment)
-                            .commit()
-
-
-                    }
-                    "Thêm vào Album đã có" -> {
-                        val fragment = ExistAlbumFragment()
-                        parentFragmentManager.beginTransaction()
-                            .add(R.id.frame_layout, fragment)
-
-                            .addToBackStack(null)
-                            .hide(this@EditMyPodcastFragment)
-                            .commit()
-                    }
-
-
-                }
-
-
-
-
-
-//
-            }
-
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-
-            }
-
-        }
 
     }
 
