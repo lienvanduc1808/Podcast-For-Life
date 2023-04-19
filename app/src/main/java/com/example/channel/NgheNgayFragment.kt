@@ -1,26 +1,26 @@
 package com.example.channel
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-
+import android.widget.ImageButton
+import android.widget.ListView
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.viewpager2.widget.ViewPager2
 
-
-
-
 class NgheNgayFragment : Fragment() {
-    private lateinit var listView: ListView
-    private lateinit var adapter: listOpisodeAdapter
-    private lateinit var moreHoriz: ImageButton
-    private var popupWindow: PopupWindow? = null
     private lateinit var ibBack: ImageButton
 
+    private lateinit var tvAllEpisode: TextView
     private lateinit var lvListEpisode: ListView
-    private lateinit var listOpisodeAdapter: listOpisodeAdapter
+    private lateinit var listOpisodeAdapter: ListOpisodeAdapter
+
+    private lateinit var tvAllReview: TextView
+
 
     private lateinit var pb5start: ProgressBar
     private lateinit var pb4start: ProgressBar
@@ -33,6 +33,7 @@ class NgheNgayFragment : Fragment() {
 
     private lateinit var tvMakeReview: TextView
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,6 +43,18 @@ class NgheNgayFragment : Fragment() {
         ibBack = view.findViewById(R.id.ibBack)
         ibBack.setOnClickListener {
             parentFragmentManager.popBackStack()
+        }
+
+        tvAllEpisode = view.findViewById(R.id.tvAllEpisode)
+        tvAllEpisode?.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, ListTapFragment()).addToBackStack(null).commit()
+        }
+
+        tvAllReview = view.findViewById(R.id.tvAllReview)
+        tvAllReview?.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, AllReviewFragment()).addToBackStack(null).commit()
         }
 
         tvMakeReview = view.findViewById(R.id.tvMakeReview)
@@ -60,8 +73,7 @@ class NgheNgayFragment : Fragment() {
         testData("16 THÁNG 3", "#25 - người lớn cô đơn", "Mình là Giang, mình là người lớn và mình thỉnh thoảng cũng cô đơn"),
         )
 
-
-        listOpisodeAdapter = listOpisodeAdapter(requireContext(), R.layout.list_opisode, items)
+        listOpisodeAdapter = ListOpisodeAdapter(requireContext(), R.layout.list_opisode, items)
         lvListEpisode = view.findViewById(R.id.lvListEpisode)
 //        listView.setOnTouchListener { _, _ -> true }
 //        listView.setOnTouchListener(null)
@@ -98,37 +110,6 @@ class NgheNgayFragment : Fragment() {
         vpReview = view.findViewById(R.id.vpReview)
         vpReview.adapter = ReviewAdapter(exReview)
 
-        adapter = listOpisodeAdapter(requireContext(), R.layout.list_opisode, items)
-        listView = view.findViewById(R.id.lvListEpisode)
-        listView.adapter = adapter
-
-        moreHoriz = view.findViewById(R.id.moreHorizBtn)
-        moreHoriz?.setOnClickListener {
-            if(popupWindow == null){
-//                popupWindow = PopupWindow(requireContext())
-                val popupView = layoutInflater.inflate(R.layout.popup_more_horiz, null)
-                popupWindow = PopupWindow(popupView,800, ViewGroup.LayoutParams.WRAP_CONTENT)
-//                popupWindow?.setBackgroundDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.round_popup_morehoriz))
-
-                popupWindow?.setOnDismissListener {
-                    popupWindow = null
-                }
-            }
-            if (popupWindow?.isShowing == true) {
-                popupWindow?.dismiss()
-            } else {
-                popupWindow?.showAsDropDown(moreHoriz, 0, 30)
-            }
-
-        }
-    }
-
-
-    override fun onPause() {
-        super.onPause()
-        if(popupWindow != null && popupWindow?.isShowing() == true){
-            popupWindow?.dismiss()
-        }
     }
 
     override fun onResume() {

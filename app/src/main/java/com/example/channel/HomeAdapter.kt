@@ -1,15 +1,17 @@
 package com.example.channel
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class HomeAdapter(private val carouselDataList: ArrayList<Album>) :
+class HomeAdapter(private val carouselDataList: ArrayList<Album>, val context: Context) :
     RecyclerView.Adapter<HomeAdapter.CarouselItemViewHolder>() {
     var onItemClick: ((Album) -> Unit)? = null
 
@@ -26,6 +28,7 @@ class HomeAdapter(private val carouselDataList: ArrayList<Album>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarouselItemViewHolder {
         val viewHolder = LayoutInflater.from(parent.context).inflate(R.layout.item_album, parent, false)
+
         return CarouselItemViewHolder(viewHolder)
     }
 
@@ -37,6 +40,14 @@ class HomeAdapter(private val carouselDataList: ArrayList<Album>) :
         albumArtistTV.setText(album.channel)
         val logoIV = holder.albumLogoIV
         logoIV.setImageResource(R.drawable.trikycamxuc)
+
+
+        holder.itemView.setOnClickListener{
+            (context as AppCompatActivity).getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frame_layout, NgheNgayFragment())
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     override fun getItemCount(): Int {

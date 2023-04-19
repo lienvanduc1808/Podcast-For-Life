@@ -13,33 +13,21 @@ import androidx.constraintlayout.widget.ConstraintLayout
 class SavedFragment : Fragment() {
     private lateinit var returnLibraryBtn: ImageButton
     private lateinit var listViewSaved: ListView
-
-    private lateinit var listSavedAdapter: listSavedAdapter
-
-    private lateinit var adapter: listSavedAdapter
-
+    private lateinit var listSavedAdapter: ListSavedAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_saved, container, false)
-
+        returnLibraryBtn = view.findViewById(R.id.ibReturnLibrary)
+        returnLibraryBtn.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        returnLibraryBtn = view.findViewById(R.id.ibReturnLibrary)
-        returnLibraryBtn.setOnClickListener {
-            parentFragmentManager.popBackStack()
-
-//            val fragmentManager = supportFragmentManager
-//            val fragmentTransaction = fragmentManager.beginTransaction()
-//            fragmentTransaction.replace(R.id.frame_layout, parentFragmentManager)
-//            fragmentTransaction.commit()
-
-        }
 
         listViewSaved = view.findViewById(R.id.lvSaved)
         val items = listOf(
@@ -47,26 +35,14 @@ class SavedFragment : Fragment() {
             episodeData(R.drawable.trikycamxuc, "12 tháng 3","#25 - người lớn cô đơn", "Mình là Giang, mình là người lớn và mình thỉnh thoảng cũng cô đơn"),
             episodeData(R.drawable.trikycamxuc, "15 tháng 2","#25 - người lớn cô đơn", "Mình là Giang, mình là người lớn và mình thỉnh thoảng cũng cô đơn"),
         )
-
-
-        listSavedAdapter = listSavedAdapter(requireContext(), R.layout.list_opisode, items)
+        listSavedAdapter = ListSavedAdapter(requireContext(), R.layout.list_opisode, items)
         listViewSaved.adapter = listSavedAdapter
-
-        adapter = listSavedAdapter(requireContext(), R.layout.list_opisode, items)
-        listViewSaved.adapter = adapter
-
-
-
 
     }
 
     override fun onPause() {
         super.onPause()
-
         listSavedAdapter.dismissAllPopups()
-
-        adapter.dismissAllPopups()
-
     }
 
 }

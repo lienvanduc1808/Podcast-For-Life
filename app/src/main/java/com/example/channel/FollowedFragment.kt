@@ -15,17 +15,15 @@ class FollowedFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_followed, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+        var view = inflater.inflate(R.layout.fragment_followed, container, false)
         returnLibraryBtn = view.findViewById(R.id.ibReturnLibrary)
         returnLibraryBtn.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
+        return view
+    }
 
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 }

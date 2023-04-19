@@ -13,7 +13,7 @@ import com.example.channel.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var listView: ListView
-    private lateinit var adapter: listOpisodeAdapter
+    private lateinit var adapter: ListOpisodeAdapter
     lateinit var binding: ActivityMainBinding
     lateinit var play_layout: LinearLayout
 
@@ -28,15 +28,10 @@ class MainActivity : AppCompatActivity() {
         replaceFragment(HomeFragment())
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
-
-
-
                 R.id.action_NgheNgay -> replaceFragment(HomeFragment())
-
                 R.id.action_Profile -> replaceFragment(ProfileFragment())
                 R.id.action_ThuVien -> replaceFragment(LibraryFragment())
                 R.id.action_Timkiem -> replaceFragment(SearchFragment())
-//                R.id.action_Timkiem -> replaceFragment(EpisodeFragment())
                 else->{
 
                 }
@@ -76,6 +71,4 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.replace(R.id.frame_layout, fragment)
         fragmentTransaction.commit()
     }
-
-
 }

@@ -30,7 +30,15 @@ class EpisodeBottomSheet : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.bottomsheet_episode, container, false)
+        var view = inflater.inflate(R.layout.bottomsheet_episode, container, false)
+
+        //for more features option
+        ibMore = view.findViewById(R.id.ibMore)
+        ibMore.setOnClickListener {
+            MoreBottomSheet().show(getParentFragmentManager(), "Bottom Sheet Fragment")
+        }
+
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,7 +47,6 @@ class EpisodeBottomSheet : BottomSheetDialogFragment() {
         tvTitle = view.findViewById(R.id.tvTitle)
         tvDate = view.findViewById(R.id.tvDate)
         ibPause = view.findViewById(R.id.ibPause)
-        ibMore = view.findViewById(R.id.ibMore)
 
         //set up auto scroll for text view
 //        tvTitle.setSingleLine()
@@ -61,13 +68,5 @@ class EpisodeBottomSheet : BottomSheetDialogFragment() {
             ibPause.setImageResource(R.drawable.play_arrow_40)
 //            }
         }
-
-
-        //for more features option
-        var morebs = MoreBottomSheet()
-        ibMore.setOnClickListener {
-            morebs.show(getParentFragmentManager(), "Bottom Sheet Fragment")
-        }
-
     }
 }

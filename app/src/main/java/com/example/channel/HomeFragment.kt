@@ -1,11 +1,13 @@
 package com.example.channel
 
+import android.annotation.SuppressLint
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -20,12 +22,28 @@ class HomeFragment : Fragment() {
     private lateinit var viewPager2: ViewPager2
     private lateinit var adapter: HomeAdapter
     private lateinit var adapter2: HomeAdapter
+
+    private lateinit var tvAllAlbum2: TextView
+    private lateinit var tvAllAlbum3: TextView
+
+
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
+        tvAllAlbum2 = view.findViewById(R.id.tvAllAlbum2)
+        tvAllAlbum2.setOnClickListener {
+            replaceFragment(XemTatCaFragment())
+        }
+
+        tvAllAlbum3 = view.findViewById(R.id.tvAllAlbum3)
+        tvAllAlbum3.setOnClickListener {
+            replaceFragment(XemTatCaFragment())
+        }
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,8 +70,8 @@ class HomeFragment : Fragment() {
             Album("Title 5", "Subtitle 5", R.drawable.trikycamxuc),
             Album("Title 6", "Subtitle 6",R.drawable.trikycamxuc )
         )
-        adapter = HomeAdapter(items)
-        adapter2 = HomeAdapter(items2)
+        adapter = HomeAdapter(items, requireContext())
+        adapter2 = HomeAdapter(items2, requireContext())
         adapter.onItemClick = { album ->
             // Handle click events on album items here
         }
@@ -79,5 +97,12 @@ class HomeFragment : Fragment() {
         compositePageTransformer.addTransformer(MarginPageTransformer((5 * Resources.getSystem().displayMetrics.density).toInt()))
         viewPager.setPageTransformer(compositePageTransformer)
         viewPager2.setPageTransformer(compositePageTransformer)
+    }
+
+    private fun replaceFragment(fragment: Fragment){
+        val fragmentManager = parentFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.frame_layout, fragment).addToBackStack(null)
+        fragmentTransaction.commit()
     }
 }

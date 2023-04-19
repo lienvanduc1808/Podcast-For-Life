@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:padding="5dp">
         <ImageView
-            android:id="@+id/imgBack"
+            android:id="@+id/ivBack4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_arrow_back_ios_24"/>
