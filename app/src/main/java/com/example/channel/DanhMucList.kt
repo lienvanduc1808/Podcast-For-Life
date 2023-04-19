@@ -2,18 +2,18 @@ package com.example.channel
 
 object DanhMucList {
     private var danhMucList = ArrayList<DanhMuc>()
-    private var studentNameList = ArrayList<String>()
+    private var danhMucNameList = ArrayList<String>()
 
-    fun setListData(studentList: ArrayList<DanhMuc>) {
-        this.danhMucList = studentList
-        studentNameList.clear()
-        for (i in DanhMucList.danhMucList.indices){
-            studentNameList.add(DanhMucList.danhMucList[i].name)
+    fun setListData(danhMucList: ArrayList<DanhMuc>) {
+        this.danhMucList =danhMucList
+        danhMucNameList.clear()
+        for (i in danhMucList.indices){
+            danhMucNameList.add(danhMucList[i].name)
         }
     }
 
     fun getDanhMucNameList():ArrayList<String>{
-        return this.studentNameList
+        return this.danhMucNameList
     }
 
     fun getDanhMucList(): ArrayList<DanhMuc> {
