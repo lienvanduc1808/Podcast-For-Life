@@ -7,12 +7,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class HomeAdapter(private val carouselDataList: ArrayList<Album>, val context: Context) :
-    RecyclerView.Adapter<HomeAdapter.CarouselItemViewHolder>() {
+class ItemDanhMucAdapter(private val carouselDataList: ArrayList<Album>, val context: Context) :RecyclerView.Adapter<ItemDanhMucAdapter.CarouselItemViewHolder>()  {
     var onItemClick: ((Album) -> Unit)? = null
 
     inner class CarouselItemViewHolder(view: View) : RecyclerView.ViewHolder(view){
@@ -25,7 +22,6 @@ class HomeAdapter(private val carouselDataList: ArrayList<Album>, val context: C
             }
         }
     }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarouselItemViewHolder {
         val viewHolder = LayoutInflater.from(parent.context).inflate(R.layout.item_album, parent, false)
 
@@ -33,7 +29,7 @@ class HomeAdapter(private val carouselDataList: ArrayList<Album>, val context: C
     }
 
     override fun onBindViewHolder(holder: CarouselItemViewHolder, position: Int) {
-       val album: Album = carouselDataList[position]
+        val album: Album = carouselDataList[position]
         val albumNameTV = holder.albumNameTV
         albumNameTV.setText(album.name)
         val albumArtistTV = holder.albumArtistTV
@@ -53,5 +49,4 @@ class HomeAdapter(private val carouselDataList: ArrayList<Album>, val context: C
     override fun getItemCount(): Int {
         return carouselDataList.size
     }
-
 }

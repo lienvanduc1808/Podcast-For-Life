@@ -23,10 +23,11 @@ class DanhMucFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.e("hello","hello")
         val view = inflater.inflate(R.layout.fragment_search, container, false)
         recyclerView = view.findViewById(R.id.rvListDanhMuc)
         autoCompleteTV = view.findViewById(R.id.search_view)
-        val items = arrayListOf(
+        val items = listOf(
             DanhMuc("Text 1.1", R.drawable.tinhban),
             DanhMuc("Text 1.2", R.drawable.tinhban),
             DanhMuc("Text 1.3", R.drawable.tinhban),
@@ -38,7 +39,7 @@ class DanhMucFragment : Fragment() {
 
             // add more items here
         )
-        val danhMucNameListForSearch = arrayListOf(
+        val danhMucNameListForSearch = listOf(
             DanhMuc("Text 1.1", R.drawable.tinhban),
             DanhMuc("Text 1.2", R.drawable.tinhban),
             DanhMuc("Text 1.3", R.drawable.tinhban),
@@ -49,17 +50,19 @@ class DanhMucFragment : Fragment() {
             DanhMuc("Text 1.8", R.drawable.tinhban),
 
             )
-        DanhMucList.setListData(danhMucNameListForSearch)
+        //DanhMucList.setListData(danhMucNameListForSearch)
 
         adapter = DanhMucAdapter(items)
         recyclerView!!.adapter = adapter
-        recyclerView!!.layoutManager = GridLayoutManager( requireContext(), 2)
-        recyclerView!!.addItemDecoration(
-            DividerItemDecoration( requireContext(),
-                DividerItemDecoration.HORIZONTAL
-            )
-        )
-        setUpAutoCompleteTVAdapter(DanhMucList.getDanhMucNameList())
+        recyclerView!!.layoutManager = GridLayoutManager( context, 2)
+        var a = adapter!!.itemCount
+        Log.e("hoang",a.toString())
+//        recyclerView!!.addItemDecoration(
+//            DividerItemDecoration( requireContext(),
+//                DividerItemDecoration.HORIZONTAL
+//            )
+//        )
+//        setUpAutoCompleteTVAdapter(DanhMucList.getDanhMucNameList())
 
         return view
     }

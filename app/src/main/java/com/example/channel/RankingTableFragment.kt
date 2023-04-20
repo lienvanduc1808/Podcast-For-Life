@@ -118,12 +118,12 @@ class RankingTableFragment : Fragment() {
 
     private fun showDataAll(view: View) {
         val items = arrayListOf(
-            Top_Item("Title 1", "Subtitle 1", R.drawable.trikycamxuc, 1.toString()),
-            Top_Item("Title 2", "Subtitle 2", R.drawable.trikycamxuc,2.toString()),
-            Top_Item("Title 3", "Subtitle 3",R.drawable.trikycamxuc,3.toString() ),
-            Top_Item("Title 4", "Subtitle 4", R.drawable.trikycamxuc,4.toString()),
-            Top_Item("Title 5", "Subtitle 5", R.drawable.trikycamxuc,5.toString()),
-            Top_Item("Title 6", "Subtitle 6",R.drawable.trikycamxuc,6.toString() )
+            Top_Item("Xa hoi", "Lời khuyên hữu ích", R.drawable.img_2, 1.toString()),
+            Top_Item("Xa hoi", "Marketing", R.drawable.trikycamxuc,2.toString()),
+            Top_Item("Xa hoi", "Bình thường một cách bất thường",R.drawable.img_5,3.toString() ),
+            Top_Item("Xa hoi", "sức khỏe tâm lý", R.drawable.img_3,4.toString()),
+            Top_Item("Xa hoi", "sức khỏe tâm lý", R.drawable.img_7,5.toString()),
+            Top_Item("Xa hoi", "sức khỏe tâm lý",R.drawable.img_6,6.toString() )
         )
         adapter = TopItemAdapter(items)
         adapter.onItemClick = {  album->
@@ -145,12 +145,12 @@ class RankingTableFragment : Fragment() {
 
         var listTopTap = mutableListOf<TopTapData>()
         listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
+        listTopTap.add(TopTapData(R.drawable.img,"Bình thường một cách bất thường","Thứ 2","9"))
+        listTopTap.add(TopTapData(R.drawable.img_7,"Lời khuyên hữu ích","Thứ 3","6"))
+        listTopTap.add(TopTapData(R.drawable.img_5,"Csức khỏe tâm lý","Thứ 4","7"))
+        listTopTap.add(TopTapData(R.drawable.img_4,"sức khỏe tâm lý","Thứ 5","2"))
+        listTopTap.add(TopTapData(R.drawable.img_3,"Marketing","Thứ 6","1"))
+        listTopTap.add(TopTapData(R.drawable.img_2,"Còn yêu được cứ yêu đi","Thứ 7","4"))
 
         adapter2 = TopTapAdapter(requireContext(),R.layout.top_tap,listTopTap)
         listView = view.findViewById(R.id.lvRankingTap)
@@ -159,12 +159,12 @@ class RankingTableFragment : Fragment() {
     }
     private fun showDataXH(view: View) {
         val items = arrayListOf(
-            Top_Item("Xa hoi", "Subtitle 1", R.drawable.trikycamxuc, 1.toString()),
-            Top_Item("Xa hoi", "Subtitle 2", R.drawable.trikycamxuc,2.toString()),
-            Top_Item("Xa hoi", "Subtitle 3",R.drawable.trikycamxuc,3.toString() ),
-            Top_Item("Xa hoi", "Subtitle 4", R.drawable.trikycamxuc,4.toString()),
-            Top_Item("Xa hoi", "Subtitle 5", R.drawable.trikycamxuc,5.toString()),
-            Top_Item("Xa hoi", "Subtitle 6",R.drawable.trikycamxuc,6.toString() )
+            Top_Item("Xa hoi", "Lời khuyên hữu ích", R.drawable.img_2, 1.toString()),
+            Top_Item("Xa hoi", "Marketing", R.drawable.trikycamxuc,2.toString()),
+            Top_Item("Xa hoi", "Bình thường một cách bất thường",R.drawable.img_5,3.toString() ),
+            Top_Item("Xa hoi", "sức khỏe tâm lý", R.drawable.img_3,4.toString()),
+            Top_Item("Xa hoi", "sức khỏe tâm lý", R.drawable.img_7,5.toString()),
+            Top_Item("Xa hoi", "sức khỏe tâm lý",R.drawable.img_6,6.toString() )
         )
         adapter = TopItemAdapter(items)
         adapter.onItemClick = {  album->
@@ -185,14 +185,14 @@ class RankingTableFragment : Fragment() {
         viewPager.setPageTransformer(compositePageTransformer)
 
         var listTopTap = mutableListOf<TopTapData>()
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Xa hoi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Xa hoi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Xa hoi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
+        listTopTap.add(TopTapData(R.drawable.img_7,"Xa hoi","Chủ nhật","10"))
+        listTopTap.add(TopTapData(R.drawable.img_2,"Xa hoi","Chủ nhật","10"))
+        listTopTap.add(TopTapData(R.drawable.img_3,"Xa hoi","Chủ nhật","10"))
+        listTopTap.add(TopTapData(R.drawable.img_4,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
+        listTopTap.add(TopTapData(R.drawable.img_5,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
+        listTopTap.add(TopTapData(R.drawable.img,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
+        listTopTap.add(TopTapData(R.drawable.img_8,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
+        listTopTap.add(TopTapData(R.drawable.img_9,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
         listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
 
         adapter2 = TopTapAdapter(requireContext(),R.layout.top_tap,listTopTap)
@@ -202,15 +202,12 @@ class RankingTableFragment : Fragment() {
     }
     private fun showDataNews(view: View) {
         val items = arrayListOf(
-            Top_Item("Tin tuc 1", "Subtitle 1", R.drawable.trikycamxuc, 1.toString()),
-            Top_Item("Tin tuc 1", "Subtitle 1", R.drawable.trikycamxuc, 1.toString()),
-            Top_Item("Tin tuc 1", "Subtitle 1", R.drawable.trikycamxuc, 1.toString()),
-            Top_Item("Tin tuc 1", "Subtitle 1", R.drawable.trikycamxuc, 1.toString()),
-            Top_Item("Title 2", "Subtitle 2", R.drawable.trikycamxuc,2.toString()),
-            Top_Item("Title 3", "Subtitle 3",R.drawable.trikycamxuc,3.toString() ),
-            Top_Item("Title 4", "Subtitle 4", R.drawable.trikycamxuc,4.toString()),
-            Top_Item("Title 5", "Subtitle 5", R.drawable.trikycamxuc,5.toString()),
-            Top_Item("Title 6", "Subtitle 6",R.drawable.trikycamxuc,6.toString() )
+            Top_Item("News", "Lời khuyên hữu ích", R.drawable.img_2, 1.toString()),
+            Top_Item("News", "Marketing", R.drawable.trikycamxuc,2.toString()),
+            Top_Item("News", "Bình thường một cách bất thường",R.drawable.img_5,3.toString() ),
+            Top_Item("News", "sức khỏe tâm lý", R.drawable.img_3,4.toString()),
+            Top_Item("News", "sức khỏe tâm lý", R.drawable.img_7,5.toString()),
+            Top_Item("News", "sức khỏe tâm lý",R.drawable.img_6,6.toString() )
         )
         adapter = TopItemAdapter(items)
         adapter.onItemClick = {  album->

@@ -29,10 +29,12 @@ class MyPodcastFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         var list = mutableListOf<MyPodCastData>()
-        list.add(MyPodCastData(R.drawable.trikycamxuc,"Xa hoi ","fff dfbf fshfbf fhfhf","fwef fhgfwehj fwhjfweyfh fjwfguyfn fwhfyu","fwefw fe yceytf aydgweyfw yugwyefvw ufweycif ufgwefb ufgwefveyvf ydqyfgq duqdyufqd uqfdqwyfq duyqwyfdqw dygqwyfdqw dyvq",""))
-        list.add(MyPodCastData(R.drawable.trikycamxuc,"Xa hoi ","fff dfbf fshfbf fhfhf","fwef fhgfwehj fwhjfweyfh fjwfguyfn fwhfyu","fwefw fe yceytf aydgweyfw yugwyefvw ufweycif ufgwefb ufgwefveyvf ydqyfgq duqdyufqd uqfdqwyfq duyqwyfdqw dygqwyfdqw dyvq",""))
-        list.add(MyPodCastData(R.drawable.trikycamxuc,"Xa hoi ","fff dfbf fshfbf fhfhf","fwef fhgfwehj fwhjfweyfh fjwfguyfn fwhfyu","fwefw fe yceytf aydgweyfw yugwyefvw ufweycif ufgwefb ufgwefveyvf ydqyfgq duqdyufqd uqfdqwyfq duyqwyfdqw dygqwyfdqw dyvq",""))
-        list.add(MyPodCastData(R.drawable.trikycamxuc,"Xa hoi ","fff dfbf fshfbf fhfhf","fwef fhgfwehj fwhjfweyfh fjwfguyfn fwhfyu","fwefw fe yceytf aydgweyfw yugwyefvw ufweycif ufgwefb ufgwefveyvf ydqyfgq duqdyufqd uqfdqwyfq duyqwyfdqw dygqwyfdqw dyvq",""))
+
+
+        list.add(MyPodCastData(R.drawable.img,"Xa hoi ","Lời khuyên hữu ích","mọi chuyện trong cuộc sống","Mỗi podcast của kênh The Present Writer có độ dài từ 15 đến 30 phút, chủ đề xoay quanh các bài học trong cuộc sống, các cách phát triển bản thân theo trường phái tối giản. Khi đối diện với thất bại, Bạn đang sống cho hiện tại, quá khứ hay tương lai?",""))
+        list.add(MyPodCastData(R.drawable.img_9,"Xa hoi ","Marketing","lắng nghe và chia sẻ","Một hành trình của âu lo, Ngừng so sánh bản thân và ghen tỵ với người khác hay Bình ổn tâm lý trong mùa dịch, … đây đều là những vấn đề thực tiễn nhưng không kém phần thú vị mà Chi Nguyễn đưa vào trong mỗi tập podcast của mình.",""))
+        list.add(MyPodCastData(R.drawable.img_8,"Xa hoi ","Bình thường một cách bất thường","Bên cạnh đó, những lời khuyên hữu ích dựa trên trải nghiệm của bản thân từ lúc học tập, sinh sống và làm việc tại Mỹ cũng đã được Chi Nguyễn chia sẻ thẳng thắn với mọi người. ","Đến thời điểm hiện tại, Vietcetera đã sở hữu nhiều kênh podcast truyền cảm hứng trên Spotify với các chủ đề khác nhau trong cuộc sống và đó đều là những vấn đề nhận được nhiều sự quan tâm từ công chúng.",""))
+        list.add(MyPodCastData(R.drawable.img_7,"Xa hoi ","sức khỏe tâm lý","những bệnh lý thời hiện đại","Bằng một chất giọng truyền cảm, ngọt ngào và tươi vui, chủ nhân kênh podcast The Present Writer hứa hẹn sẽ mang đến cho bạn một nguồn năng lượng tích cực, dẫn dắt bạn tiếp cận với những góc nhìn chân thực trong cuộc sống và hơn hết là qua đó bạn có thể mang về cho mình những kiến thức mới mẻ.",""))
 
 
 

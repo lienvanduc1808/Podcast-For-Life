@@ -37,7 +37,7 @@ class TopItemAdapter(private val carouselDataList: ArrayList<Top_Item>) :
         val albumArtistTV = holder.albumArtistTV
         albumArtistTV.setText(album.channel)
         val logoIV = holder.albumLogoIV
-        logoIV.setImageResource(R.drawable.trikycamxuc)
+        logoIV.setImageResource(album.logo)
         val rankingItem = holder.rankingItem
         rankingItem.setText(album.rank)
     }
