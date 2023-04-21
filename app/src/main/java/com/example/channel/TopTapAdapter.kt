@@ -39,8 +39,6 @@ class TopTapAdapter(context: Context, resource: Int, list: List<TopTapData>):
                     true
                 }
                 R.id.menuSave -> {
-
-
                     true
                 }
                 R.id.menuDownload -> {
@@ -79,14 +77,6 @@ class TopTapAdapter(context: Context, resource: Int, list: List<TopTapData>):
         rank_top_tap?.text = currentItem?.rank_top_tap
         img_top_tap?.setImageResource(currentItem?.img_top_tap!!)
 
-
-
-
-
         return rowView!!
-
-
     }
-
-
 }

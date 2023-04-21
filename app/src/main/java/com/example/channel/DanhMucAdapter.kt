@@ -7,7 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-
 //class DanhMucAdapter(private val items: List<DanhMuc>) :
 //    RecyclerView.Adapter<ItemViewHolder>() {
 //
@@ -26,7 +25,7 @@ import androidx.recyclerview.widget.RecyclerView
 //
 //    override fun getItemCount() = items.size
 //}
-class DanhMucAdapter(private val data: ArrayList<DanhMuc>) : RecyclerView.Adapter<DanhMucAdapter.ViewHolder>() {
+class DanhMucAdapter(private val data: List<DanhMuc>) : RecyclerView.Adapter<DanhMucAdapter.ViewHolder>() {
     var onItemClick: ((DanhMuc) -> Unit)? = null
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.ivDanhMuc)

@@ -36,17 +36,18 @@ class ListTapFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         var list = mutableListOf<ListTapData>()
-        list.add(ListTapData("23 thang 3","Podcast 1","20 phut"))
-        list.add(ListTapData("23 thang 4","Podcast 2","25 phut"))
-        list.add(ListTapData("23 thang 4","Podcast 2","25 phut"))
-        list.add(ListTapData("23 thang 4","Podcast 2","25 phut"))
-        list.add(ListTapData("23 thang 4","Podcast 2","25 phut"))
-        list.add(ListTapData("23 thang 4","Podcast 2","25 phut"))
-        list.add(ListTapData("23 thang 4","Podcast 2","25 phut"))
-        list.add(ListTapData("23 thang 4","Podcast 2","25 phut"))
-        list.add(ListTapData("23 thang 4","Podcast 2","25 phut"))
-        list.add(ListTapData("23 thang 4","Podcast 2","25 phut"))
-        list.add(ListTapData("23 thang 4","Podcast 2","25 phut"))
+
+        list.add(ListTapData("18 thang 5","Lời khuyên hữu ích","20 phut"))
+        list.add(ListTapData("11 thang 4","Marketing","25 phut"))
+        list.add(ListTapData("23 thang 4","Tay mơ học đời bằng Tâm lý học","25 phut"))
+        list.add(ListTapData("08 thang 2","Bình thường một cách bất thường","25 phut"))
+        list.add(ListTapData("24 thang 1","sức khỏe tâm lý","25 phut"))
+        list.add(ListTapData("31 thang 1","mọi chuyện trong cuộc sống","25 phut"))
+        list.add(ListTapData("20 thang 3","câu chuyện lịch sử","25 phut"))
+        list.add(ListTapData("12 thang 5","lắng nghe và chia sẻ ","25 phut"))
+        list.add(ListTapData("13 thang 6","Vipassana","25 phut"))
+        list.add(ListTapData("23 thang 2","những bệnh lý thời hiện đại","25 phut"))
+
 
 
 

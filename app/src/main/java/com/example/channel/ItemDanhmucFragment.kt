@@ -16,7 +16,7 @@ import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 
-class HomeFragment : Fragment() {
+class ItemDanhmucFragment : Fragment() {
 
     private lateinit var viewPager: ViewPager2
     private lateinit var viewPager2: ViewPager2
@@ -33,7 +33,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_home, container, false)
+        val view = inflater.inflate(R.layout.fragment_item_danhmuc, container, false)
         tvAllAlbum2 = view.findViewById(R.id.tvAllAlbum2)
         tvAllAlbum2.setOnClickListener {
             replaceFragment(XemTatCaFragment())
