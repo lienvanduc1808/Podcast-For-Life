@@ -92,22 +92,9 @@ class DanhMucFragment : Fragment() {
                 recyclerView!!.layoutManager = GridLayoutManager(context, 2)
             }
         })
-        autoCompleteTV!!.setOnItemClickListener { _, _, position, _ ->
-            val selectedDanhMuc = DanhMucList.getDanhMucList()
-                .firstOrNull { it.name == data[position] }
-            selectedDanhMuc?.let { danhMuc ->
-                onItemClickDanhMuc(danhMuc)
-            }
-        }
+
     }
-    private fun onItemClickDanhMuc(danhMuc: DanhMuc) {
-        // handle click event here
-        Toast.makeText(
-            requireContext(),
-            "You selected ${danhMuc.name}",
-            Toast.LENGTH_SHORT
-        ).show()
-    }
+
     override fun onResume() {
         super.onResume()
         Log.i("continue", "view list continue")

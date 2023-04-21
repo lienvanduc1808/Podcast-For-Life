@@ -7,8 +7,8 @@ object DanhMucList {
     fun setListData(danhMucList: ArrayList<DanhMuc>) {
         this.danhMucList =danhMucList
         danhMucNameList.clear()
-        for (i in danhMucList.indices){
-            danhMucNameList.add(danhMucList[i].name)
+        for (i in DanhMucList.danhMucList.indices){
+            danhMucNameList.add(DanhMucList.danhMucList[i].name)
         }
     }
 
