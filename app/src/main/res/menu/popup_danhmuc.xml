@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menuAllCat"
+        android:title="Tất cả danh mục"
+        app:showAsAction="never"
+
+        />
+    <item
+        android:id="@+id/menuXH"
+        android:title="Xã hội và văn hóa"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/menuNews"
+        android:title="Tin tức  "
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/menuComedy"
+        android:title="Hài  "
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/menuBusiness"
+        android:title="Kinh doanh  "
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/menuSport"
+        android:title="Thể thao "
+        app:showAsAction="never"
+        />
+
+
+
+
+
+
+
+
+
+</menu>

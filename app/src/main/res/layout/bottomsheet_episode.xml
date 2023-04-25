@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EpisodeBottomSheet"
+    android:background="@color/white" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/ivCoverImage"
+                android:layout_width="374dp"
+                android:layout_height="375dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/trikycamxuc" />
+
+
+            <SeekBar
+                android:id="@+id/sbTimeBar"
+                android:layout_width="390dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:thumbTint="@color/light_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.523"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivCoverImage"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/tvCurrentTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                app:layout_constraintStart_toStartOf="@+id/sbTimeBar"
+                app:layout_constraintTop_toBottomOf="@+id/sbTimeBar" />
+
+            <TextView
+                android:id="@+id/tvTimeRemaining"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="99:00"
+                app:layout_constraintEnd_toEndOf="@+id/sbTimeBar"
+                app:layout_constraintTop_toBottomOf="@+id/sbTimeBar" />
+
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="375dp"
+                android:layout_height="33dp"
+                android:layout_marginTop="36dp"
+                android:ellipsize="marquee"
+                android:text="Nhạc giật tại thiên trách người không lắk"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.527"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sbTimeBar" />
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="375dp"
+                android:layout_height="33dp"
+                android:layout_marginTop="4dp"
+                android:text="Đồ không ngon là đồ dở, người không thở là người ra đi"
+                android:textColor="@color/violet"
+                android:textSize="18dp"
+                android:ellipsize="marquee"
+                app:layout_constraintEnd_toEndOf="@+id/tvTitle"
+                app:layout_constraintHorizontal_bias="0.333"
+                app:layout_constraintStart_toStartOf="@+id/tvTitle"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+            <ImageButton
+                android:id="@+id/ibPause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDate"
+                app:srcCompat="@drawable/baseline_pause_40" />
+
+            <ImageButton
+                android:id="@+id/ibForward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/ibPause"
+                app:layout_constraintTop_toTopOf="@+id/ibPause"
+                app:srcCompat="@drawable/baseline_forward" />
+
+            <ImageButton
+                android:id="@+id/ibReplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:layout_constraintEnd_toStartOf="@+id/ibPause"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/ibPause"
+                app:srcCompat="@drawable/baseline_replay_15" />
+
+            <SeekBar
+                android:id="@+id/sbVolume"
+                android:layout_width="311dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="32dp"
+                android:thumbTint="@color/super_light_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ibPause" />
+
+            <ImageView
+                android:id="@+id/ivMute"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@+id/sbVolume"
+                app:layout_constraintTop_toTopOf="@+id/sbVolume"
+                app:srcCompat="@drawable/baseline_volume_mute_24"
+                app:tint="@color/light_gray" />
+
+            <ImageView
+                android:id="@+id/ivMaxVolume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@+id/sbVolume"
+                app:layout_constraintTop_toTopOf="@+id/sbVolume"
+                app:srcCompat="@drawable/baseline_volume_up_24"
+                app:tint="@color/light_gray" />
+
+
+
+            <ImageButton
+                android:id="@+id/ibMore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@color/white"
+                app:tint="@color/purple_200"
+                app:layout_constraintEnd_toEndOf="@+id/ivMaxVolume"
+                app:layout_constraintTop_toBottomOf="@+id/sbVolume"
+                app:srcCompat="@drawable/more_horiz" />
+
+            <ImageView
+                android:id="@+id/ivAirPlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/baseline_airplay"
+                app:tint="@color/violet"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sbVolume" />
+
+            <TextView
+                android:id="@+id/tvSpeed"
+                android:layout_width="61dp"
+                android:layout_height="29dp"
+                android:layout_marginTop="20dp"
+                android:text="1x"
+                android:textSize="22dp"
+                android:textColor="@color/violet"
+                app:layout_constraintStart_toStartOf="@+id/ivMute"
+                app:layout_constraintTop_toBottomOf="@+id/sbVolume" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:ignore="MissingDefaultResource">
 
     <ImageView
         android:id="@+id/ivLogo"
@@ -22,7 +23,7 @@
         android:layout_height="wrap_content"
         android:text="TextView"
         android:textColor="@color/black"
-        android:textSize="24dp"
+        android:textSize="18dp"
         app:layout_constraintStart_toStartOf="@+id/ivLogo"
         app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
 
@@ -30,8 +31,9 @@
         android:id="@+id/tvAlbumArtist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="-3dp"
         android:text="TextView"
+        android:textSize="14dp"
         app:layout_constraintStart_toStartOf="@+id/tvAlbumName"
         app:layout_constraintTop_toBottomOf="@+id/tvAlbumName" />
 </androidx.constraintlayout.widget.ConstraintLayout>
