@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ListTapFragment"
     android:orientation="vertical"
-    android:background="#e9e8e9">
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -45,7 +45,7 @@
         android:id="@+id/txtNam"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Năm"
+        android:text="2023"
         android:textSize="25dp"
         android:textColor="@color/black"
         android:textStyle="bold"
