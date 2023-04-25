@@ -25,6 +25,10 @@ import androidx.recyclerview.widget.RecyclerView
 //
 //    override fun getItemCount() = items.size
 //}
+
+class DanhMucAdapter(private val data: ArrayList<DanhMuc>) : RecyclerView.Adapter<DanhMucAdapter.ViewHolder>() {
+    var onItemClick: ((DanhMuc) -> Unit)? = null
+
 class DanhMucAdapter(private val data: List<DanhMuc>) : RecyclerView.Adapter<DanhMucAdapter.ViewHolder>() {
     var onItemClick: ((DanhMuc) -> Unit)? = null
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -37,6 +41,7 @@ class DanhMucAdapter(private val data: List<DanhMuc>) : RecyclerView.Adapter<Dan
             }
         }
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val context = parent.context
         val inflater = LayoutInflater.from(context)
@@ -52,6 +57,17 @@ class DanhMucAdapter(private val data: List<DanhMuc>) : RecyclerView.Adapter<Dan
     }
 
     override fun getItemCount() = data.size
+
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val imageView: ImageView = itemView.findViewById(R.id.ivDanhMuc)
+        val textView: TextView = itemView.findViewById(R.id.tvTenDanhMuc)
+
+        init {
+            itemView.setOnClickListener {
+                onItemClick?.invoke(data[adapterPosition])
+            }
+        }
+    }
 
 
 }
