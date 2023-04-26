@@ -1,10 +1,12 @@
 package com.example.channel
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 
 //class DanhMucAdapter(private val items: List<DanhMuc>) :
@@ -25,8 +27,23 @@ import androidx.recyclerview.widget.RecyclerView
 //
 //    override fun getItemCount() = items.size
 //}
-class DanhMucAdapter(private val data: List<DanhMuc>) : RecyclerView.Adapter<DanhMucAdapter.ViewHolder>() {
+class DanhMucAdapter(private val data: List<DanhMuc>,val context: Context) : RecyclerView.Adapter<DanhMucAdapter.ViewHolder>() {
     var onItemClick: ((DanhMuc) -> Unit)? = null
+    
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_danh_muc, parent, false)
+        return ViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item:DanhMuc = data[position]
+        holder.imageView.setImageResource(item.image)
+        holder.textView.text = item.name
+
+    }
+
+    override fun getItemCount() = data.size
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.ivDanhMuc)
         val textView: TextView = itemView.findViewById(R.id.tvTenDanhMuc)
@@ -37,21 +54,4 @@ class DanhMucAdapter(private val data: List<DanhMuc>) : RecyclerView.Adapter<Dan
             }
         }
     }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val context = parent.context
-        val inflater = LayoutInflater.from(context)
-        var danhMucView: View? = null
-        danhMucView = inflater.inflate(R.layout.item_danh_muc, parent, false)
-        return ViewHolder(danhMucView)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item:DanhMuc = data[position]
-        holder.imageView.setImageResource(item.image)
-        holder.textView.text = item.name
-    }
-
-    override fun getItemCount() = data.size
-
-
 }

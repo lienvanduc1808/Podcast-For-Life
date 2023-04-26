@@ -28,41 +28,41 @@ class DanhMucFragment : Fragment() {
         recyclerView = view.findViewById(R.id.rvListDanhMuc)
         autoCompleteTV = view.findViewById(R.id.search_view)
         val items = listOf(
-            DanhMuc("Text 1.1", R.drawable.tinhban),
-            DanhMuc("Text 1.2", R.drawable.tinhban),
-            DanhMuc("Text 1.3", R.drawable.tinhban),
-            DanhMuc("Text 1.4", R.drawable.tinhban),
-            DanhMuc("Text 1.5", R.drawable.tinhban),
-            DanhMuc("Text 1.6", R.drawable.tinhban),
-            DanhMuc("Text 1.7", R.drawable.tinhban),
-            DanhMuc("Text 1.8", R.drawable.tinhban),
+            DanhMuc("Bảng xếp hạng", R.drawable.img_11),
+            DanhMuc("Xã hội và văn hóa", R.drawable.img_12),
+            DanhMuc("Tin tức", R.drawable.img_13),
+            DanhMuc("Hài kịch", R.drawable.img_14),
+            DanhMuc("Thể thao", R.drawable.img_15),
+            DanhMuc("Kinh doanh", R.drawable.img_16),
+            DanhMuc("Tin tức", R.drawable.tinhban),
+        DanhMuc("Hài kịch", R.drawable.tinhban),
 
             // add more items here
         )
-        val danhMucNameListForSearch = listOf(
-            DanhMuc("Text 1.1", R.drawable.tinhban),
-            DanhMuc("Text 1.2", R.drawable.tinhban),
-            DanhMuc("Text 1.3", R.drawable.tinhban),
-            DanhMuc("Text 1.4", R.drawable.tinhban),
-            DanhMuc("Text 1.5", R.drawable.tinhban),
-            DanhMuc("Text 1.6", R.drawable.tinhban),
-            DanhMuc("Text 1.7", R.drawable.tinhban),
-            DanhMuc("Text 1.8", R.drawable.tinhban),
+        val danhMucNameListForSearch = arrayListOf(
+            DanhMuc("Bảng xếp hạng", R.drawable.img_11),
+            DanhMuc("Xã hội và văn hóa", R.drawable.img_12),
+            DanhMuc("Tin tức", R.drawable.img_13),
+            DanhMuc("Hài kịch", R.drawable.img_14),
+            DanhMuc("Thể thao", R.drawable.img_15),
+            DanhMuc("Kinh doanh", R.drawable.img_16),
+            DanhMuc("Tin tức", R.drawable.tinhban),
+            DanhMuc("Hài kịch", R.drawable.tinhban),
 
             )
-        //DanhMucList.setListData(danhMucNameListForSearch)
+        DanhMucList.setListData(danhMucNameListForSearch)
 
-        adapter = DanhMucAdapter(items)
+        adapter = DanhMucAdapter(items,requireContext())
         recyclerView!!.adapter = adapter
         recyclerView!!.layoutManager = GridLayoutManager( context, 2)
-        var a = adapter!!.itemCount
-        Log.e("hoang",a.toString())
+        
+
 //        recyclerView!!.addItemDecoration(
 //            DividerItemDecoration( requireContext(),
 //                DividerItemDecoration.HORIZONTAL
 //            )
 //        )
-//        setUpAutoCompleteTVAdapter(DanhMucList.getDanhMucNameList())
+        setUpAutoCompleteTVAdapter(DanhMucList.getDanhMucNameList())
 
         return view
     }
@@ -90,7 +90,7 @@ class DanhMucFragment : Fragment() {
                                 true
                             )
                         } as ArrayList<DanhMuc>
-                adapter = DanhMucAdapter(foundDanhMuc)
+                adapter = DanhMucAdapter(foundDanhMuc,requireContext())
                 recyclerView!!.adapter = adapter
                 recyclerView!!.layoutManager = GridLayoutManager(context, 2)
             }
