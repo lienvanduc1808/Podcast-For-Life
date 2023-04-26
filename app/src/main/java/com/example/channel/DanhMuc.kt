@@ -3,5 +3,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class DanhMuc(
     var name: String,
-    var image: Int
+    var image: String,
+    var listAlbum: List<Album>
 )
+

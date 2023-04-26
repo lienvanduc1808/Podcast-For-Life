@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.bumptech.glide.Glide
 
 class HomeAdapter(private val carouselDataList: ArrayList<Album>, val context: Context) :
     RecyclerView.Adapter<HomeAdapter.CarouselItemViewHolder>() {
@@ -38,9 +40,10 @@ class HomeAdapter(private val carouselDataList: ArrayList<Album>, val context: C
         albumNameTV.setText(album.name)
         val albumArtistTV = holder.albumArtistTV
         albumArtistTV.setText(album.channel)
-        val logoIV = holder.albumLogoIV
-        logoIV.setImageResource(album.logo)
-
+      //  val logoIV = holder.albumLogoIV
+        //logoIV.setImageURI(album.logo.toUri())
+        Glide.with(context).load(album.logo)
+            .into(holder.albumLogoIV)
 
         holder.itemView.setOnClickListener{
             (context as AppCompatActivity).getSupportFragmentManager().beginTransaction()
