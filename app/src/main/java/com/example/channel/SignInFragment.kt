@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.channel.NgheNgay.HomeFragment
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -69,6 +70,7 @@ class SignInFragment : Fragment() {
                         "Sign in successful! Welcome, ${user?.email}",
                         Toast.LENGTH_SHORT
                     ).show()
+                    switchToHomeFragment()
                 } else {
                     // If sign in fails, display a message to the user.
                     Toast.makeText(
@@ -87,6 +89,13 @@ class SignInFragment : Fragment() {
 
     private fun switchToSignUpFragment() {
         val fragment = SignUpFragment()
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.frame_layout, fragment, fragment.javaClass.simpleName)//here prob
+            .addToBackStack(null)
+            .commit()
+    }
+    private fun switchToHomeFragment() {
+        val fragment = HomeFragment()
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.frame_layout, fragment, fragment.javaClass.simpleName)//here prob
             .addToBackStack(null)
@@ -113,6 +122,7 @@ class SignInFragment : Fragment() {
                         "Sign in successful! Welcome, ${user?.displayName}",
                         Toast.LENGTH_SHORT
                     ).show()
+                    switchToHomeFragment()
                 } else {
                     // If sign in fails, display a message to the user.
                     Toast.makeText(

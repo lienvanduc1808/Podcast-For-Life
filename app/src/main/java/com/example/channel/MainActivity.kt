@@ -7,6 +7,12 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.ListView
 import androidx.fragment.app.Fragment
+import com.example.channel.Library.LibraryFragment
+import com.example.channel.NgheNgay.EpisodeBottomSheet
+import com.example.channel.NgheNgay.HomeFragment
+import com.example.channel.NgheNgay.ListOpisodeAdapter
+import com.example.channel.Profile.ProfileFragment
+import com.example.channel.Search.RankingTableFragment
 import com.example.channel.databinding.ActivityMainBinding
 import com.google.firebase.FirebaseApp
 
@@ -19,7 +25,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var play_layout: LinearLayout
 
 
-
     var playBtn: ImageButton? = null
 
 
@@ -28,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         FirebaseApp.initializeApp(this)
-       // replaceFragment(NgheNgayFragment())
+        // replaceFragment(NgheNgayFragment())
         replaceFragment(SignUpFragment())
 //        val signInFragment = SignInFragment()
 //        val signUpFragment = SignUpFragment()
@@ -46,12 +51,12 @@ class MainActivity : AppCompatActivity() {
 //        }
 //
         binding.bottomNavigationView.setOnItemSelectedListener {
-            when(it.itemId){
+            when (it.itemId) {
                 R.id.action_NgheNgay -> replaceFragment(HomeFragment())
                 R.id.action_Profile -> replaceFragment(ProfileFragment())
                 R.id.action_ThuVien -> replaceFragment(LibraryFragment())
                 R.id.action_Timkiem -> replaceFragment(RankingTableFragment())
-                else->{
+                else -> {
 
                 }
             }
@@ -61,12 +66,11 @@ class MainActivity : AppCompatActivity() {
 
         val mediaPlayer: MediaPlayer = MediaPlayer.create(this, R.raw.test_music)
         playBtn = findViewById(R.id.playBtn)
-        playBtn?.setOnClickListener{
-            if(!mediaPlayer.isPlaying){
+        playBtn?.setOnClickListener {
+            if (!mediaPlayer.isPlaying) {
                 mediaPlayer.start()
                 playBtn?.setImageResource(R.drawable.baseline_pause)
-            }
-            else{
+            } else {
                 mediaPlayer.pause()
                 playBtn?.setImageResource(R.drawable.play_arrow)
             }
@@ -83,15 +87,12 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
-    private fun replaceFragment(fragment: Fragment){
+    private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frame_layout, fragment)
         fragmentTransaction.commit()
     }
-
-
-
 }
+
 

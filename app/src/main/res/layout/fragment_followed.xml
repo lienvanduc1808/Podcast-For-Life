@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="#FFFFFF"
-    tools:context=".FollowedFragment">
+    tools:context=".Library.FollowedFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clSaved"

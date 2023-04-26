@@ -1,0 +1,119 @@
+package com.example.channel.Profile
+
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
+import com.example.channel.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+
+class InfoFragment : Fragment() {
+
+    private lateinit var auth: FirebaseAuth
+    private lateinit var storageReference: StorageReference
+    private lateinit var databaseReference: DatabaseReference
+
+    private val PICK_IMAGE: Int = 3
+    var uriData:String=""
+
+    private lateinit var ivBack5: ImageView
+    private lateinit var tvBack5: TextView
+
+    private lateinit var avatar: ImageView
+    private lateinit var etName: EditText
+    private lateinit var etAddress: EditText
+    private lateinit var etEmail: EditText
+
+    private lateinit var btnUpdate: Button
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_info, container, false)
+        ivBack5 = view.findViewById(R.id.ivBack5)
+        ivBack5.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
+
+        tvBack5 = view.findViewById(R.id.tvBack5)
+        tvBack5.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
+
+        return view
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val intent = Intent()
+
+        avatar = view.findViewById(R.id.avatar)
+        avatar.setOnClickListener {
+            intent.action = Intent.ACTION_GET_CONTENT
+            intent.type = "image/*"
+            startActivityForResult(Intent.createChooser(intent, "Title"), PICK_IMAGE)
+
+        }
+
+
+        auth = FirebaseAuth.getInstance()
+        databaseReference = FirebaseDatabase.getInstance().getReference("users")
+        databaseReference.child(auth.currentUser!!.uid)
+
+        etName = view.findViewById(R.id.etName)
+
+        etAddress = view.findViewById(R.id.etAddress)
+        etEmail = view.findViewById(R.id.etEmail)
+
+        btnUpdate = view.findViewById(R.id.btnUpdate)
+        btnUpdate.setOnClickListener {
+
+            var imageUri = Uri.parse(uriData)
+            storageReference =  FirebaseStorage.getInstance().getReference("User/"+auth.currentUser?.uid)
+            storageReference.putFile(imageUri).addOnCompleteListener{
+                Toast.makeText(
+                    requireContext(),
+                    "successful",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }.addOnFailureListener{
+                Toast.makeText(
+                    requireContext(),
+                    "fail",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK) {
+
+            if (data != null) {
+                val uri: Uri = data.data!!
+                avatar?.setImageURI(uri)
+                uriData = uri.toString()
+
+            }
+
+        }
+        super.onResume()
+    }
+
+
+}

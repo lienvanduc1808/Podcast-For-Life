@@ -12,6 +12,18 @@
         android:hint="Email Address" />
 
     <EditText
+        android:id="@+id/etName"
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
+        android:hint="Name" />
+
+    <EditText
+        android:id="@+id/etAddress"
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
+        android:hint="Address"/>
+
+    <EditText
         android:id="@+id/etPassword"
         android:layout_width="match_parent"
         android:layout_height="76dp"

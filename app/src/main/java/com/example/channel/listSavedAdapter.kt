@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.*
 
 import androidx.appcompat.app.AppCompatActivity
+import com.example.channel.NgheNgay.EpisodeBottomSheet
+import com.example.channel.NgheNgay.episodeData
 import com.makeramen.roundedimageview.RoundedImageView
 class ListSavedAdapter(context: Context, resource: Int, objects: List<episodeData>):
     ArrayAdapter<episodeData>(context, resource, objects) {

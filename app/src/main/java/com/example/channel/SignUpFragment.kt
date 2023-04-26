@@ -30,6 +30,14 @@ class SignUpFragment : Fragment() {
     private lateinit var databaseReference: DatabaseReference
     private lateinit var imageUri: Uri
 
+    private lateinit var etEmail: EditText
+    private lateinit var etName: EditText
+    private lateinit var etAddress: EditText
+    private lateinit var etPassword: EditText
+    private lateinit var btnSignUp: Button
+    private lateinit var tvSwitchToSignIn: TextView
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,10 +47,12 @@ class SignUpFragment : Fragment() {
 
         auth = FirebaseAuth.getInstance()
 
-        val etEmail = view.findViewById<EditText>(R.id.etEmail)
-        val etPassword = view.findViewById<EditText>(R.id.etPassword)
-        val btnSignUp = view.findViewById<Button>(R.id.btnSignUp)
-        val tvSwitchToSignIn = view.findViewById<TextView>(R.id.tvSwitchToSignIn)
+        etEmail = view.findViewById(R.id.etEmail)
+        etName = view.findViewById(R.id.etName)
+        etAddress = view.findViewById(R.id.etAddress)
+        etPassword = view.findViewById(R.id.etPassword)
+        btnSignUp = view.findViewById(R.id.btnSignUp)
+        tvSwitchToSignIn = view.findViewById(R.id.tvSwitchToSignIn)
 
         btnSignUp.setOnClickListener {
             signUpWithEmailPassword(etEmail.text.toString(), etPassword.text.toString())
@@ -61,7 +71,6 @@ class SignUpFragment : Fragment() {
                 if (task.isSuccessful) {
                     // Sign up success, update UI with the signed-in user's information
                     val user = auth.currentUser
-                    val uid  = user?.uid
 
                     //New update
                     Toast.makeText(
@@ -69,16 +78,16 @@ class SignUpFragment : Fragment() {
                         "Sign up successful! Welcome, ${user?.email}",
                         Toast.LENGTH_SHORT
                     ).show()
-                    Log.i("a", uid.toString())
+                    Log.i("a", user?.uid.toString())
                     databaseReference = FirebaseDatabase.getInstance().getReference("users")
                     Log.i("b", databaseReference.toString())
-                    if(uid != null){
-                        val test = testUserData("kathon", "Ho Chi Minh City", "aa@gmail.com")
-                        databaseReference.child(uid).setValue(test).addOnCompleteListener {
+                    if(user?.uid != null){
+                        val userprofile = userData(etName.text.toString(), etAddress.text.toString(), etEmail.text.toString())
+                        databaseReference.child(user.uid).setValue(userprofile).addOnCompleteListener {
                             if(it.isSuccessful){
                                 Toast.makeText(
                                     requireContext(),
-                                    "Sign up successful! nnnnnnnWelcome, ${user?.email}",
+                                    "Sign up successful! , ${user?.email}",
                                     Toast.LENGTH_SHORT
                                 ).show()
                                 uploadProfile()
@@ -86,7 +95,7 @@ class SignUpFragment : Fragment() {
                             else{
                                 Toast.makeText(
                                     requireContext(),
-                                    "Sign up fail!nnnnnn, ${user?.email}",
+                                    "Sign up fail!, ${user?.email}",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -94,6 +103,12 @@ class SignUpFragment : Fragment() {
                     }
 
                 }
+            }.addOnFailureListener {
+                Toast.makeText(
+                    requireContext(),
+                    "Sign up fail!",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
     }
 
