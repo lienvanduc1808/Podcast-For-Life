@@ -44,12 +44,12 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         tvAllAlbum2 = view.findViewById(R.id.tvAllAlbum2)
         tvAllAlbum2.setOnClickListener {
-           // replaceFragment(XemTatCaFragment())
+           replaceFragment(XemTatCaFragment())
         }
 
         tvAllAlbum3 = view.findViewById(R.id.tvAllAlbum3)
         tvAllAlbum3.setOnClickListener {
-            //replaceFragment(XemTatCaFragment())
+            replaceFragment(XemTatCaFragment())
         }
         return view
     }

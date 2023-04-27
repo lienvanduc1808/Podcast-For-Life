@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentActivity
 
 
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 
 class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val text1: TextView = itemView.findViewById(R.id.tvAlbumName)
@@ -38,7 +39,8 @@ class XemTatCaAdapter(private val items: List<Album>, val context: Context) :
         val item = items[position]
         holder.text1.text = item.name
         holder.text2.text = item.channel
-        holder.image.setImageResource(item.logo)
+        Glide.with(context).load(item.logo)
+            .into(holder.image)
 
 
         holder.itemView.setOnClickListener{
