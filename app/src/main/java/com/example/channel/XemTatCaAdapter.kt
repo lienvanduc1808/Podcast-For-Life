@@ -25,7 +25,7 @@ class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
 }
 
-class XemTatCaAdapter(private val items: List<Album>, val context: Context) :
+class XemTatCaAdapter(private val items: ArrayList<Album>, val context: Context) :
     RecyclerView.Adapter<ItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {

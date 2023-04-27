@@ -33,7 +33,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var tvAllAlbum2: TextView
     private lateinit var tvAllAlbum3: TextView
-
+    val items = arrayListOf<Album>()
+    val items2 = arrayListOf<Album>()
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
@@ -44,20 +45,19 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         tvAllAlbum2 = view.findViewById(R.id.tvAllAlbum2)
         tvAllAlbum2.setOnClickListener {
-           replaceFragment(XemTatCaFragment())
+           replaceFragment(XemTatCaFragment(items))
         }
 
         tvAllAlbum3 = view.findViewById(R.id.tvAllAlbum3)
         tvAllAlbum3.setOnClickListener {
-            replaceFragment(XemTatCaFragment())
+            replaceFragment(XemTatCaFragment(items2))
         }
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val items = arrayListOf<Album>()
-        val items2 = arrayListOf<Album>()
+
         val database = Firebase.database
 
         val reference = database.getReference("categories")
