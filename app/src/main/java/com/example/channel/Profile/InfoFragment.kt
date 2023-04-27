@@ -2,6 +2,7 @@ package com.example.channel.Profile
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import java.io.File
 
 class InfoFragment : Fragment() {
 
@@ -25,7 +27,7 @@ class InfoFragment : Fragment() {
     private lateinit var databaseReference: DatabaseReference
 
     private val PICK_IMAGE: Int = 3
-    var uriData:String=""
+    private lateinit var uri: Uri
 
     private lateinit var ivBack5: ImageView
     private lateinit var tvBack5: TextView
@@ -58,11 +60,21 @@ class InfoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        
+        //get currentUser
+        auth = FirebaseAuth.getInstance()
 
-
-        val intent = Intent()
+        databaseReference = FirebaseDatabase.getInstance().getReference("users").child(auth.currentUser!!.uid)
+        storageReference =  FirebaseStorage.getInstance().getReference("User/"+auth.currentUser?.uid)
 
         avatar = view.findViewById(R.id.avatar)
+        etName = view.findViewById(R.id.etName)
+        etAddress = view.findViewById(R.id.etAddress)
+        etEmail = view.findViewById(R.id.etEmail)
+
+        readInfo()
+
+        val intent = Intent()
         avatar.setOnClickListener {
             intent.action = Intent.ACTION_GET_CONTENT
             intent.type = "image/*"
@@ -70,61 +82,43 @@ class InfoFragment : Fragment() {
 
         }
 
-        //get currentUser
-        auth = FirebaseAuth.getInstance()
-
-        //get node child(uid) của users
-        databaseReference = FirebaseDatabase.getInstance().getReference("users").child(auth.currentUser!!.uid)
-
-        etName = view.findViewById(R.id.etName)
-        etAddress = view.findViewById(R.id.etAddress)
-        etEmail = view.findViewById(R.id.etEmail)
-
-        getData()
         btnUpdate = view.findViewById(R.id.btnUpdate)
         btnUpdate.setOnClickListener {
-            val updateInfo = userData(etName.text.toString(), etAddress.text.toString(), etEmail.text.toString())
-            var imageUri = Uri.parse(uriData)
-            databaseReference.setValue(updateInfo)
-            storageReference =  FirebaseStorage.getInstance().getReference("User/"+auth.currentUser?.uid)
-            storageReference.putFile(imageUri).addOnCompleteListener{
-                Toast.makeText(
-                    requireContext(),
-                    "successful",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }.addOnFailureListener{
-                Toast.makeText(
-                    requireContext(),
-                    "fail",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+            saveInfo()
         }
 
     }
 
-    fun getData(){
-        val databaseReference = FirebaseDatabase.getInstance().getReference("users")
-        databaseReference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                // Lấy dữ liệu từ dataSnapshot
 
-                val ds: DataSnapshot = dataSnapshot.child(auth.currentUser?.uid!!)// get the DataSnapshot for "b"
-                val dsName = ds.child("name").value.toString()
-                val dsEmail = ds.child("email").value.toString()
-                val dsAddress = ds.child("address").value.toString()
-
-                etName.setText(dsName)
-                etAddress.setText(dsAddress)
-                etEmail.setText(dsEmail)
+    fun readInfo(){
+        databaseReference.get().addOnSuccessListener {
+            if (it.exists()){
+                etName.setText(it.child("name").value.toString())
+                etAddress.setText(it.child("address").value.toString())
+                etEmail.setText(it.child("email").value.toString())
             }
-
-            override fun onCancelled(error: DatabaseError) {
-                // Xử lý lỗi khi không thể lấy dữ liệu
+            else{
+                parentFragmentManager.popBackStack()
             }
-        })
+        }
 
+        val localFile = File.createTempFile("tempImage","jpg")
+        storageReference.getFile(localFile).addOnSuccessListener {
+            val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
+            avatar.setImageBitmap(bitmap)
+            uri = Uri.parse(storageReference.toString())
+        }.addOnFailureListener{
+            avatar.setImageResource(R.drawable.avatar_test)
+        }
+
+    }
+
+    fun saveInfo(){
+        databaseReference.setValue(userData(etName.text.toString(), etAddress.text.toString(), etEmail.text.toString()))
+        storageReference.putFile(uri).addOnCompleteListener{
+        }.addOnFailureListener{
+            parentFragmentManager.popBackStack()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -132,9 +126,8 @@ class InfoFragment : Fragment() {
         if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK) {
 
             if (data != null) {
-                val uri: Uri = data.data!!
+                uri = data.data!!
                 avatar?.setImageURI(uri)
-                uriData = uri.toString()
 
             }
 
