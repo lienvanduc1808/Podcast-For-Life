@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         FirebaseApp.initializeApp(this)
        // replaceFragment(NgheNgayFragment())
-        replaceFragment(SignUpFragment())
+        //replaceFragment(SignUpFragment())
 //        val signInFragment = SignInFragment()
 //        val signUpFragment = SignUpFragment()
 
@@ -49,8 +49,8 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId){
                 R.id.action_NgheNgay -> replaceFragment(HomeFragment())
                 R.id.action_Profile -> replaceFragment(ProfileFragment())
-                R.id.action_ThuVien -> replaceFragment(LibraryFragment())
-                R.id.action_Timkiem -> replaceFragment(RankingTableFragment())
+                //R.id.action_ThuVien -> replaceFragment(LibraryFragment())
+                R.id.action_Timkiem -> replaceFragment(DanhMucFragment())
                 else->{
 
                 }
@@ -96,5 +96,4 @@ class MainActivity : AppCompatActivity() {
 }
 
 
-}
 

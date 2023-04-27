@@ -13,6 +13,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class DanhMucFragment : Fragment() {
     private var autoCompleteTV: AutoCompleteTextView? = null
@@ -27,42 +33,57 @@ class DanhMucFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_search, container, false)
         recyclerView = view.findViewById(R.id.rvListDanhMuc)
         autoCompleteTV = view.findViewById(R.id.search_view)
-        val items = listOf(
-            DanhMuc("Bảng xếp hạng", R.drawable.img_11),
-            DanhMuc("Xã hội và văn hóa", R.drawable.img_12),
-            DanhMuc("Tin tức", R.drawable.img_13),
-            DanhMuc("Hài kịch", R.drawable.img_14),
-            DanhMuc("Thể thao", R.drawable.img_15),
-            DanhMuc("Kinh doanh", R.drawable.img_16),
-            DanhMuc("Tin tức", R.drawable.tinhban),
-        DanhMuc("Hài kịch", R.drawable.tinhban),
-
-            // add more items here
-        )
-        val danhMucNameListForSearch = arrayListOf(
-            DanhMuc("Bảng xếp hạng", R.drawable.img_11),
-            DanhMuc("Xã hội và văn hóa", R.drawable.img_12),
-            DanhMuc("Tin tức", R.drawable.img_13),
-            DanhMuc("Hài kịch", R.drawable.img_14),
-            DanhMuc("Thể thao", R.drawable.img_15),
-            DanhMuc("Kinh doanh", R.drawable.img_16),
-            DanhMuc("Tin tức", R.drawable.tinhban),
-            DanhMuc("Hài kịch", R.drawable.tinhban),
-
-            )
-        DanhMucList.setListData(danhMucNameListForSearch)
-
-        adapter = DanhMucAdapter(items,requireContext())
-        recyclerView!!.adapter = adapter
-        recyclerView!!.layoutManager = GridLayoutManager( context, 2)
-        
-
-//        recyclerView!!.addItemDecoration(
-//            DividerItemDecoration( requireContext(),
-//                DividerItemDecoration.HORIZONTAL
-//            )
+        val items = arrayListOf<DanhMuc>()
+//        val items = listOf(
+//            DanhMuc("Bảng xếp hạng", R.drawable.img_11),
+//            DanhMuc("Xã hội và văn hóa", R.drawable.img_12),
+//            DanhMuc("Tin tức", R.drawable.img_13),
+//            DanhMuc("Hài kịch", R.drawable.img_14),
+//            DanhMuc("Thể thao", R.drawable.img_15),
+//            DanhMuc("Kinh doanh", R.drawable.img_16),
+//            DanhMuc("Tin tức", R.drawable.tinhban),
+//            DanhMuc("Hài kịch", R.drawable.tinhban),
+//
+//            // add more items here
 //        )
-        setUpAutoCompleteTVAdapter(DanhMucList.getDanhMucNameList())
+        val database = Firebase.database
+        val reference = database.getReference("categories")
+
+        reference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (categorySnapshot in snapshot.children) {
+
+                        val cateName = categorySnapshot.child("cate_name").value as String
+                        Log.d("plog", "The value of myValue is: $cateName")
+
+                        val cateImage = categorySnapshot.child("cate_image").value as String
+                        val category = DanhMuc(cateName, cateImage)
+                        items.add(category)
+                    }
+                    Log.d("plog", "The value of myValue is: $items")
+                adapter = DanhMucAdapter(items,requireContext())
+                recyclerView!!.adapter = adapter
+                recyclerView!!.layoutManager = GridLayoutManager( context, 2)
+              //  setUpAutoCompleteTVAdapter(DanhMucList.getDanhMucNameList())
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Xử lý lỗi
+                Toast.makeText(requireContext(), "Can not get data", Toast.LENGTH_SHORT);
+            }
+        })
+//        val danhMucNameListForSearch = arrayListOf(
+//            DanhMuc("Bảng xếp hạng", R.drawable.img_11),
+//            DanhMuc("Xã hội và văn hóa", R.drawable.img_12),
+//            DanhMuc("Tin tức", R.drawable.img_13),
+//            DanhMuc("Hài kịch", R.drawable.img_14),
+//            DanhMuc("Thể thao", R.drawable.img_15),
+//            DanhMuc("Kinh doanh", R.drawable.img_16),
+//            DanhMuc("Tin tức", R.drawable.tinhban),
+//            DanhMuc("Hài kịch", R.drawable.tinhban),
+//
+//            )
+//        DanhMucList.setListData(danhMucNameListForSearch)
 
         return view
     }
@@ -105,7 +126,7 @@ class DanhMucFragment : Fragment() {
         autoCompleteTV!!.setText(text)
         autoCompleteTV!!.setSelection(text.length)
 
-        adapter!!.notifyDataSetChanged()
-        setUpAutoCompleteTVAdapter(DanhMucList.getDanhMucNameList())
+        //adapter!!.notifyDataSetChanged()
+       // setUpAutoCompleteTVAdapter(DanhMucList.getDanhMucNameList())
     }
 }

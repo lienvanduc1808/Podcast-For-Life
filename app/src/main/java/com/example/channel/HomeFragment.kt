@@ -57,9 +57,10 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val compositePageTransformer = CompositePageTransformer()
+        compositePageTransformer.addTransformer(MarginPageTransformer((5 * Resources.getSystem().displayMetrics.density).toInt()))
 
         val database = Firebase.database
-
         val reference = database.getReference("categories")
 
         reference.addValueEventListener(object : ValueEventListener {
@@ -77,11 +78,26 @@ class HomeFragment : Fragment() {
                     }
                     Log.d("hnlog", "The value of myValue is: $items")
                 }
-                // Làm sao để truyền vào ViewPager?
+                adapter = HomeAdapter(items, requireContext())
+                adapter.onItemClick = { album ->
+                    // Handle click events on album items here
+                }
+                viewPager = view.findViewById<ViewPager2>(R.id.viewPager)
+                viewPager.apply {
+                    clipChildren = false  // No clipping the left and right items
+                    clipToPadding = false  // Show the viewpager in full width without clipping the padding
+                    offscreenPageLimit = 3  // Render the left and right items
+                    (getChildAt(0) as RecyclerView).overScrollMode =
+                        RecyclerView.OVER_SCROLL_NEVER // Remove the scroll effect
+                }
+                viewPager.adapter = adapter
+
+                viewPager.setPageTransformer(compositePageTransformer)
             }
 
             override fun onCancelled(error: DatabaseError) {
                 // Xử lý lỗi
+                Toast.makeText(requireContext(), "Can not get data", Toast.LENGTH_SHORT);
             }
         })
 
@@ -100,20 +116,10 @@ class HomeFragment : Fragment() {
                         items2.add(album)
                     }
                 }
-                adapter = HomeAdapter(items, requireContext())
+
                 adapter2 = HomeAdapter(items2, requireContext())
-                adapter.onItemClick = { album ->
-                    // Handle click events on album items here
-                }
-                viewPager = view.findViewById<ViewPager2>(R.id.viewPager)
                 viewPager2 = view.findViewById<ViewPager2>(R.id.viewPager2)
-                viewPager.apply {
-                    clipChildren = false  // No clipping the left and right items
-                    clipToPadding = false  // Show the viewpager in full width without clipping the padding
-                    offscreenPageLimit = 3  // Render the left and right items
-                    (getChildAt(0) as RecyclerView).overScrollMode =
-                        RecyclerView.OVER_SCROLL_NEVER // Remove the scroll effect
-                }
+
                 viewPager2.apply {
                     clipChildren = false  // No clipping the left and right items
                     clipToPadding = false  // Show the viewpager in full width without clipping the padding
@@ -121,16 +127,15 @@ class HomeFragment : Fragment() {
                     (getChildAt(0) as RecyclerView).overScrollMode =
                         RecyclerView.OVER_SCROLL_NEVER // Remove the scroll effect
                 }
-                viewPager.adapter = adapter
+
                 viewPager2.adapter = adapter2
-                val compositePageTransformer = CompositePageTransformer()
-                compositePageTransformer.addTransformer(MarginPageTransformer((5 * Resources.getSystem().displayMetrics.density).toInt()))
-                viewPager.setPageTransformer(compositePageTransformer)
+
                 viewPager2.setPageTransformer(compositePageTransformer)
             }
 
             override fun onCancelled(error: DatabaseError) {
                 // Xử lý lỗi
+                Toast.makeText(requireContext(), "Can not get data", Toast.LENGTH_SHORT);
             }
         })
 
