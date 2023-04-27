@@ -59,40 +59,6 @@ class HomeFragment : Fragment() {
         val items = arrayListOf<Album>()
         val items2 = arrayListOf<Album>()
         val database = Firebase.database
-//        val myRef = database.getReference("/categories/category_id_1/albums")
-//        myRef.addValueEventListener(object : ValueEventListener {
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                for (postSnapshot in dataSnapshot.children) {
-//                    val list = postSnapshot.getValue(Album::class.java)
-//                    items.add(list!!)
-//
-//                }
-//            }
-//
-//            override fun onCancelled(databaseError: DatabaseError) {
-//                // Getting Post failed, log a message
-//              //  Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
-//                // ...
-//                Toast.makeText(requireContext(), "get ok", Toast.LENGTH_SHORT)
-//            }
-//        })
-//
-//        val myRef2 = database.getReference("/categories/category_id_2/albums")
-//        myRef2.addValueEventListener(object : ValueEventListener {
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                for (postSnapshot in dataSnapshot.children) {
-//                    val list = postSnapshot.getValue(Album::class.java)
-//                    items.add(list!!)
-//                }
-//            }
-//
-//            override fun onCancelled(databaseError: DatabaseError) {
-//                // Getting Post failed, log a message
-//                //  Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
-//                // ...
-//            }
-//        })
-
 
         val reference = database.getReference("categories")
 
@@ -134,65 +100,41 @@ class HomeFragment : Fragment() {
                         items2.add(album)
                     }
                 }
-                // Làm sao để truyền vào ViewPager?
+                adapter = HomeAdapter(items, requireContext())
+                adapter2 = HomeAdapter(items2, requireContext())
+                adapter.onItemClick = { album ->
+                    // Handle click events on album items here
+                }
+                viewPager = view.findViewById<ViewPager2>(R.id.viewPager)
+                viewPager2 = view.findViewById<ViewPager2>(R.id.viewPager2)
+                viewPager.apply {
+                    clipChildren = false  // No clipping the left and right items
+                    clipToPadding = false  // Show the viewpager in full width without clipping the padding
+                    offscreenPageLimit = 3  // Render the left and right items
+                    (getChildAt(0) as RecyclerView).overScrollMode =
+                        RecyclerView.OVER_SCROLL_NEVER // Remove the scroll effect
+                }
+                viewPager2.apply {
+                    clipChildren = false  // No clipping the left and right items
+                    clipToPadding = false  // Show the viewpager in full width without clipping the padding
+                    offscreenPageLimit = 3  // Render the left and right items
+                    (getChildAt(0) as RecyclerView).overScrollMode =
+                        RecyclerView.OVER_SCROLL_NEVER // Remove the scroll effect
+                }
+                viewPager.adapter = adapter
+                viewPager2.adapter = adapter2
+                val compositePageTransformer = CompositePageTransformer()
+                compositePageTransformer.addTransformer(MarginPageTransformer((5 * Resources.getSystem().displayMetrics.density).toInt()))
+                viewPager.setPageTransformer(compositePageTransformer)
+                viewPager2.setPageTransformer(compositePageTransformer)
             }
 
             override fun onCancelled(error: DatabaseError) {
                 // Xử lý lỗi
             }
         })
-//        val items = arrayListOf(
-//            Album("Lời khuyên hữu ích", "The Present Writer", R.drawable.img_9),
-//            Album("Marketing", "Vietcetera", R.drawable.img_8),
-//            Album("Tay mơ học đời", "Amateur Psychology",R.drawable.img_7 ),
-//            Album("Bình thường một cách bất thường ", "Oddly Normal", R.drawable.img_6),
-//            Album("sức khỏe tâm lý.", "Tâm Lý Học Tuổi Trẻ", R.drawable.img_5),
-//            Album(" mọi chuyện trong cuộc sống", "Spiderum",R.drawable.img_4 ),
-//            Album("câu chuyện lịch sử", "Bí Ẩn Sử Việt",R.drawable.img_3 ),
-//            Album("lắng nghe và chia sẻ ", "Radio Người Giữ Kỉ Niệm", R.drawable.img_2),
-//            Album("Vipassana", "Minh Niệm", R.drawable.img_1),
-//            Album("những bệnh lý thời hiện đạ", "Optimal Health Daily",R.drawable.img )
-//        )
-//
-//        val items2 = arrayListOf(
-//            Album("Lời khuyên hữu ích", "The Present Writer", R.drawable.img_9),
-//            Album("Marketing", "Vietcetera", R.drawable.img_8),
-//            Album("Tay mơ học đời ", "Amateur Psychology",R.drawable.img_7 ),
-//            Album("Bình thường một cách bất thường ", "Oddly Normal", R.drawable.img_6),
-//            Album("sức khỏe tâm lý.", "Tâm Lý Học Tuổi Trẻ", R.drawable.img_5),
-//            Album(" mọi chuyện trong cuộc sống", "Spiderum",R.drawable.img_4 ),
-//            Album("câu chuyện lịch sử", "Bí Ẩn Sử Việt",R.drawable.img_3 ),
-//            Album("lắng nghe và chia sẻ ", "Radio Người Giữ Kỉ Niệm", R.drawable.img_2),
-//            Album("Vipassana", "Minh Niệm", R.drawable.img_1),
-//            Album("những bệnh lý thời hiện đạ", "Optimal Health Daily",R.drawable.img )
-//        )
-        adapter = HomeAdapter(items, requireContext())
-        adapter2 = HomeAdapter(items2, requireContext())
-        adapter.onItemClick = { album ->
-            // Handle click events on album items here
-        }
-        viewPager = view.findViewById<ViewPager2>(R.id.viewPager)
-        viewPager2 = view.findViewById<ViewPager2>(R.id.viewPager2)
-        viewPager.apply {
-            clipChildren = false  // No clipping the left and right items
-            clipToPadding = false  // Show the viewpager in full width without clipping the padding
-            offscreenPageLimit = 3  // Render the left and right items
-            (getChildAt(0) as RecyclerView).overScrollMode =
-                RecyclerView.OVER_SCROLL_NEVER // Remove the scroll effect
-        }
-        viewPager2.apply {
-            clipChildren = false  // No clipping the left and right items
-            clipToPadding = false  // Show the viewpager in full width without clipping the padding
-            offscreenPageLimit = 3  // Render the left and right items
-            (getChildAt(0) as RecyclerView).overScrollMode =
-                RecyclerView.OVER_SCROLL_NEVER // Remove the scroll effect
-        }
-        viewPager.adapter = adapter
-        viewPager2.adapter = adapter2
-        val compositePageTransformer = CompositePageTransformer()
-        compositePageTransformer.addTransformer(MarginPageTransformer((5 * Resources.getSystem().displayMetrics.density).toInt()))
-        viewPager.setPageTransformer(compositePageTransformer)
-        viewPager2.setPageTransformer(compositePageTransformer)
+
+
     }
 
     private fun replaceFragment(fragment: Fragment){
