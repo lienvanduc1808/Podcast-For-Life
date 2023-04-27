@@ -1,6 +1,7 @@
 package com.example.channel
 
 import android.app.Activity.RESULT_OK
+import android.content.ContentUris
 import android.content.Intent
 import android.database.Cursor
 import android.media.AudioAttributes
@@ -16,6 +17,10 @@ import android.widget.*
 
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 
 import com.makeramen.roundedimageview.RoundedImageView
 import kotlinx.coroutines.NonDisposableHandle.parent
@@ -38,6 +43,9 @@ class AddNewPodcastFragment : Fragment() {
     companion object {
         const val PICK_FILE = 99
     }
+
+    lateinit var storageReference: StorageReference
+    lateinit var databaseReference: DatabaseReference
 
 
 
@@ -92,21 +100,9 @@ class AddNewPodcastFragment : Fragment() {
 
             val txtXong = view.findViewById<TextView>(R.id.txtXong)
             txtXong.setOnClickListener {
-                txtShowList = view.findViewById<TextView>(R.id.txtChonDanhmuc)
-                val result = Bundle().apply {
-                    putString("task_tenAlbum", taskAlbumName)
-                    putString("task_tenTap", taskTenTap)
-                    putString("task_description", taskDescription)
-                    putString("task_urt",taskUri)
-                    putString("task_danhmuc",txtShowList.text.toString())
+                storageReference = FirebaseStorage.getInstance().getReference("Episode")
+                databaseReference =FirebaseDatabase.getInstance().getReference("categories")
 
-
-
-
-
-                }
-                parentFragmentManager.setFragmentResult("xong_newPodcast", result)
-                parentFragmentManager.popBackStack()
             }
 
 
@@ -418,7 +414,7 @@ class AddNewPodcastFragment : Fragment() {
             mediaPlayer!!.setDataSource(requireContext(),uri)
             mediaPlayer!!.prepare()
 
-            txtNameUri?.text = getNameFromUri(uri)
+            txtNameUri?.text = getNameFromUri(uri).toString()
 
         }catch (e: IOException) {
             txtNameUri?.text = e.toString()
@@ -427,19 +423,24 @@ class AddNewPodcastFragment : Fragment() {
 
     }
 
-    private fun getNameFromUri(uri: Uri): String? {
-        var fileName = ""
+    private fun getNameFromUri(uri: Uri): Uri {
+        var contentUri:Uri =MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         var cursor: Cursor? = null
         cursor = requireContext().contentResolver.query(uri, arrayOf(MediaStore.Images.ImageColumns.DISPLAY_NAME), null, null, null)
         if (cursor != null && cursor.moveToFirst()) {
-            fileName = cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.DISPLAY_NAME).toInt())
+
+            val columnIndex = cursor.getColumnIndex(MediaStore.Audio.Media._ID)
+            if(columnIndex>=0){
+                val id = cursor.getLong(columnIndex)
+            }
+
+            val contentUri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id.toLong())
+            cursor?.close()
+
         }
-        cursor?.close()
-        return fileName
+        return contentUri
+
     }
-
-
-
 
 
 }
