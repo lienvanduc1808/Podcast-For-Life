@@ -4,15 +4,17 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.example.channel.R
+import com.example.channel.userData
+import com.firebase.ui.auth.data.model.User
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
@@ -57,6 +59,7 @@ class InfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         val intent = Intent()
 
         avatar = view.findViewById(R.id.avatar)
@@ -67,20 +70,22 @@ class InfoFragment : Fragment() {
 
         }
 
-
+        //get currentUser
         auth = FirebaseAuth.getInstance()
-        databaseReference = FirebaseDatabase.getInstance().getReference("users")
-        databaseReference.child(auth.currentUser!!.uid)
+
+        //get node child(uid) của users
+        databaseReference = FirebaseDatabase.getInstance().getReference("users").child(auth.currentUser!!.uid)
 
         etName = view.findViewById(R.id.etName)
-
         etAddress = view.findViewById(R.id.etAddress)
         etEmail = view.findViewById(R.id.etEmail)
 
+        getData()
         btnUpdate = view.findViewById(R.id.btnUpdate)
         btnUpdate.setOnClickListener {
-
+            val updateInfo = userData(etName.text.toString(), etAddress.text.toString(), etEmail.text.toString())
             var imageUri = Uri.parse(uriData)
+            databaseReference.setValue(updateInfo)
             storageReference =  FirebaseStorage.getInstance().getReference("User/"+auth.currentUser?.uid)
             storageReference.putFile(imageUri).addOnCompleteListener{
                 Toast.makeText(
@@ -99,6 +104,28 @@ class InfoFragment : Fragment() {
 
     }
 
+    fun getData(){
+        val databaseReference = FirebaseDatabase.getInstance().getReference("users")
+        databaseReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Lấy dữ liệu từ dataSnapshot
+
+                val ds: DataSnapshot = dataSnapshot.child(auth.currentUser?.uid!!)// get the DataSnapshot for "b"
+                val dsName = ds.child("name").value.toString()
+                val dsEmail = ds.child("email").value.toString()
+                val dsAddress = ds.child("address").value.toString()
+
+                etName.setText(dsName)
+                etAddress.setText(dsAddress)
+                etEmail.setText(dsEmail)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Xử lý lỗi khi không thể lấy dữ liệu
+            }
+        })
+
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
