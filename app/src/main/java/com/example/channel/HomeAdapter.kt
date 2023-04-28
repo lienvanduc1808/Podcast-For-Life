@@ -1,6 +1,7 @@
 package com.example.channel
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.bumptech.glide.Glide
+import com.google.firebase.storage.FirebaseStorage
 
 class HomeAdapter(private val carouselDataList: ArrayList<Album>, val context: Context) :
     RecyclerView.Adapter<HomeAdapter.CarouselItemViewHolder>() {
@@ -42,8 +44,20 @@ class HomeAdapter(private val carouselDataList: ArrayList<Album>, val context: C
         albumArtistTV.setText(album.channel)
       //  val logoIV = holder.albumLogoIV
         //logoIV.setImageURI(album.logo.toUri())
-        Glide.with(context).load(album.logo)
-            .into(holder.albumLogoIV)
+        // Create a reference to the image file in Firebase Storage
+        val storageRef = FirebaseStorage.getInstance().reference
+        val logo = album.logo
+        val imageRef = storageRef.child("Album/$logo")
+
+        // Get the download URL of the image
+        imageRef.downloadUrl.addOnSuccessListener { uri ->
+            // Use the URL to display the image
+            Glide.with(context).load(uri).into(holder.albumLogoIV)
+        }.addOnFailureListener { exception ->
+            // Handle any errors
+            Log.e("FirebaseStorage", "Error getting download URL", exception)
+        }
+
 
         holder.itemView.setOnClickListener{
             (context as AppCompatActivity).getSupportFragmentManager().beginTransaction()

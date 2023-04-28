@@ -70,9 +70,10 @@ class HomeFragment : Fragment() {
 
                     for (albumSnapshot in categorySnapshot.child("albums").children) {
                         val albumName = albumSnapshot.child("album_name").value as String
-                        Log.d("hnlog", "The value of myValue is: $albumName")
+
                         val channel = albumSnapshot.child("channel").value as String
                         val logoAlbum = albumSnapshot.child("logo_album").value as String
+                        Log.d("fridaylog", "The value of logo name is: $logoAlbum")
                         val album = Album(albumName, channel, logoAlbum)
                         items.add(album)
                     }

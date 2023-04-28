@@ -3,6 +3,7 @@ package com.example.channel
 
 
 import android.content.Context
+import android.util.Log
 
 
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import androidx.fragment.app.FragmentActivity
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.storage.FirebaseStorage
 
 class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val text1: TextView = itemView.findViewById(R.id.tvAlbumName)
@@ -39,9 +41,21 @@ class XemTatCaAdapter(private val items: ArrayList<Album>, val context: Context)
         val item = items[position]
         holder.text1.text = item.name
         holder.text2.text = item.channel
-        Glide.with(context).load(item.logo)
-            .into(holder.image)
+//        Glide.with(context).load(item.logo)
+//            .into(holder.image)
+        // Create a reference to the image file in Firebase Storage
+        val storageRef = FirebaseStorage.getInstance().reference
+        val logo = item.logo
+        val imageRef = storageRef.child("Album/$logo")
 
+        // Get the download URL of the image
+        imageRef.downloadUrl.addOnSuccessListener { uri ->
+            // Use the URL to display the image
+            Glide.with(context).load(uri).into(holder.image)
+        }.addOnFailureListener { exception ->
+            // Handle any errors
+            Log.e("FirebaseStorage", "Error getting download URL", exception)
+        }
 
         holder.itemView.setOnClickListener{
             (context as AppCompatActivity).getSupportFragmentManager().beginTransaction()
