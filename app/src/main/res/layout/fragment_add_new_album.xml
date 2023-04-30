@@ -14,7 +14,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/imgBack"
+            android:id="@+id/ivBack5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -32,7 +32,7 @@
             android:text="Ablum mới " />
 
         <TextView
-            android:id="@+id/txtXong"
+            android:id="@+id/tvDone5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="right"
@@ -56,38 +56,31 @@
     <EditText
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:id="@+id/edtTenAlbum"
+        android:id="@+id/edtName5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-
-
-        />
+        android:inputType="textPersonName" />
 
     <TextView
-        android:layout_margin="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:id="@+id/txtTenTap"
+        android:layout_margin="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Chọn danh mục "
         android:textColor="#7a31d6"
-        android:textSize="18dp"
         android:textStyle="bold"
-        android:text="Đặt tên tập" />
-
-    <EditText
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:id="@+id/edtTenTap"
+        android:textSize="21dp"/>
+    <TextView
+        android:id="@+id/tvChoiceCategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-
-
-        />
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:textSize="21dp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:layout_marginBottom="20dp"
+        android:text="Tất cả danh mục" />
 
 
     <LinearLayout
@@ -124,7 +117,7 @@
     <EditText
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:id="@+id/edtThemmota"
+        android:id="@+id/edtDescription5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"

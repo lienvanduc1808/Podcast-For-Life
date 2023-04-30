@@ -34,12 +34,12 @@ class ItemDanhmucFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_item_danhmuc, container, false)
         tvAllAlbum2 = view.findViewById(R.id.tvAllAlbum2)
         tvAllAlbum2.setOnClickListener {
-            replaceFragment(XemTatCaFragment())
+//            replaceFragment(XemTatCaFragment())
         }
 
         tvAllAlbum3 = view.findViewById(R.id.tvAllAlbum3)
         tvAllAlbum3.setOnClickListener {
-            replaceFragment(XemTatCaFragment())
+//            replaceFragment(XemTatCaFragment())
         }
         return view
     }
@@ -48,30 +48,19 @@ class ItemDanhmucFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val items = arrayListOf(
-            albumData("Lời khuyên hữu ích", "The Present Writer", R.drawable.img_9),
-            albumData("Marketing", "Vietcetera", R.drawable.img_8),
-            albumData("Tay mơ học đời", "Amateur Psychology", R.drawable.img_7),
-            albumData("Bình thường một cách bất thường ", "Oddly Normal", R.drawable.img_6),
-            albumData("sức khỏe tâm lý.", "Tâm Lý Học Tuổi Trẻ", R.drawable.img_5),
-            albumData(" mọi chuyện trong cuộc sống", "Spiderum", R.drawable.img_4),
-            albumData("câu chuyện lịch sử", "Bí Ẩn Sử Việt", R.drawable.img_3),
-            albumData("lắng nghe và chia sẻ ", "Radio Người Giữ Kỉ Niệm", R.drawable.img_2),
-            albumData("Vipassana", "Minh Niệm", R.drawable.img_1),
-            albumData("những bệnh lý thời hiện đạ", "Optimal Health Daily", R.drawable.img)
+            albumData("Lời khuyên hữu ích", "The Present Writer", "https://firebasestorage.googleapis.com/v0/b/testdb-80aa6.appspot.com/o/Album%2Fcute.jpg?alt=media&token=d14d1544-a4a5-4328-beaf-fb1c400d1a73"),
+            albumData("Marketing", "Vietcetera", "https://firebasestorage.googleapis.com/v0/b/testdb-80aa6.appspot.com/o/Album%2Fcute.jpg?alt=media&token=d14d1544-a4a5-4328-beaf-fb1c400d1a73"),
+            albumData("Tay mơ học đời", "Amateur Psychology", "https://firebasestorage.googleapis.com/v0/b/testdb-80aa6.appspot.com/o/Album%2Fcute.jpg?alt=media&token=d14d1544-a4a5-4328-beaf-fb1c400d1a73"),
+            albumData("Bình thường một cách bất thường ", "Oddly Normal", "https://firebasestorage.googleapis.com/v0/b/testdb-80aa6.appspot.com/o/Album%2Fcute.jpg?alt=media&token=d14d1544-a4a5-4328-beaf-fb1c400d1a73"),
+            albumData("sức khỏe tâm lý.", "Tâm Lý Học Tuổi Trẻ", "https://firebasestorage.googleapis.com/v0/b/testdb-80aa6.appspot.com/o/Album%2Fcute.jpg?alt=media&token=d14d1544-a4a5-4328-beaf-fb1c400d1a73"),
+            albumData(" mọi chuyện trong cuộc sống", "Spiderum", "https://firebasestorage.googleapis.com/v0/b/testdb-80aa6.appspot.com/o/Album%2Fcute.jpg?alt=media&token=d14d1544-a4a5-4328-beaf-fb1c400d1a73"),
+            albumData("câu chuyện lịch sử", "Bí Ẩn Sử Việt", "https://firebasestorage.googleapis.com/v0/b/testdb-80aa6.appspot.com/o/Album%2Fcute.jpg?alt=media&token=d14d1544-a4a5-4328-beaf-fb1c400d1a73"),
+            albumData("lắng nghe và chia sẻ ", "Radio Người Giữ Kỉ Niệm", "https://firebasestorage.googleapis.com/v0/b/testdb-80aa6.appspot.com/o/Album%2Fcute.jpg?alt=media&token=d14d1544-a4a5-4328-beaf-fb1c400d1a73"),
+            albumData("Vipassana", "Minh Niệm", "https://firebasestorage.googleapis.com/v0/b/testdb-80aa6.appspot.com/o/Album%2Fcute.jpg?alt=media&token=d14d1544-a4a5-4328-beaf-fb1c400d1a73"),
+            albumData("những bệnh lý thời hiện đạ", "Optimal Health Daily", "https://firebasestorage.googleapis.com/v0/b/testdb-80aa6.appspot.com/o/Album%2Fcute.jpg?alt=media&token=d14d1544-a4a5-4328-beaf-fb1c400d1a73")
         )
 
-        val items2 = arrayListOf(
-            albumData("Lời khuyên hữu ích", "The Present Writer", R.drawable.img_9),
-            albumData("Marketing", "Vietcetera", R.drawable.img_8),
-            albumData("Tay mơ học đời ", "Amateur Psychology", R.drawable.img_7),
-            albumData("Bình thường một cách bất thường ", "Oddly Normal", R.drawable.img_6),
-            albumData("sức khỏe tâm lý.", "Tâm Lý Học Tuổi Trẻ", R.drawable.img_5),
-            albumData(" mọi chuyện trong cuộc sống", "Spiderum", R.drawable.img_4),
-            albumData("câu chuyện lịch sử", "Bí Ẩn Sử Việt", R.drawable.img_3),
-            albumData("lắng nghe và chia sẻ ", "Radio Người Giữ Kỉ Niệm", R.drawable.img_2),
-            albumData("Vipassana", "Minh Niệm", R.drawable.img_1),
-            albumData("những bệnh lý thời hiện đạ", "Optimal Health Daily", R.drawable.img)
-        )
+        val items2 = items
         adapter = HomeAdapter(items, requireContext())
         adapter2 = HomeAdapter(items2, requireContext())
         adapter.onItemClick = { album ->

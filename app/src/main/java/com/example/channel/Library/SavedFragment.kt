@@ -32,9 +32,9 @@ class SavedFragment : Fragment() {
 
         listViewSaved = view.findViewById(R.id.lvSaved)
         val items = listOf(
-            episodeData(R.drawable.trikycamxuc,"16 THÁNG 3", "#25 - người lớn cô đơn", "Mình là Giang, mình là người lớn và mình thỉnh thoảng cũng cô đơn"),
-            episodeData(R.drawable.trikycamxuc, "12 tháng 3","#25 - người lớn cô đơn", "Mình là Giang, mình là người lớn và mình thỉnh thoảng cũng cô đơn"),
-            episodeData(R.drawable.trikycamxuc, "15 tháng 2","#25 - người lớn cô đơn", "Mình là Giang, mình là người lớn và mình thỉnh thoảng cũng cô đơn"),
+            episodeData("https://firebasestorage.googleapis.com/v0/b/testdb-80aa6.appspot.com/o/Category%2Fmeoo.jpg?alt=media&token=f2f5206a-6c1e-49a0-8553-00a555f19d00","16 THÁNG 3", "#25 - người lớn cô đơn", "Mình là Giang, mình là người lớn và mình thỉnh thoảng cũng cô đơn"),
+            episodeData("https://firebasestorage.googleapis.com/v0/b/testdb-80aa6.appspot.com/o/Category%2Fmeoo.jpg?alt=media&token=f2f5206a-6c1e-49a0-8553-00a555f19d00", "12 tháng 3","#25 - người lớn cô đơn", "Mình là Giang, mình là người lớn và mình thỉnh thoảng cũng cô đơn"),
+            episodeData("https://firebasestorage.googleapis.com/v0/b/testdb-80aa6.appspot.com/o/Category%2Fmeoo.jpg?alt=media&token=f2f5206a-6c1e-49a0-8553-00a555f19d00", "15 tháng 2","#25 - người lớn cô đơn", "Mình là Giang, mình là người lớn và mình thỉnh thoảng cũng cô đơn"),
         )
         listSavedAdapter = ListSavedAdapter(requireContext(), R.layout.list_opisode, items)
         listViewSaved.adapter = listSavedAdapter

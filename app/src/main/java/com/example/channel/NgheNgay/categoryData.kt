@@ -3,5 +3,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class categoryData(
     var name: String,
-    var image: Int
+    var image: String
 )

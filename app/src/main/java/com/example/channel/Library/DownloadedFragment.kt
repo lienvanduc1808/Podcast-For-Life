@@ -44,13 +44,13 @@ class DownloadedFragment : Fragment() {
         rvListAlbumDownloaded = view.findViewById(R.id.rvListAlbumDownloaded)
 
         val items = listOf(
-            albumData("Tri ki cam xuc", "10 tap", R.drawable.trikycamxuc),
-            albumData("Tri ki cam xuc", "10 tap", R.drawable.trikycamxuc),
-            albumData("Tri ki cam xuc", "10 tap", R.drawable.trikycamxuc),
-            albumData("Tri ki cam xuc", "10 tap", R.drawable.trikycamxuc),
-            albumData("Tri ki cam xuc", "10 tap", R.drawable.trikycamxuc),
-            albumData("Tri ki cam xuc", "10 tap", R.drawable.trikycamxuc),
-            albumData("Tri ki cam xuc", "10 tap", R.drawable.trikycamxuc),
+            albumData("Tri ki cam xuc", "10 tap", "https://firebasestorage.googleapis.com/v0/b/testdb-80aa6.appspot.com/o/Album%2Fcute.jpg?alt=media&token=d14d1544-a4a5-4328-beaf-fb1c400d1a73"),
+            albumData("Tri ki cam xuc", "10 tap", "https://firebasestorage.googleapis.com/v0/b/testdb-80aa6.appspot.com/o/Album%2Fcute.jpg?alt=media&token=d14d1544-a4a5-4328-beaf-fb1c400d1a73"),
+            albumData("Tri ki cam xuc", "10 tap", "https://firebasestorage.googleapis.com/v0/b/testdb-80aa6.appspot.com/o/Album%2Fcute.jpg?alt=media&token=d14d1544-a4a5-4328-beaf-fb1c400d1a73"),
+            albumData("Tri ki cam xuc", "10 tap", "https://firebasestorage.googleapis.com/v0/b/testdb-80aa6.appspot.com/o/Album%2Fcute.jpg?alt=media&token=d14d1544-a4a5-4328-beaf-fb1c400d1a73"),
+            albumData("Tri ki cam xuc", "10 tap", "https://firebasestorage.googleapis.com/v0/b/testdb-80aa6.appspot.com/o/Album%2Fcute.jpg?alt=media&token=d14d1544-a4a5-4328-beaf-fb1c400d1a73"),
+            albumData("Tri ki cam xuc", "10 tap", "https://firebasestorage.googleapis.com/v0/b/testdb-80aa6.appspot.com/o/Album%2Fcute.jpg?alt=media&token=d14d1544-a4a5-4328-beaf-fb1c400d1a73"),
+
         )
 
         rvListAlbumDownloaded.adapter = XemTatCaAdapter(items, requireContext())

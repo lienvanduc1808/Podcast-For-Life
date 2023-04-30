@@ -1,14 +1,20 @@
 package com.example.channel.NgheNgay
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.bumptech.glide.Glide
 import com.example.channel.R
+import com.google.firebase.storage.FirebaseStorage
 
 class HomeAdapter(private val carouselDataList: ArrayList<albumData>, val context: Context) :
     RecyclerView.Adapter<HomeAdapter.CarouselItemViewHolder>() {
@@ -32,13 +38,21 @@ class HomeAdapter(private val carouselDataList: ArrayList<albumData>, val contex
     }
 
     override fun onBindViewHolder(holder: CarouselItemViewHolder, position: Int) {
-       val album: albumData = carouselDataList[position]
+        val album: albumData = carouselDataList[position]
         val albumNameTV = holder.albumNameTV
-        albumNameTV.setText(album.name)
+        albumNameTV.setText(album.album_name)
         val albumArtistTV = holder.albumArtistTV
         albumArtistTV.setText(album.channel)
-        val logoIV = holder.albumLogoIV
-        logoIV.setImageResource(album.logo)
+        val storageRef = FirebaseStorage.getInstance().reference
+        val logo = album.logo_album
+        val imageRef = storageRef.child("Album/$logo")
+
+        imageRef.downloadUrl.addOnSuccessListener { uri ->
+            Glide.with(context).load(uri).into(holder.albumLogoIV)
+        }.addOnFailureListener { exception ->
+            // Handle any errors
+            Log.e("FirebaseStorage", "Error getting download URL", exception)
+        }
 
 
         holder.itemView.setOnClickListener{

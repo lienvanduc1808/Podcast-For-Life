@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.channel.R
 
 class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -36,9 +37,10 @@ class XemTatCaAdapter(private val items: List<albumData>, val context: Context) 
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = items[position]
-        holder.text1.text = item.name
+        holder.text1.text = item.album_name
         holder.text2.text = item.channel
-        holder.image.setImageResource(item.logo)
+        Glide.with(context).load(item.logo_album)
+            .into(holder.image)
 
 
         holder.itemView.setOnClickListener{

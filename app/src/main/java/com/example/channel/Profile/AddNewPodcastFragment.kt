@@ -1,390 +1,175 @@
 package com.example.channel.Profile
 
+import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
+import android.content.ContentResolver
+import android.content.ContentUris
+import android.content.Context
 import android.content.Intent
+import android.content.res.AssetFileDescriptor
 import android.database.Cursor
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.OpenableColumns
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import com.example.channel.R
-
+import com.example.channel.NgheNgay.albumData
+import com.example.channel.NgheNgay.episodeData
+import com.example.channel.Profile.ExistAlbumFragment
+import com.example.channel.Profile.NewAlbumFragment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.makeramen.roundedimageview.RoundedImageView
-
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 import java.io.IOException
-
-
-
+import com.example.channel.R
 
 
 class AddNewPodcastFragment : Fragment() {
+    private lateinit var btnAddAudio: Button
+    private lateinit var imgBack: ImageView
+    private lateinit var txtNewAlbumName: TextView
+    private lateinit var txtNewEsposideName: TextView
+    private lateinit var txtNewDes: TextView
+    private lateinit var newImage: RoundedImageView
+    private lateinit var txtXong: TextView
+    private lateinit var txtChonDanhmuc: TextView
+    private lateinit var spnAlbum: Spinner
+    private lateinit var etTitle4: EditText
+    private lateinit var etDescription4: EditText
 
+    private lateinit var audioUri: String
+    private lateinit var categorySource: String
+    private lateinit var albumSource: String
 
-    lateinit var txtShowList: TextView
+    private lateinit var auth: FirebaseAuth
+    private lateinit var databaseReference: DatabaseReference
+    private lateinit var storageReference: StorageReference
+    private lateinit var currentUser: DatabaseReference
 
     // private var duration: String = ""
     private var mediaPlayer: MediaPlayer? = null
-   // private var timer: ScheduledExecutorService? = null
-
+    // private var timer: ScheduledExecutorService? = null
     companion object {
         const val PICK_FILE = 99
     }
-
-
-
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_new_podcast, container, false)
+        var view = inflater.inflate(R.layout.fragment_add_new_podcast, container, false)
+
+        btnAddAudio = view.findViewById(R.id.btnAddAudio)
+        imgBack = view.findViewById(R.id.imgBack)
+        txtNewAlbumName = view.findViewById(R.id.txtNewAlbumName)
+        txtNewEsposideName = view.findViewById(R.id.txtNewEsposideName)
+        txtNewDes = view.findViewById(R.id.txtNewDes)
+        newImage = view.findViewById(R.id.newImage)
+        txtXong = view.findViewById(R.id.txtXong)
+        txtChonDanhmuc = view.findViewById(R.id.txtChonDanhmuc)
+        spnAlbum = view.findViewById(R.id.spnAlbum)
+        etTitle4 = view.findViewById(R.id.etTitle4)
+        etDescription4 = view.findViewById(R.id.etDescription4)
+
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-
         super.onViewCreated(view, savedInstanceState)
 
+        auth = FirebaseAuth.getInstance()
+        currentUser = FirebaseDatabase.getInstance().getReference("users").child(auth.currentUser!!.uid)
+        databaseReference = FirebaseDatabase.getInstance().getReference("categories")
 
-
-        turnBack(view)
-        chonAlbum(view)
-        chonDanhmuc(view)
-        pickPodcastAudio(view)
-
-
-
-
-        parentFragmentManager.setFragmentResultListener("xong", this) { _, result ->
-
-            parentFragmentManager.beginTransaction().show(this@AddNewPodcastFragment)
-            val taskAlbumName = result.getString("task_tenAlbum")
-            val taskTenTap = result.getString("task_tenTap")
-            val taskDescription = result.getString("task_description")
-            val taskUri = result.getString("task_uri")
-
-
-
-
-            val txtNewAlbumName = view.findViewById<TextView>(R.id.txtNewAlbumName)
-            val txtNewEsposideName =  view.findViewById<TextView>(R.id.txtNewEsposideName)
-            val txtNewDes = view.findViewById<TextView>(R.id.txtNewDes)
-            val newImage =   view.findViewById<RoundedImageView>(R.id.newImage)
-
-            if (taskAlbumName != null && taskTenTap != null && taskDescription != null && taskUri != null) {
-
-                txtNewAlbumName.setText(taskAlbumName)
-                txtNewEsposideName?.setText(taskTenTap)
-                txtNewDes?.setText(taskDescription)
-                newImage?.setImageURI(taskUri.toUri())
-
-            }
-
-
-            val txtXong = view.findViewById<TextView>(R.id.txtXong)
-            txtXong.setOnClickListener {
-                txtShowList = view.findViewById<TextView>(R.id.txtChonDanhmuc)
-                val result = Bundle().apply {
-                    putString("task_tenAlbum", taskAlbumName)
-                    putString("task_tenTap", taskTenTap)
-                    putString("task_description", taskDescription)
-                    putString("task_urt",taskUri)
-                    putString("task_danhmuc",txtShowList.text.toString())
-
-
-
-
-
-                }
-                parentFragmentManager.setFragmentResult("xong_newPodcast", result)
-                parentFragmentManager.popBackStack()
-            }
-
-
+        btnAddAudio.setOnClickListener {
+            pickPodcastAudio()
         }
 
+        imgBack.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
 
+        categorySource = ""
+        chonDanhmuc()
 
+//        chonAlbum()
+//        chonAlbum()
 
-
-
-
-
-
-
-
-
+        txtXong.setOnClickListener {
+            createEpisode()
+        }
 
     }
 
-
-
-
-
+    //get uri audio from intent
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if (requestCode == PICK_FILE && resultCode == RESULT_OK) {
             if (data != null) {
-                val uri: Uri = data.data!!
+                var uri: Uri = data.data!!
                 createMediaPlayer(uri)
             }
         }
-
-
-
-
-
-
-
-
     }
 
-
-
-
-    private fun chonAlbum(view: View) {
-        val items = mutableListOf<String>()
-        items.add("-------------------------------------------------------------")
-        items.add("Tạo Album mới")
-        items.add("Thêm vào Album đã có")
-
-        val adt = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,items)
-        val spnAlbum  = view.findViewById<Spinner>(R.id.spnAlbum)
-        spnAlbum.adapter = adt
-        spnAlbum.onItemSelectedListener = object :AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-
-
-                    val selectedFragment = p0?.getItemAtPosition(p2).toString()
-
-                    when (selectedFragment) {
-
-                        "Tạo Album mới" -> {
-                            val fragment = NewAlbumFragment()
-                            parentFragmentManager.beginTransaction()
-                                .add(R.id.frame_layout, fragment)
-
-                                .addToBackStack(null)
-                                .hide(this@AddNewPodcastFragment)
-                                .commit()
-
-
-                        }
-                        "Thêm vào Album đã có" -> {
-                            val fragment = ExistAlbumFragment()
-                            parentFragmentManager.beginTransaction()
-                                .add(R.id.frame_layout, fragment)
-
-                                .addToBackStack(null)
-                                .hide(this@AddNewPodcastFragment)
-                                .commit()
-                        }
-
-
-                    }
-
-
-
-
-
-//
-            }
-
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-
-            }
-
-        }
-
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    private fun pickPodcastAudio(view: View) {
-        val btnAddAudio = view.findViewById<Button>(R.id.btnAddAudio)
-        btnAddAudio.setOnClickListener {
-            val intent =  Intent(Intent.ACTION_OPEN_DOCUMENT)
-            intent.addCategory(Intent.CATEGORY_OPENABLE)
-            intent.type = "audio/*"
-            startActivityForResult(intent, PICK_FILE)
-
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    private fun turnBack(view: View) {
-        val imgBack = view.findViewById<ImageView>(R.id.imgBack)
-        imgBack.setOnClickListener {
-                if(fragmentManager!=null){
-                    fragmentManager?.popBackStack()
-
-                }
-            //nhớ phải add fragment này vào backStack thì mới dùng được
-            //https://www.youtube.com/watch?v=b9a3-gZ9CGc
-
-        }
-
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    private fun chonDanhmuc(view: View) {
-         txtShowList = view.findViewById<TextView>(R.id.txtChonDanhmuc)
-        val popupMenu = PopupMenu(view?.context, txtShowList)
+    private fun chonDanhmuc() {
+        val popupMenu = PopupMenu(view?.context, txtChonDanhmuc)
 
         popupMenu.inflate(R.menu.popup_danhmuc)
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.menuAllCat -> {
-
-                    txtShowList.setText(menuItem.title.toString())
-
-
+                    txtChonDanhmuc.setText(menuItem.title.toString())
+                    categorySource = "category_id_1"
+                    chonAlbum()
                     true
                 }
                 R.id.menuXH -> {
-                    txtShowList.setText(menuItem.title.toString())
-
+                    txtChonDanhmuc.setText(menuItem.title.toString())
+                    categorySource = "category_id_2"
+                    chonAlbum()
                     true
                 }
                 R.id.menuNews -> {
-                    txtShowList.setText(menuItem.title.toString())
-
+                    txtChonDanhmuc.setText(menuItem.title.toString())
+                    categorySource = "category_id_3"
                     true
                 }
                 R.id.menuComedy -> {
-                    txtShowList.setText(menuItem.title.toString())
-
+                    txtChonDanhmuc.setText(menuItem.title.toString())
+                    categorySource = "category_id_4"
                     true
                 }
                 R.id.menuBusiness -> {
-                    txtShowList.setText(menuItem.title.toString())
-
+                    txtChonDanhmuc.setText(menuItem.title.toString())
+                    categorySource = "category_id_5"
                     true
                 }
                 R.id.menuSport -> {
-                    txtShowList.setText(menuItem.title.toString())
-
+                    txtChonDanhmuc.setText(menuItem.title.toString())
+                    categorySource = "category_id_6"
                     true
                 }
                 else -> false
             }
         }
-        txtShowList.setOnClickListener {
+        txtChonDanhmuc.setOnClickListener {
             try {
                 val popup = PopupMenu::class.java.getDeclaredField("mPopup")
                 popup.isAccessible = true
@@ -400,9 +185,54 @@ class AddNewPodcastFragment : Fragment() {
             true
         }
     }
+    private fun chonAlbum() {
+        if (categorySource == "")
+            return
+        val albumChoice = mutableListOf<String>()
+        albumChoice.add("---------------------")
+        albumChoice.add("Tạo Album mới")
+        val albumKey = mutableListOf<String>()
 
+        databaseReference.child(categorySource+"/albums")?.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (albumSnapshot in snapshot.children)
+                    if (auth.currentUser!!.uid.toString() in albumSnapshot.child("channel").value.toString()){
+                        albumChoice.add(albumSnapshot.child("album_name").value.toString())
+                        albumKey.add(albumSnapshot.key.toString())
+                    }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                // Xử lý lỗi
+                Toast.makeText(requireContext(), "Can not get data", Toast.LENGTH_SHORT);
+            }
+        })
 
+        Log.d("ke", albumKey.toString())
+        Log.d("ch", albumChoice.toString())
+        val adt = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,albumChoice)
+        spnAlbum.adapter = adt
+        spnAlbum.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                //here
+                val selectedFragment = p0?.getItemAtPosition(position).toString()
+                if (selectedFragment.trim() == "Tạo Album mới")
+                    replaceFragment(NewAlbumFragment())
+                else
+                    if (albumKey.size >= 1 && position >= 2)
+//                        Log.d("key", albumKey.size.toString() + " " + position.toString())
+                        albumSource = albumKey[position - 2]
+            }
+            override fun onNothingSelected(p0: AdapterView<*>?) {
 
+            }
+        }
+    }
+    private fun pickPodcastAudio() {
+        val intent =  Intent(Intent.ACTION_OPEN_DOCUMENT)
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        intent.type = "audio/*"
+        startActivityForResult(intent,PICK_FILE)
+    }
 
     private fun createMediaPlayer(uri: Uri) {
         mediaPlayer = MediaPlayer()
@@ -417,30 +247,101 @@ class AddNewPodcastFragment : Fragment() {
             mediaPlayer!!.setDataSource(requireContext(),uri)
             mediaPlayer!!.prepare()
 
-            txtNameUri?.text = getNameFromUri(uri)
-
+            val cr = requireContext().contentResolver
+            val fileName: String? = getFileName(uri, cr)
+            val outputStream: FileOutputStream?
+            if (fileName != null) {
+                try {
+                    outputStream = requireContext().openFileOutput(fileName, Context.MODE_PRIVATE)
+                    val fileDescriptor: AssetFileDescriptor = cr.openAssetFileDescriptor(uri, "r")!!
+                    val inputStream = FileInputStream(fileDescriptor.fileDescriptor)
+                    val buffer = ByteArray(1024)
+                    var length: Int
+                    while (inputStream.read(buffer).also { length = it } > 0) {
+                        outputStream.write(buffer, 0, length)
+                    }
+                    outputStream.close()
+                    inputStream.close()
+                    val filePath = requireContext().getFileStreamPath(fileName).absolutePath
+                    txtNameUri?.text = filePath.toString()
+                    audioUri = filePath.toString()
+                    // Sử dụng đường dẫn tệp ở đây
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
         }catch (e: IOException) {
             txtNameUri?.text = e.toString()
         }
 
 
     }
-
-    private fun getNameFromUri(uri: Uri): String? {
-        var fileName = ""
+    private fun getFileName(uri: Uri, cr: ContentResolver): String? {
+        var fileName: String? = null
+        val cursor = cr.query(uri, null, null, null, null)
+        cursor?.use {
+            it.moveToFirst()
+            val cursorCol = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+            fileName = cursor.getString(cursorCol)
+        }
+        return fileName
+    }
+    private fun getNameFromUri(uri: Uri): Uri {
+        var contentUri:Uri =MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         var cursor: Cursor? = null
         cursor = requireContext().contentResolver.query(uri, arrayOf(MediaStore.Images.ImageColumns.DISPLAY_NAME), null, null, null)
         if (cursor != null && cursor.moveToFirst()) {
-            fileName = cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.DISPLAY_NAME).toInt())
+
+            val columnIndex = cursor.getColumnIndex(MediaStore.Audio.Media._ID)
+            if(columnIndex>=0){
+                val id = cursor.getLong(columnIndex)
+            }
+
+            contentUri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id.toLong())
+            cursor?.close()
+
+
         }
-        cursor?.close()
-        return fileName
+        return contentUri
+
     }
 
+    private fun createEpisode(){
+        databaseReference = databaseReference.child(categorySource + "/albums/" + albumSource + "/episodes/")
+        databaseReference.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var count_episode: Int = 0
+                if(dataSnapshot.childrenCount == null)
+                    count_episode = 0
+                else
+                    count_episode = dataSnapshot.childrenCount.toInt()
 
+                var newEpisodeId: String = albumSource + "ep" +(count_episode+1).toString()
+                databaseReference.child(newEpisodeId).setValue(episodeData(etTitle4.text.toString(), etDescription4.text.toString(), "LocalDate.now()", newEpisodeId))
+                storageReference = FirebaseStorage.getInstance().getReference("AudioEpisode/"+newEpisodeId)
 
-
-
+                val file = Uri.fromFile(File(audioUri))
+                storageReference.putFile(file)
+                    .addOnSuccessListener {
+                        // Handle success
+                    }.addOnFailureListener {
+                        // Handle failure
+                    }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
+    private fun replaceFragment(fragment: Fragment){
+        parentFragmentManager
+            .beginTransaction()
+            .add(R.id.frame_layout, fragment)
+            .addToBackStack(null)
+            .hide(this@AddNewPodcastFragment)
+            .commit()
+    }
 }
+
 
 

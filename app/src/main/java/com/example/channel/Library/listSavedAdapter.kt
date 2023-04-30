@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.*
 
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.example.channel.NgheNgay.EpisodeBottomSheet
 import com.example.channel.NgheNgay.episodeData
 import com.makeramen.roundedimageview.RoundedImageView
@@ -24,7 +25,9 @@ class ListSavedAdapter(context: Context, resource: Int, objects: List<episodeDat
         val currentItem = getItem(position)
 
         val itemImg = itemView?.findViewById<RoundedImageView>(R.id.rivCover)
-        itemImg?.setBackgroundResource(currentItem!!.img)
+        Glide.with(context).load(currentItem!!.img)
+            .into(itemImg!!)
+
 
         val itemDate = itemView?.findViewById<TextView>(R.id.dateUpload)
         itemDate?.text = currentItem?.date

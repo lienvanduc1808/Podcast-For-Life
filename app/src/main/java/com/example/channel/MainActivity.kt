@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         FirebaseApp.initializeApp(this)
         // replaceFragment(NgheNgayFragment())
-        replaceFragment(SignUpFragment())
+        replaceFragment(SignInFragment())
 //        val signInFragment = SignInFragment()
 //        val signUpFragment = SignUpFragment()
 

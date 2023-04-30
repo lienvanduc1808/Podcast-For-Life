@@ -1,7 +1,10 @@
 package com.example.channel.NgheNgay
 
 data class albumData(
-    var name: String,
+    var album_name: String,
     var channel: String,
-    var logo: Int
-)
+    var description: String,
+    var logo_album: String,
+){
+    constructor(name: String, description: String, logo: String) : this(name, "noone", description, logo){}
+}

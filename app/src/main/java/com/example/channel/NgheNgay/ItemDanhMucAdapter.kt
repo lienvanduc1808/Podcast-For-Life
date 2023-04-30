@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.channel.R
 
 class ItemDanhMucAdapter(private val carouselDataList: ArrayList<albumData>, val context: Context) :RecyclerView.Adapter<ItemDanhMucAdapter.CarouselItemViewHolder>()  {
@@ -32,11 +33,12 @@ class ItemDanhMucAdapter(private val carouselDataList: ArrayList<albumData>, val
     override fun onBindViewHolder(holder: CarouselItemViewHolder, position: Int) {
         val album: albumData = carouselDataList[position]
         val albumNameTV = holder.albumNameTV
-        albumNameTV.setText(album.name)
+        albumNameTV.setText(album.album_name)
         val albumArtistTV = holder.albumArtistTV
         albumArtistTV.setText(album.channel)
         val logoIV = holder.albumLogoIV
-        logoIV.setImageResource(album.logo)
+        Glide.with(context).load(album.logo_album)
+            .into(holder.albumLogoIV)
 
 
         holder.itemView.setOnClickListener{

@@ -54,6 +54,11 @@ class InfoFragment : Fragment() {
             parentFragmentManager.popBackStack()
         }
 
+        avatar = view.findViewById(R.id.avatar)
+        etName = view.findViewById(R.id.etName)
+        etAddress = view.findViewById(R.id.etAddress)
+        etEmail = view.findViewById(R.id.etEmail)
+
         return view
     }
 
@@ -66,11 +71,6 @@ class InfoFragment : Fragment() {
 
         databaseReference = FirebaseDatabase.getInstance().getReference("users").child(auth.currentUser!!.uid)
         storageReference =  FirebaseStorage.getInstance().getReference("User/"+auth.currentUser?.uid)
-
-        avatar = view.findViewById(R.id.avatar)
-        etName = view.findViewById(R.id.etName)
-        etAddress = view.findViewById(R.id.etAddress)
-        etEmail = view.findViewById(R.id.etEmail)
 
         readInfo()
 
@@ -86,9 +86,7 @@ class InfoFragment : Fragment() {
         btnUpdate.setOnClickListener {
             saveInfo()
         }
-
     }
-
 
     fun readInfo(){
         databaseReference.get().addOnSuccessListener {
@@ -107,10 +105,10 @@ class InfoFragment : Fragment() {
             val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
             avatar.setImageBitmap(bitmap)
             uri = Uri.parse(storageReference.toString())
+            Log.d("a", uri.toString())
         }.addOnFailureListener{
             avatar.setImageResource(R.drawable.avatar_test)
         }
-
     }
 
     fun saveInfo(){
@@ -122,18 +120,13 @@ class InfoFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
         if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK) {
-
             if (data != null) {
                 uri = data.data!!
                 avatar?.setImageURI(uri)
-
             }
 
         }
         super.onResume()
     }
-
-
 }
