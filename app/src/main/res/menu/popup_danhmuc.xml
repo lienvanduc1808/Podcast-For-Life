@@ -6,16 +6,15 @@
         android:id="@+id/menuAllCat"
         android:title="Tất cả danh mục"
         app:showAsAction="never"
-
-        />
-    <item
-        android:id="@+id/menuXH"
-        android:title="Xã hội và văn hóa"
-        app:showAsAction="never"
         />
     <item
         android:id="@+id/menuNews"
         android:title="Tin tức  "
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/menuSport"
+        android:title="Thể thao "
         app:showAsAction="never"
         />
     <item
@@ -29,11 +28,10 @@
         app:showAsAction="never"
         />
     <item
-        android:id="@+id/menuSport"
-        android:title="Thể thao "
+        android:id="@+id/menuXH"
+        android:title="Xã hội và văn hóa"
         app:showAsAction="never"
         />
-
 
 
 

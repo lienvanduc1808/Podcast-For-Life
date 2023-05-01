@@ -27,7 +27,7 @@ class NewAlbumFragment : Fragment() {
     private lateinit var btnImage: Button
 
     private val PICK_IMAGE: Int = 3
-    var uriData:String=""
+    private lateinit var uri: Uri
     private var sum_album: Int = 0
 
     private lateinit var auth: FirebaseAuth
@@ -49,7 +49,7 @@ class NewAlbumFragment : Fragment() {
         edtName5 = view.findViewById(R.id.edtName5)
         tvChoiceCategory = view.findViewById(R.id.tvChoiceCategory)
         edtDescription5 = view.findViewById(R.id.edtDescription5)
-        btnImage = view.findViewById<Button>(R.id.btnImage)
+        btnImage = view.findViewById(R.id.btnImage)
         return view
     }
 
@@ -74,27 +74,32 @@ class NewAlbumFragment : Fragment() {
         }
         tvDone5.setOnClickListener {
             databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                var newAlbumId: String = currentUser.key.toString() + "alb" +sum_album.toString()
-                databaseReference.child(newAlbumId).setValue(albumData(edtName5.text.toString(), currentUser.key.toString(), edtDescription5.text.toString(), newAlbumId))
-                storageReference = FirebaseStorage.getInstance().getReference("Album/"+newAlbumId)
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    var newAlbumId: String = currentUser.key.toString() + "alb" +sum_album.toString()
+                    databaseReference.child(newAlbumId).setValue(albumData(edtName5.text.toString(), currentUser.key.toString(), edtDescription5.text.toString(), newAlbumId))
+                    storageReference = FirebaseStorage.getInstance().getReference("Album/"+newAlbumId)
 
-                val file = Uri.fromFile(File(uriData))
-                storageReference.putFile(file)
-                    .addOnSuccessListener {
-                        // Handle success
-                    }.addOnFailureListener {
-                        // Handle failure
+//                        val file = Uri.fromFile(File(uriData))
+//                        storageReference.putFile(file)
+//                            .addOnSuccessListener {
+//                                // Handle success
+//                            }.addOnFailureListener {
+//                                // Handle failure
+//                            }
+
+                    storageReference.putFile(uri).addOnCompleteListener{
+                    }.addOnFailureListener{
+                        parentFragmentManager.popBackStack()
                     }
 
-                currentUser.child("sumalbum").setValue(sum_album + 1)
-                parentFragmentManager.popBackStack()
-            }
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
+                    currentUser.child("sumalbum").setValue(sum_album + 1)
+                    parentFragmentManager.popBackStack()
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
 
-        })
+            })
         }
     }
     private fun choiceCategory() {
@@ -107,29 +112,29 @@ class NewAlbumFragment : Fragment() {
                     databaseReference = FirebaseDatabase.getInstance().getReference("categories/category_id_1/albums")
                     true
                 }
-                R.id.menuXH -> {
-                    tvChoiceCategory.setText(menuItem.title.toString())
-                    databaseReference = FirebaseDatabase.getInstance().getReference("categories/category_id_2/albums")
-                    true
-                }
                 R.id.menuNews -> {
                     tvChoiceCategory.setText(menuItem.title.toString())
-                    databaseReference = FirebaseDatabase.getInstance().getReference("categories/category_id_3/albums")
-                    true
-                }
-                R.id.menuComedy -> {
-                    tvChoiceCategory.setText(menuItem.title.toString())
-                    databaseReference = FirebaseDatabase.getInstance().getReference("categories/category_id_4/albums")
-                    true
-                }
-                R.id.menuBusiness -> {
-                    tvChoiceCategory.setText(menuItem.title.toString())
-                    databaseReference = FirebaseDatabase.getInstance().getReference("categories/category_id_5/albums")
+                    databaseReference = FirebaseDatabase.getInstance().getReference("categories/category_id_1/albums")
                     true
                 }
                 R.id.menuSport -> {
                     tvChoiceCategory.setText(menuItem.title.toString())
-                    databaseReference = FirebaseDatabase.getInstance().getReference("categories/category_id_6/albums")
+                    databaseReference = FirebaseDatabase.getInstance().getReference("categories/category_id_2/albums")
+                    true
+                }
+                R.id.menuComedy -> {
+                    tvChoiceCategory.setText(menuItem.title.toString())
+                    databaseReference = FirebaseDatabase.getInstance().getReference("categories/category_id_3/albums")
+                    true
+                }
+                R.id.menuBusiness -> {
+                    tvChoiceCategory.setText(menuItem.title.toString())
+                    databaseReference = FirebaseDatabase.getInstance().getReference("categories/category_id_4/albums")
+                    true
+                }
+                R.id.menuXH -> {
+                    tvChoiceCategory.setText(menuItem.title.toString())
+                    databaseReference = FirebaseDatabase.getInstance().getReference("categories/category_id_5/albums")
                     true
                 }
                 else -> false
@@ -155,10 +160,11 @@ class NewAlbumFragment : Fragment() {
         val imgView = view?.findViewById<ImageView>(R.id.imageView)
         if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK) {
             if (data != null) {
-                val uri: Uri = data.data!!
+                uri = data.data!!
                 imgView?.setImageURI(uri)
-                uriData = uri.toString()
+//                uriData = uri.toString()
             }
         }
+        super.onResume()
     }
 }

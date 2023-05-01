@@ -140,30 +140,34 @@ class AddNewPodcastFragment : Fragment() {
                     chonAlbum()
                     true
                 }
-                R.id.menuXH -> {
+                R.id.menuNews -> {
+                    txtChonDanhmuc.setText(menuItem.title.toString())
+                    categorySource = "category_id_1"
+                    chonAlbum()
+                    true
+                }
+                R.id.menuSport -> {
                     txtChonDanhmuc.setText(menuItem.title.toString())
                     categorySource = "category_id_2"
                     chonAlbum()
                     true
                 }
-                R.id.menuNews -> {
-                    txtChonDanhmuc.setText(menuItem.title.toString())
-                    categorySource = "category_id_3"
-                    true
-                }
                 R.id.menuComedy -> {
                     txtChonDanhmuc.setText(menuItem.title.toString())
-                    categorySource = "category_id_4"
+                    categorySource = "category_id_3"
+                    chonAlbum()
                     true
                 }
                 R.id.menuBusiness -> {
                     txtChonDanhmuc.setText(menuItem.title.toString())
-                    categorySource = "category_id_5"
+                    categorySource = "category_id_4"
+                    chonAlbum()
                     true
                 }
-                R.id.menuSport -> {
+                R.id.menuXH -> {
                     txtChonDanhmuc.setText(menuItem.title.toString())
-                    categorySource = "category_id_6"
+                    categorySource = "category_id_5"
+                    chonAlbum()
                     true
                 }
                 else -> false
@@ -207,8 +211,6 @@ class AddNewPodcastFragment : Fragment() {
             }
         })
 
-        Log.d("ke", albumKey.toString())
-        Log.d("ch", albumChoice.toString())
         val adt = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item,albumChoice)
         spnAlbum.adapter = adt
         spnAlbum.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -317,7 +319,7 @@ class AddNewPodcastFragment : Fragment() {
                     count_episode = dataSnapshot.childrenCount.toInt()
 
                 var newEpisodeId: String = albumSource + "ep" +(count_episode+1).toString()
-                databaseReference.child(newEpisodeId).setValue(episodeData(etTitle4.text.toString(), etDescription4.text.toString(), "LocalDate.now()", newEpisodeId))
+                databaseReference.child(newEpisodeId).setValue(episodeData(etTitle4.text.toString(), etDescription4.text.toString(), "LocalDate.now()", albumSource))
                 storageReference = FirebaseStorage.getInstance().getReference("AudioEpisode/"+newEpisodeId)
 
                 val file = Uri.fromFile(File(audioUri))
