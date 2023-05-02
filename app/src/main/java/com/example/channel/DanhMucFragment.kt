@@ -21,7 +21,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 class DanhMucFragment : Fragment() {
-    private var autoCompleteTV: AutoCompleteTextView? = null
+    private var searchET: TextView? = null
     private var autoCompleteTVAdapter: ArrayAdapter<String>? = null
     private var recyclerView: RecyclerView? = null
     private var adapter: DanhMucAdapter? = null
@@ -32,8 +32,12 @@ class DanhMucFragment : Fragment() {
         Log.e("hello","hello")
         val view = inflater.inflate(R.layout.fragment_search, container, false)
         recyclerView = view.findViewById(R.id.rvListDanhMuc)
-        autoCompleteTV = view.findViewById(R.id.search_view)
-        val items = arrayListOf<DanhMuc>()
+        searchET = view.findViewById(R.id.searchEditText)
+        searchET?.setOnClickListener{
+            replaceFragment(SearchAlbumFragment())
+        }
+        val items = arrayListOf<DanhMuc>(DanhMuc("Bảng xếp hạng", "https://firebasestorage.googleapis.com/v0/b/testdb-80aa6.appspot.com/o/Category%2Fimg_11.png?alt=media&token=4fc51f1a-6dc9-4c8b-9bc1-2a18b943b696"))
+
 //        val items = listOf(
 //            DanhMuc("Bảng xếp hạng", R.drawable.img_11),
 //            DanhMuc("Xã hội và văn hóa", R.drawable.img_12),
@@ -60,11 +64,24 @@ class DanhMucFragment : Fragment() {
                         val category = DanhMuc(cateName, cateImage)
                         items.add(category)
                     }
+                items.add(DanhMuc("Dramas", ""))
+                items.add(DanhMuc("Nghệ thuật", ""))
                     Log.d("plog", "The value of myValue is: $items")
                 adapter = DanhMucAdapter(items,requireContext())
                 recyclerView!!.adapter = adapter
                 recyclerView!!.layoutManager = GridLayoutManager( context, 2)
               //  setUpAutoCompleteTVAdapter(DanhMucList.getDanhMucNameList())
+
+                adapter?.onItemClick = { danhMuc ->
+                    when (danhMuc.name) {
+                        "New Fragment 1" -> {
+                            replaceFragment(RankingTableFragment())
+                        }
+                        "New Fragment 2" -> {
+                            replaceFragment(HomeFragment())
+                        }
+                    }
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -72,6 +89,7 @@ class DanhMucFragment : Fragment() {
                 Toast.makeText(requireContext(), "Can not get data", Toast.LENGTH_SHORT);
             }
         })
+
 //        val danhMucNameListForSearch = arrayListOf(
 //            DanhMuc("Bảng xếp hạng", R.drawable.img_11),
 //            DanhMuc("Xã hội và văn hóa", R.drawable.img_12),
@@ -88,45 +106,52 @@ class DanhMucFragment : Fragment() {
         return view
     }
 
-    fun setUpAutoCompleteTVAdapter(data: ArrayList<String>) {
-        autoCompleteTVAdapter = ArrayAdapter<String>(
-            requireContext(),
-            android.R.layout.simple_list_item_1,
-            data
-        )
-        autoCompleteTV!!.setAdapter(autoCompleteTVAdapter)
-        autoCompleteTV!!.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-            }
+//    fun setUpAutoCompleteTVAdapter(data: ArrayList<String>) {
+//        autoCompleteTVAdapter = ArrayAdapter<String>(
+//            requireContext(),
+//            android.R.layout.simple_list_item_1,
+//            data
+//        )
+//        autoCompleteTV!!.setAdapter(autoCompleteTVAdapter)
+//        autoCompleteTV!!.addTextChangedListener(object : TextWatcher {
+//            override fun afterTextChanged(p0: Editable?) {
+//            }
+//
+//            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//            }
+//
+//            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//                val foundDanhMuc: ArrayList<DanhMuc> =
+//                    DanhMucList.getDanhMucList()
+//                        .filter { s ->
+//                            s.name.contains(
+//                                (p0.toString()),
+//                                true
+//                            )
+//                        } as ArrayList<DanhMuc>
+//                adapter = DanhMucAdapter(foundDanhMuc,requireContext())
+//                recyclerView!!.adapter = adapter
+//                recyclerView!!.layoutManager = GridLayoutManager(context, 2)
+//            }
+//        })
+//
+//    }
+//
+//    override fun onResume() {
+//        super.onResume()
+//        Log.i("continue", "view list continue")
+//        val text: Editable = autoCompleteTV!!.text
+//        autoCompleteTV!!.setText(text)
+//        autoCompleteTV!!.setSelection(text.length)
+//
+//        //adapter!!.notifyDataSetChanged()
+//       // setUpAutoCompleteTVAdapter(DanhMucList.getDanhMucNameList())
+//    }
 
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                val foundDanhMuc: ArrayList<DanhMuc> =
-                    DanhMucList.getDanhMucList()
-                        .filter { s ->
-                            s.name.contains(
-                                (p0.toString()),
-                                true
-                            )
-                        } as ArrayList<DanhMuc>
-                adapter = DanhMucAdapter(foundDanhMuc,requireContext())
-                recyclerView!!.adapter = adapter
-                recyclerView!!.layoutManager = GridLayoutManager(context, 2)
-            }
-        })
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.i("continue", "view list continue")
-        val text: Editable = autoCompleteTV!!.text
-        autoCompleteTV!!.setText(text)
-        autoCompleteTV!!.setSelection(text.length)
-
-        //adapter!!.notifyDataSetChanged()
-       // setUpAutoCompleteTVAdapter(DanhMucList.getDanhMucNameList())
+    private fun replaceFragment(fragment: Fragment){
+        val fragmentManager = parentFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.frame_layout, fragment).addToBackStack(null)
+        fragmentTransaction.commit()
     }
 }

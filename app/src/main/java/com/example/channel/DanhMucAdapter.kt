@@ -43,6 +43,17 @@ class DanhMucAdapter(private val data: ArrayList<DanhMuc>,val context: Context) 
         //holder.imageView.setImageResource(item.image)
         holder.textView.text = item.name
 
+        holder.itemView.setOnClickListener {
+            when (position) {
+                0 -> {
+                    onItemClick?.invoke(DanhMuc("New Fragment 1", ""))
+                }
+                else -> {
+                    onItemClick?.invoke(DanhMuc("New Fragment 2", ""))
+                }
+            }
+        }
+
     }
 
     override fun getItemCount() = data.size
@@ -54,6 +65,7 @@ class DanhMucAdapter(private val data: ArrayList<DanhMuc>,val context: Context) 
         init {
             itemView.setOnClickListener {
                 onItemClick?.invoke(data[adapterPosition])
+
             }
         }
     }
