@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.bumptech.glide.Glide
 import com.example.channel.R
+import com.google.firebase.storage.FirebaseStorage
 
 class MyPodcastAdapter(context: Context, resource: Int, list: List<MyPodCastData>):
     ArrayAdapter<MyPodCastData>(context, resource, list) {
@@ -30,7 +32,22 @@ class MyPodcastAdapter(context: Context, resource: Int, list: List<MyPodCastData
         ten_tap?.text =currentItem?.ten_tap
         mo_ta?.text = currentItem?.mo_ta
         ten_Danh_Muc?.text = currentItem?.danh_muc
-        img_tap?.setImageResource(currentItem?.img_podcast!!.toInt())
+        val storage = FirebaseStorage.getInstance().getReference("Episode/")
+        val imageRef = storage.child(currentItem?.img_podcast.toString())
+        var imageUrl:String=""
+
+        imageRef.downloadUrl.addOnSuccessListener { uri ->
+            imageUrl = uri.toString()
+            Glide.with(context)
+                .load(imageUrl)
+                .into(img_tap!!)
+
+
+            // sử dụng đường dẫn của ảnh ở đây
+        }.addOnFailureListener { exception ->
+            // Xử lý lỗi tại đây
+        }
+
         uri_podcast?.text = currentItem?.uri_podcast
 
 

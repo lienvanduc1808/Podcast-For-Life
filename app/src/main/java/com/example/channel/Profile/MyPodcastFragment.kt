@@ -1,6 +1,7 @@
 package com.example.channel.Profile
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,12 +10,23 @@ import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
+import androidx.core.net.toUri
+
 import com.example.channel.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
 
 
 class MyPodcastFragment : Fragment() {
     private lateinit var listView: ListView
     private lateinit var adapter: MyPodcastAdapter
+    private lateinit var auth: FirebaseAuth
+    private lateinit var authId: String
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,21 +39,90 @@ class MyPodcastFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
+        val database = FirebaseDatabase.getInstance()
+        val ref = database.reference.child("categories")
+        auth = FirebaseAuth.getInstance()
+        authId =auth.currentUser?.uid.toString()
         var list = mutableListOf<MyPodCastData>()
 
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (categorySnapshot in dataSnapshot.children) {
+                    for (albumSnapshot in categorySnapshot.child("albums").children) {
+                        for (episodeSnapshot in albumSnapshot.child("episodes").children) {
+                            val episodeAudio = episodeSnapshot.child("episode_audio").value.toString()
+                            if (episodeAudio.contains(authId)) {
+                                val categoryName = categorySnapshot.child("cate_name").value.toString()
 
-        list.add(MyPodCastData(R.drawable.img,"Xa hoi ","Lời khuyên hữu ích","mọi chuyện trong cuộc sống","Mỗi podcast của kênh The Present Writer có độ dài từ 15 đến 30 phút, chủ đề xoay quanh các bài học trong cuộc sống, các cách phát triển bản thân theo trường phái tối giản. Khi đối diện với thất bại, Bạn đang sống cho hiện tại, quá khứ hay tương lai?",""))
-        list.add(MyPodCastData(R.drawable.img_9,"Xa hoi ","Marketing","lắng nghe và chia sẻ","Một hành trình của âu lo, Ngừng so sánh bản thân và ghen tỵ với người khác hay Bình ổn tâm lý trong mùa dịch, … đây đều là những vấn đề thực tiễn nhưng không kém phần thú vị mà Chi Nguyễn đưa vào trong mỗi tập podcast của mình.",""))
-        list.add(MyPodCastData(R.drawable.img_8,"Xa hoi ","Bình thường một cách bất thường","Bên cạnh đó, những lời khuyên hữu ích dựa trên trải nghiệm của bản thân từ lúc học tập, sinh sống và làm việc tại Mỹ cũng đã được Chi Nguyễn chia sẻ thẳng thắn với mọi người. ","Đến thời điểm hiện tại, Vietcetera đã sở hữu nhiều kênh podcast truyền cảm hứng trên Spotify với các chủ đề khác nhau trong cuộc sống và đó đều là những vấn đề nhận được nhiều sự quan tâm từ công chúng.",""))
-        list.add(MyPodCastData(R.drawable.img_7,"Xa hoi ","sức khỏe tâm lý","những bệnh lý thời hiện đại","Bằng một chất giọng truyền cảm, ngọt ngào và tươi vui, chủ nhân kênh podcast The Present Writer hứa hẹn sẽ mang đến cho bạn một nguồn năng lượng tích cực, dẫn dắt bạn tiếp cận với những góc nhìn chân thực trong cuộc sống và hơn hết là qua đó bạn có thể mang về cho mình những kiến thức mới mẻ.",""))
+                                val albumName = albumSnapshot.child("album_name").value.toString()
+
+                                val episodeDate = episodeSnapshot.child("episode_date").value.toString()
+
+
+                                val episodeDes = episodeSnapshot.child("episode_des").value.toString()
+
+                                val episodeImage = episodeSnapshot.child("episode_image").value.toString()
+
+
+
+                                val episodeName = episodeSnapshot.child("episode_name").value.toString()
+
+
+                                list.add(MyPodCastData(episodeImage.toUri(),categoryName,albumName,episodeName,episodeDes,""))
+
+
+
+                            }
+                        }
+                    }
+                }
+
+                adapter = MyPodcastAdapter(requireContext(), R.layout.my_podcast_item, list)
+                listView = view.findViewById(R.id.lvMyPodcast)
+
+                listView.adapter = adapter
+                val listener = object : AdapterView.OnItemClickListener {
+                    override fun onItemClick(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                        val fragment = EditMyPodcastFragment()
+                        parentFragmentManager.beginTransaction()
+                            .add(R.id.frame_layout, fragment)
+                            .addToBackStack(null)
+                            .hide(this@MyPodcastFragment)
+                            .commit()
+                        val send_data = Bundle().apply {
+                            putString("edt_danhmuc",list[position].danh_muc )
+                            putString("edt_tenalbum",list[position].ten_album )
+                            putString("edt_tentap",list[position].ten_tap)
+                            putString("edt_mota",list[position].mo_ta )
+                            putString("edt_uri",list[position].uri_podcast )
+                            putString("edt_img",list[position].img_podcast.toString() )
+                        }
+                        parentFragmentManager.setFragmentResult("send_item", send_data)
+
+
+                    }
+                }
+                listView.setOnItemClickListener(listener)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle errors
+            }
+        })
 
 
 
 
-        adapter = MyPodcastAdapter(requireContext(), R.layout.my_podcast_item, list)
-        listView = view.findViewById(R.id.lvMyPodcast)
 
-        listView.adapter = adapter
+
+
+
+
+
+
+
 
         parentFragmentManager.setFragmentResultListener("xong", this) { _, result ->
 
@@ -61,36 +142,15 @@ class MyPodcastFragment : Fragment() {
         }
 
 
-        val listener = object : AdapterView.OnItemClickListener {
-            override fun onItemClick(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                val fragment = EditMyPodcastFragment()
-                parentFragmentManager.beginTransaction()
-                    .add(R.id.frame_layout, fragment)
-                    .addToBackStack(null)
-                    .hide(this@MyPodcastFragment)
-                    .commit()
-                val send_data = Bundle().apply {
-                    putString("edt_danhmuc",list[position].danh_muc )
-                    putString("edt_tenalbum",list[position].ten_album )
-                    putString("edt_tentap",list[position].ten_tap)
-                    putString("edt_mota",list[position].mo_ta )
-                    putString("edt_uri",list[position].uri_podcast )
-                    putInt("edt_img",list[position].img_podcast )
-                }
-                parentFragmentManager.setFragmentResult("send_item", send_data)
 
-
-            }
-        }
-        listView.setOnItemClickListener(listener)
 
         //quay lại
         val imgBack = view.findViewById<ImageView>(R.id.imgBack)
         imgBack.setOnClickListener {
-                if(fragmentManager!=null){
-                    fragmentManager?.popBackStack()
+            if(fragmentManager!=null){
+                fragmentManager?.popBackStack()
 
-                }
+            }
             //nhớ phải add fragment này vào backStack thì mới dùng được
             //https://www.youtube.com/watch?v=b9a3-gZ9CGc
 
@@ -104,6 +164,9 @@ class MyPodcastFragment : Fragment() {
                 .addToBackStack(null)
                 .hide(this@MyPodcastFragment)
                 .commit()
+
+
+
         }
 
 
