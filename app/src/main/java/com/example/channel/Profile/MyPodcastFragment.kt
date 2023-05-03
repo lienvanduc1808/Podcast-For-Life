@@ -50,51 +50,85 @@ class MyPodcastFragment : Fragment() {
 
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (categorySnapshot in dataSnapshot.children) {
-                    for (albumSnapshot in categorySnapshot.child("albums").children) {
-                        val LogoImage = albumSnapshot.child("logo_album").value.toString()
-                        Log.d("logoImage",LogoImage)
-                        if (LogoImage.contains(authId)) {
-                            val categoryName = categorySnapshot.child("cate_name").value.toString()
-                            Log.d("categoryName",categoryName)
-                            val albumName = albumSnapshot.child("album_name").value.toString()
-                            Log.d("albumName",albumName)
-                            for(episodeSnapShot in categorySnapshot.child("albums").child("episodes").children){
-                                val episodeDate = episodeSnapShot.child("date").value.toString()
-                                Log.d("episodeDate",episodeDate)
+                if(dataSnapshot.children ==null){
+                    for (categorySnapshot in dataSnapshot.children) {
+                        for (albumSnapshot in categorySnapshot.child("albums").children) {
+                            val LogoImage = albumSnapshot.child("logo_album").value.toString()
+                            Log.d("logoImage",LogoImage)
+                            if (LogoImage.contains(authId)) {
+                                val categoryName = categorySnapshot.child("cate_name").value.toString()
+                                Log.d("categoryName",categoryName)
+                                val albumName = albumSnapshot.child("album_name").value.toString()
+                                Log.d("albumName",albumName)
+                                for(episodeSnapShot in categorySnapshot.child("albums").child("episodes").children){
+                                    val episodeDate = episodeSnapShot.child("date").value.toString()
+                                    Log.d("episodeDate",episodeDate)
 
 
-                                val episodeDes = episodeSnapShot.child("descript").value.toString()
-                                Log.d("episodeDes",episodeDes)
+                                    val episodeDes = episodeSnapShot.child("descript").value.toString()
+                                    Log.d("episodeDes",episodeDes)
 
-                                val episodeImage = episodeSnapShot.child("img").value.toString()
-                                Log.d("episodeImage",episodeImage)
+                                    val episodeImage = episodeSnapShot.child("img").value.toString()
+                                    Log.d("episodeImage",episodeImage)
 
-                                val episodeName = episodeSnapShot.child("title").value.toString()
-                                Log.d("episodeName",episodeName)
-                                list.add(MyPodCastData(LogoImage.toUri(),categoryName,albumName,episodeName,episodeDes,""))
+                                    val episodeName = episodeSnapShot.child("title").value.toString()
+                                    Log.d("episodeName",episodeName)
+                                    list.add(MyPodCastData(LogoImage.toUri(),categoryName,albumName,episodeName,episodeDes,""))
+
+                                }
+
+
+
+
+
+
+
+
+
+
+
+
 
                             }
+                            for (episodeSnapshot in albumSnapshot.child("episodes").children) {
 
 
-
-
-
-
-
-
-
-
-
-
-
-                        }
-                        for (episodeSnapshot in albumSnapshot.child("episodes").children) {
-
-
+                            }
                         }
                     }
                 }
+                else{
+                    for (categorySnapshot in dataSnapshot.children) {
+                        for (albumSnapshot in categorySnapshot.child("albums").children) {
+                            for (episodeSnapshot in albumSnapshot.child("episodes").children) {
+                                val episodeAudio = episodeSnapshot.child("img").value.toString()
+                                if (episodeAudio.contains(authId)) {
+                                    val categoryName = categorySnapshot.child("cate_name").value.toString()
+
+                                    val albumName = albumSnapshot.child("album_name").value.toString()
+
+                                    val episodeDate = episodeSnapshot.child("date").value.toString()
+
+
+                                    val episodeDes = episodeSnapshot.child("descript").value.toString()
+
+                                    val episodeImage = episodeSnapshot.child("img").value.toString()
+
+
+
+                                    val episodeName = episodeSnapshot.child("title").value.toString()
+
+
+                                    list.add(MyPodCastData(episodeImage.toUri(),categoryName,albumName,episodeName,episodeDes,""))
+
+
+
+                                }
+                            }
+                        }
+                    }
+                }
+
 
                 adapter = MyPodcastAdapter(requireContext(), R.layout.my_podcast_item, list)
                 listView = view.findViewById(R.id.lvMyPodcast)
