@@ -106,6 +106,7 @@ class AddNewPodcastFragment : Fragment() {
         }
 
         categorySource = ""
+        albumSource = ""
         chonDanhmuc()
 
 //        chonAlbum()

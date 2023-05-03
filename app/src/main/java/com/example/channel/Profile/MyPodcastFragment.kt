@@ -27,6 +27,7 @@ class MyPodcastFragment : Fragment() {
     private lateinit var adapter: MyPodcastAdapter
     private lateinit var auth: FirebaseAuth
     private lateinit var authId: String
+    private var episodeID:String=""
 
 
     override fun onCreateView(
@@ -61,6 +62,7 @@ class MyPodcastFragment : Fragment() {
                                 val albumName = albumSnapshot.child("album_name").value.toString()
                                 Log.d("albumName",albumName)
                                 for(episodeSnapShot in categorySnapshot.child("albums").child("episodes").children){
+                                    episodeID = episodeSnapShot.key.toString()
                                     val episodeDate = episodeSnapShot.child("date").value.toString()
                                     Log.d("episodeDate",episodeDate)
 
@@ -73,7 +75,7 @@ class MyPodcastFragment : Fragment() {
 
                                     val episodeName = episodeSnapShot.child("title").value.toString()
                                     Log.d("episodeName",episodeName)
-                                    list.add(MyPodCastData(LogoImage.toUri(),categoryName,albumName,episodeName,episodeDes,""))
+                                    list.add(MyPodCastData(LogoImage.toUri(),categoryName,albumName,episodeName,episodeDes,episodeID))
 
                                 }
 
@@ -103,6 +105,8 @@ class MyPodcastFragment : Fragment() {
                             for (episodeSnapshot in albumSnapshot.child("episodes").children) {
                                 val episodeAudio = episodeSnapshot.child("img").value.toString()
                                 if (episodeAudio.contains(authId)) {
+
+                                    episodeID = episodeSnapshot.key.toString()
                                     val categoryName = categorySnapshot.child("cate_name").value.toString()
 
                                     val albumName = albumSnapshot.child("album_name").value.toString()
@@ -119,7 +123,7 @@ class MyPodcastFragment : Fragment() {
                                     val episodeName = episodeSnapshot.child("title").value.toString()
 
 
-                                    list.add(MyPodCastData(episodeImage.toUri(),categoryName,albumName,episodeName,episodeDes,""))
+                                    list.add(MyPodCastData(episodeImage.toUri(),categoryName,albumName,episodeName,episodeDes,episodeID))
 
 
 

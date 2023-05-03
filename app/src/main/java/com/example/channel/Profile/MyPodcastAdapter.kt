@@ -48,7 +48,7 @@ class MyPodcastAdapter(context: Context, resource: Int, list: List<MyPodCastData
             // Xử lý lỗi tại đây
         }
 
-        uri_podcast?.text = currentItem?.uri_podcast
+     //   uri_podcast?.text = currentItem?.uri_podcast
 
 
 
