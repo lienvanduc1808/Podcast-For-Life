@@ -32,7 +32,7 @@ class MyPodcastAdapter(context: Context, resource: Int, list: List<MyPodCastData
         ten_tap?.text =currentItem?.ten_tap
         mo_ta?.text = currentItem?.mo_ta
         ten_Danh_Muc?.text = currentItem?.danh_muc
-        val storage = FirebaseStorage.getInstance().getReference("Episode/")
+        val storage = FirebaseStorage.getInstance().getReference("Album/")
         val imageRef = storage.child(currentItem?.img_podcast.toString())
         var imageUrl:String=""
 

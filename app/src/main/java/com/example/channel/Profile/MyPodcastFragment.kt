@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
 import androidx.core.net.toUri
+import com.example.channel.Profile.AddNewPodcastFragment
 
 import com.example.channel.R
 import com.google.firebase.auth.FirebaseAuth
@@ -51,30 +52,46 @@ class MyPodcastFragment : Fragment() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (categorySnapshot in dataSnapshot.children) {
                     for (albumSnapshot in categorySnapshot.child("albums").children) {
-                        for (episodeSnapshot in albumSnapshot.child("episodes").children) {
-                            val episodeAudio = episodeSnapshot.child("episode_audio").value.toString()
-                            if (episodeAudio.contains(authId)) {
-                                val categoryName = categorySnapshot.child("cate_name").value.toString()
-
-                                val albumName = albumSnapshot.child("album_name").value.toString()
-
-                                val episodeDate = episodeSnapshot.child("episode_date").value.toString()
-
-
-                                val episodeDes = episodeSnapshot.child("episode_des").value.toString()
-
-                                val episodeImage = episodeSnapshot.child("episode_image").value.toString()
+                        val LogoImage = albumSnapshot.child("logo_album").value.toString()
+                        Log.d("logoImage",LogoImage)
+                        if (LogoImage.contains(authId)) {
+                            val categoryName = categorySnapshot.child("cate_name").value.toString()
+                            Log.d("categoryName",categoryName)
+                            val albumName = albumSnapshot.child("album_name").value.toString()
+                            Log.d("albumName",albumName)
+                            for(episodeSnapShot in categorySnapshot.child("albums").child("episodes").children){
+                                val episodeDate = episodeSnapShot.child("date").value.toString()
+                                Log.d("episodeDate",episodeDate)
 
 
+                                val episodeDes = episodeSnapShot.child("descript").value.toString()
+                                Log.d("episodeDes",episodeDes)
 
-                                val episodeName = episodeSnapshot.child("episode_name").value.toString()
+                                val episodeImage = episodeSnapShot.child("img").value.toString()
+                                Log.d("episodeImage",episodeImage)
 
-
-                                list.add(MyPodCastData(episodeImage.toUri(),categoryName,albumName,episodeName,episodeDes,""))
-
-
+                                val episodeName = episodeSnapShot.child("title").value.toString()
+                                Log.d("episodeName",episodeName)
+                                list.add(MyPodCastData(LogoImage.toUri(),categoryName,albumName,episodeName,episodeDes,""))
 
                             }
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        }
+                        for (episodeSnapshot in albumSnapshot.child("episodes").children) {
+
+
                         }
                     }
                 }
@@ -158,7 +175,8 @@ class MyPodcastFragment : Fragment() {
 
         val txtTaoMoi = view.findViewById<TextView>(R.id.txtTaoMoi)
         txtTaoMoi.setOnClickListener {
-            val fragment = AddNewPodcastFragment()
+            val fragment =
+                AddNewPodcastFragment()
             parentFragmentManager.beginTransaction()
                 .add(R.id.frame_layout, fragment)
                 .addToBackStack(null)
