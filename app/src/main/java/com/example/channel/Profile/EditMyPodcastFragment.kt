@@ -156,7 +156,7 @@ class EditMyPodcastFragment : Fragment() {
                                         updates["descript"] = etDescription4.text.toString()
 
                                         myRef.updateChildren(updates)
-                                        parentFragmentManager.popBackStack()
+                                        replaceFragment(MyPodcastFragment())
 
 
 
@@ -199,7 +199,7 @@ class EditMyPodcastFragment : Fragment() {
                                         Log.d("RealRef",reafRef)
                                         val myRef = database.getReference(reafRef)
                                         myRef.removeValue()
-                                        parentFragmentManager.popBackStack()
+                                        replaceFragment(MyPodcastFragment())
 
 
 
