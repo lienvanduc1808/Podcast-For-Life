@@ -17,18 +17,28 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class SearchAlbumFragment : Fragment(), SearchView.OnQueryTextListener {
+class SearchAlbumFragment : Fragment(), SearchView.OnQueryTextListener,  AlbumAdapter.OnItemClickListener {
 
     private lateinit var searchView: SearchView
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: AlbumAdapter
 
+    override fun onItemClick(album: Album) {
+        TODO("Not yet implemented")
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_search_album, container, false)
         searchView = view.findViewById(R.id.search_view)
         recyclerView = view.findViewById(R.id.search_results)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = AlbumAdapter(emptyList())
+        adapter = AlbumAdapter(emptyList(), object : AlbumAdapter.OnItemClickListener {
+            override fun onItemClick(album: Album) {
+                // Handle album click event here
+                searchView.setQuery(album.name, true)
+                replaceFragment(NgheNgayFragment())
+            }
+        })
+
         recyclerView.adapter = adapter
         searchView.setOnQueryTextListener(this)
         return view
@@ -38,19 +48,14 @@ class SearchAlbumFragment : Fragment(), SearchView.OnQueryTextListener {
         return false
     }
 
-    override fun onQueryTextChange(newText: String?): Boolean {
-        val results = performSearch(newText)
-        adapter.setItems(results)
-        Log.d("elog", "The value of myValue is: $newText")
-        return true
-    }
-
-    private fun performSearch(searchTerm: String? ): List<Album> {
-        // Perform search and return list of search results
-      //  val allAlbums = getAllAlbums() // Get all the albums from your data source
+    override fun onQueryTextChange(searchTerm: String?): Boolean {
+        //val results = performSearch(newText)
+        Log.d("alog", "The value of search is: $searchTerm")
         val database = Firebase.database
         val reference = database.getReference("categories")
         val allAlbums = arrayListOf<Album>()
+        val results = mutableListOf<Album>()
+        //var resultsOff = mutableListOf<Album>()
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
 
@@ -63,12 +68,23 @@ class SearchAlbumFragment : Fragment(), SearchView.OnQueryTextListener {
                         if (albumName != null && channel != null && logoAlbum != null) {
                             val album = Album(albumName, channel, logoAlbum)
                             allAlbums.add(album)
+                            Log.d("pplog", "The value of myValue is: $album")
                         }
-                    }
 
-                    Log.d("hnlog", "The value of myValue is: $allAlbums")
+                    }
                 }
 
+                Log.d("pthnlog", "The value of myValue is: $allAlbums")
+                for (album in allAlbums) {
+
+                    Log.d("blog", "The value of search is: ${album.name}")
+                    if (searchTerm?.let { album.name.contains(it, ignoreCase = true) } == true) {
+                        results.add(album)
+                    }
+                }
+                Log.d("mmlog", "The value of myValue is: $results")
+                adapter.setItems(results)
+                Log.d("elog", "The value of myValue is: $results")
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -77,15 +93,16 @@ class SearchAlbumFragment : Fragment(), SearchView.OnQueryTextListener {
             }
         })
 
-        val results = mutableListOf<Album>()
-        for (album in allAlbums) {
-            Log.d("alog", "The value of search is: $searchTerm")
-            Log.d("blog", "The value of search is: ${album.name}")
-            if (searchTerm?.let { album.name.contains(it, ignoreCase = true) } == true) {
-                results.add(album)
-            }
-        }
-        return results
+
+        return true
     }
+    private fun replaceFragment(fragment: Fragment){
+        val fragmentManager = parentFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.frame_layout, fragment).addToBackStack(null)
+        fragmentTransaction.commit()
+    }
+
+
 
 }
