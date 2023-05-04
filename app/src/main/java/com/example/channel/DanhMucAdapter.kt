@@ -10,24 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-//class DanhMucAdapter(private val items: List<DanhMuc>) :
-//    RecyclerView.Adapter<ItemViewHolder>() {
-//
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-//        val view = LayoutInflater.from(parent.context)
-//            .inflate(R.layout.item_danh_muc, parent, false)
-//
-//        return ItemViewHolder(view)
-//    }
-//
-//    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-//        val item = items[position]
-//        holder.text1.text = item.name
-//        holder.image.setImageResource(item.image)
-//    }
-//
-//    override fun getItemCount() = items.size
-//}
 class DanhMucAdapter(private val data: ArrayList<DanhMuc>,val context: Context) : RecyclerView.Adapter<DanhMucAdapter.ViewHolder>() {
     var onItemClick: ((DanhMuc) -> Unit)? = null
 
