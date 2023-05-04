@@ -1,16 +1,22 @@
 package com.example.channel
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.google.firebase.storage.FirebaseStorage
 
 class ItemDanhMucAdapter(private val carouselDataList: ArrayList<Album>, val context: Context) :RecyclerView.Adapter<ItemDanhMucAdapter.CarouselItemViewHolder>()  {
     var onItemClick: ((Album) -> Unit)? = null
+
+
 
     inner class CarouselItemViewHolder(view: View) : RecyclerView.ViewHolder(view){
         val albumNameTV = view.findViewById<TextView>(R.id.tvAlbumName)
@@ -34,8 +40,19 @@ class ItemDanhMucAdapter(private val carouselDataList: ArrayList<Album>, val con
         albumNameTV.setText(album.name)
         val albumArtistTV = holder.albumArtistTV
         albumArtistTV.setText(album.channel)
-        val logoIV = holder.albumLogoIV
-        logoIV.setImageResource(album.logo)
+
+        val storageRef = FirebaseStorage.getInstance().reference
+        val logo = album.logo
+        val imageRef = storageRef.child("Album/$logo")
+
+        // Get the download URL of the image
+        imageRef.downloadUrl.addOnSuccessListener { uri ->
+            // Use the URL to display the image
+            Glide.with(context).load(uri).into(holder.albumLogoIV)
+        }.addOnFailureListener { exception ->
+            // Handle any errors
+            Log.e("FirebaseStorage", "Error getting download URL", exception)
+        }
 
 
         holder.itemView.setOnClickListener{
