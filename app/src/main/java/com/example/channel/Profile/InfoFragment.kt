@@ -67,6 +67,8 @@ class InfoFragment : Fragment() {
         databaseReference = FirebaseDatabase.getInstance().getReference("users").child(auth.currentUser!!.uid)
         storageReference =  FirebaseStorage.getInstance().getReference("User/"+auth.currentUser?.uid)
 
+
+
         avatar = view.findViewById(R.id.avatar)
         etName = view.findViewById(R.id.etName)
         etAddress = view.findViewById(R.id.etAddress)
@@ -114,7 +116,9 @@ class InfoFragment : Fragment() {
     }
 
     fun saveInfo(){
-        databaseReference.setValue(userData(etName.text.toString(), etAddress.text.toString(), etEmail.text.toString()))
+        databaseReference.child("name").setValue(etName.text.toString())
+        databaseReference.child("address").setValue(etAddress.text.toString())
+        databaseReference.child("email").setValue(etEmail.text.toString())
         storageReference.putFile(uri).addOnCompleteListener{
         }.addOnFailureListener{
             parentFragmentManager.popBackStack()

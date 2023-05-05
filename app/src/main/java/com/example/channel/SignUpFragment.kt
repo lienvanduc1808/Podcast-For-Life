@@ -12,6 +12,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.example.channel.NgheNgay.albumData
+import com.example.channel.NgheNgay.episodeData
 import com.example.channel.databinding.FragmentSignUpBinding
 import com.firebase.ui.auth.AuthUI.TAG
 import com.google.firebase.auth.FirebaseAuth
@@ -82,7 +84,12 @@ class SignUpFragment : Fragment() {
                     databaseReference = FirebaseDatabase.getInstance().getReference("users")
                     Log.i("b", databaseReference.toString())
                     if(user?.uid != null){
-                        val userprofile = userData(etName.text.toString(), etAddress.text.toString(), etEmail.text.toString())
+                        val userprofile = userData(etName.text.toString(),
+                                                   etAddress.text.toString(),
+                                                   etEmail.text.toString(),
+                                                   listOf<String>(),
+                                                   listOf<String>(),
+                                                   listOf<String>())
                         databaseReference.child(user.uid).setValue(userprofile).addOnCompleteListener {
                             if(it.isSuccessful){
                                 Toast.makeText(

@@ -2,6 +2,7 @@ package com.example.channel.NgheNgay
 
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,11 @@ import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.TextView
 import com.example.channel.R
+import com.google.firebase.FirebaseError
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 
 
 class ListTapAdapter(context: Context, resource: Int,  list: List<ListTapData>):
@@ -22,6 +28,13 @@ class ListTapAdapter(context: Context, resource: Int,  list: List<ListTapData>):
         }
 
         val currentItem = getItem(position)
+
+        val auth: FirebaseAuth
+        val storageReference: StorageReference
+        val databaseReference: DatabaseReference
+
+        auth = FirebaseAuth.getInstance()
+        databaseReference = FirebaseDatabase.getInstance().getReference("users/"+auth.currentUser?.uid)
 
         val ngayThang = rowView?.findViewById<TextView>(R.id.txtThoiGian)
         val tenTap = rowView?.findViewById<TextView>(R.id.txtTenTap)
@@ -39,8 +52,11 @@ class ListTapAdapter(context: Context, resource: Int,  list: List<ListTapData>):
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.menuSave -> {
-
-
+                    databaseReference.get().addOnSuccessListener {
+                        if (it.exists()){
+                            databaseReference.child("saved").push().setValue("zfOmRg42BEYgMyi0P2SyT9fJ4S52alb15ep1")
+                        }
+                    }
                     true
                 }
                 R.id.menuDownload -> {

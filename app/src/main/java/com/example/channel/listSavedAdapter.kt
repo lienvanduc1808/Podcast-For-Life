@@ -1,18 +1,28 @@
 package com.example.channel
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
+import com.bumptech.glide.Glide
+import com.example.channel.Library.tapData
 import com.example.channel.NgheNgay.EpisodeBottomSheet
 import com.example.channel.NgheNgay.episodeData
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.makeramen.roundedimageview.RoundedImageView
-class ListSavedAdapter(context: Context, resource: Int, objects: List<episodeData>):
-    ArrayAdapter<episodeData>(context, resource, objects) {
+class ListSavedAdapter(context: Context, resource: Int, objects: MutableList<tapData>):
+    ArrayAdapter<tapData>(context, resource, objects) {
 
+    private lateinit var storageReference: StorageReference
     private val popupWindows = mutableMapOf<Int, PopupWindow>()
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var itemView = convertView
@@ -23,8 +33,16 @@ class ListSavedAdapter(context: Context, resource: Int, objects: List<episodeDat
         var popupWindow: PopupWindow? = null
         val currentItem = getItem(position)
 
-        val itemImg = itemView?.findViewById<RoundedImageView>(R.id.rivCover)
-        itemImg?.setBackgroundResource(currentItem!!.img)
+        val itemImg = itemView?.findViewById<ImageView>(R.id.rivCover)
+
+        storageReference =  FirebaseStorage.getInstance().getReference("Album/${currentItem?.img}")
+
+        storageReference.downloadUrl.addOnSuccessListener { uri ->
+            Log.i("url", uri.toString())
+            Glide.with(itemView!!.context).load(uri).into(itemImg!!)
+        }.addOnFailureListener { exception ->
+            // Xử lý khi không lấy được link URL của ảnh
+        }
 
         val itemDate = itemView?.findViewById<TextView>(R.id.dateUpload)
         itemDate?.text = currentItem?.date
