@@ -62,11 +62,13 @@ class SearchAlbumFragment : Fragment(), SearchView.OnQueryTextListener,  AlbumAd
                 for (categorySnapshot in snapshot.children) {
 
                     for (albumSnapshot in categorySnapshot.child("albums").children) {
+                        Log.d("allog", "The value of id album is: ${albumSnapshot.key}")
+                        val idAlbum =  albumSnapshot.key as String
                         val albumName = albumSnapshot.child("album_name").value as? String
                         val channel = albumSnapshot.child("channel").value as? String
                         val logoAlbum = albumSnapshot.child("logo_album").value as? String
                         if (albumName != null && channel != null && logoAlbum != null) {
-                            val album = Album(albumName, channel, logoAlbum)
+                            val album = Album(albumName, channel, logoAlbum, idAlbum)
                             allAlbums.add(album)
                             Log.d("pplog", "The value of myValue is: $album")
                         }
