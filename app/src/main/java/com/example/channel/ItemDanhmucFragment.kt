@@ -204,9 +204,10 @@ class ItemDanhmucFragment : Fragment() {
                         val album = Album(albumName!!, channel!!, logoAlbum!!,idAlbum!!)
                         items2.add(album)
                     }
+                val itemShuffle = items2.shuffled().take(7)
 
 
-                adapter2 = ItemDanhMucAdapter(items2, requireContext())
+                adapter2 = ItemDanhMucAdapter(itemShuffle as ArrayList<Album>, requireContext())
                 viewPager2 = view!!.findViewById<ViewPager2>(R.id.viewPager2)
 
                 viewPager2.apply {
