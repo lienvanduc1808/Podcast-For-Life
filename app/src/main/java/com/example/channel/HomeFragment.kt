@@ -69,19 +69,27 @@ class HomeFragment : Fragment() {
                 for (categorySnapshot in snapshot.children) {
 
                     for (albumSnapshot in categorySnapshot.child("albums").children) {
-                        val idAlbum = albumSnapshot.key as String
+                        val idAlbum =  albumSnapshot.key.toString()
                         val albumName = albumSnapshot.child("album_name").value as String
+
                         val channel = albumSnapshot.child("channel").value as String
                         val logoAlbum = albumSnapshot.child("logo_album").value as String
                         Log.d("fridaylog", "The value of logo name is: $logoAlbum")
-                        val album = Album(albumName, channel, logoAlbum, idAlbum)
+                        val album = Album(albumName, channel, logoAlbum,idAlbum)
                         items.add(album)
+
+
+
+
                     }
                     Log.d("hnlog", "The value of myValue is: $items")
                 }
                 adapter = HomeAdapter(items, requireContext())
                 adapter.onItemClick = { album ->
                     // Handle click events on album items here
+
+
+
                 }
                 viewPager = view.findViewById<ViewPager2>(R.id.viewPager)
                 viewPager.apply {
@@ -108,12 +116,13 @@ class HomeFragment : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
 
                 for (categorySnapshot in snapshot.children) {
+
                     for (albumSnapshot in categorySnapshot.child("albums").children) {
-                        val idAlbum = albumSnapshot.key as String
+                        val idAlbum =  albumSnapshot.key.toString()
                         val albumName = albumSnapshot.child("album_name").value as String
                         val channel = albumSnapshot.child("channel").value as String
                         val logoAlbum = albumSnapshot.child("logo_album").value as String
-                        val album = Album(albumName, channel, logoAlbum, idAlbum)
+                        val album = Album(albumName, channel, logoAlbum,idAlbum)
                         items2.add(album)
                     }
                 }

@@ -3,6 +3,7 @@ package com.example.channel
 
 
 import android.content.Context
+import android.os.Bundle
 import android.util.Log
 
 
@@ -62,6 +63,13 @@ class XemTatCaAdapter(private val items: ArrayList<Album>, val context: Context)
                 .replace(R.id.frame_layout, NgheNgayFragment())
                 .addToBackStack(null)
                 .commit()
+
+            val send_data = Bundle().apply {
+                putString("idAlbum", item.id_album.toString())
+                Log.d("idAlbum",item.id_album.toString())
+
+            }
+            (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_idAlbum", send_data)
         }
     }
 

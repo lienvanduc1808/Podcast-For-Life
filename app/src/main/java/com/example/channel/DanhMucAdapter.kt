@@ -1,6 +1,8 @@
 package com.example.channel
 
 import android.content.Context
+import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,9 +32,29 @@ class DanhMucAdapter(private val data: ArrayList<DanhMuc>,val context: Context) 
                 0 -> {
                     onItemClick?.invoke(DanhMuc("New Fragment 1", ""))
                 }
-                else -> {
-                    onItemClick?.invoke(DanhMuc("New Fragment 2", ""))
+                1 -> {
+                    onItemClick?.invoke(DanhMuc("Tin tức", ""))
+
                 }
+                2 -> {
+                    onItemClick?.invoke(DanhMuc("Thể thao", ""))
+
+                }
+                3 -> {
+                    onItemClick?.invoke(DanhMuc("Hài", ""))
+
+                }
+                4 -> {
+                    onItemClick?.invoke(DanhMuc("Kinh doanh", ""))
+
+                }
+                5 -> {
+                    onItemClick?.invoke(DanhMuc("Xã hội và văn hóa", ""))
+
+                }
+
+
+
             }
         }
 

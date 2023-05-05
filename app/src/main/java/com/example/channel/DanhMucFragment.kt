@@ -65,8 +65,85 @@ class DanhMucFragment : Fragment() {
                         "New Fragment 1" -> {
                             replaceFragment(RankingTableFragment())
                         }
-                        "New Fragment 2" -> {
-                            replaceFragment(HomeFragment())
+                        "Tin tức" -> {
+                            val fragment = ItemDanhmucFragment()
+                            parentFragmentManager.beginTransaction()
+                                .add(R.id.frame_layout, fragment)
+                                .addToBackStack(null)
+                                .hide(this@DanhMucFragment)
+                                .commit()
+
+                            val send_data = Bundle().apply {
+                                putString("tendanhmuc",danhMuc.name )
+
+                            }
+                            parentFragmentManager.setFragmentResult("send_dm", send_data)
+
+
+                        }
+                        "Thể thao" -> {
+                            val fragment = ItemDanhmucFragment()
+                            parentFragmentManager.beginTransaction()
+                                .add(R.id.frame_layout, fragment)
+                                .addToBackStack(null)
+                                .hide(this@DanhMucFragment)
+                                .commit()
+
+                            val send_data = Bundle().apply {
+                                putString("tendanhmuc",danhMuc.name )
+
+                            }
+                            parentFragmentManager.setFragmentResult("send_dm", send_data)
+
+
+                        }
+                        "Hài" -> {
+                            val fragment = ItemDanhmucFragment()
+                            parentFragmentManager.beginTransaction()
+                                .add(R.id.frame_layout, fragment)
+                                .addToBackStack(null)
+                                .hide(this@DanhMucFragment)
+                                .commit()
+
+                            val send_data = Bundle().apply {
+                                putString("tendanhmuc",danhMuc.name )
+
+                            }
+                            parentFragmentManager.setFragmentResult("send_dm", send_data)
+
+
+                        }
+                        "Kinh doanh" -> {
+                            val fragment = ItemDanhmucFragment()
+                            parentFragmentManager.beginTransaction()
+                                .add(R.id.frame_layout, fragment)
+                                .addToBackStack(null)
+                                .hide(this@DanhMucFragment)
+                                .commit()
+
+                            val send_data = Bundle().apply {
+                                putString("tendanhmuc",danhMuc.name )
+
+                            }
+                            parentFragmentManager.setFragmentResult("send_dm", send_data)
+
+
+                        }
+                        "Xã hội và văn hóa" -> {
+                            val fragment = ItemDanhmucFragment()
+                            parentFragmentManager.beginTransaction()
+                                .add(R.id.frame_layout, fragment)
+                                .addToBackStack(null)
+                                .hide(this@DanhMucFragment)
+                                .commit()
+
+                            val send_data = Bundle().apply {
+                                putString("tendanhmuc",danhMuc.name )
+
+                            }
+                            parentFragmentManager.setFragmentResult("send_dm", send_data)
+
+
                         }
                     }
                 }
