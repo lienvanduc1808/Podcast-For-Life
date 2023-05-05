@@ -160,7 +160,7 @@ class ItemDanhmucFragment : Fragment() {
                     val channel = albumSnapshot.child("channel").value as? String
                     val logoAlbum = albumSnapshot.child("logo_album").value as? String
                     Log.d("fridaylog", "The value of logo name is: $logoAlbum")
-                    val album = Album(albumName!!, channel!!, logoAlbum!!, idAlbum)
+                    val album = Album(albumName!!, channel!!, logoAlbum!!,idAlbum!!)
                     items.add(album)
                 }
                 Log.d("hnlog", "The value of myValue is: $items")
@@ -201,7 +201,7 @@ class ItemDanhmucFragment : Fragment() {
                         val albumName = albumSnapshot.child("album_name").value as? String
                         val channel = albumSnapshot.child("channel").value as? String
                         val logoAlbum = albumSnapshot.child("logo_album").value as? String
-                        val album = Album(albumName!!, channel!!, logoAlbum!!, idAlbum)
+                        val album = Album(albumName!!, channel!!, logoAlbum!!,idAlbum!!)
                         items2.add(album)
                     }
 

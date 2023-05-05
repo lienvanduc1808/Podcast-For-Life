@@ -1,6 +1,7 @@
 package com.example.channel
 
 import android.content.Context
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -60,6 +61,13 @@ class ItemDanhMucAdapter(private val carouselDataList: ArrayList<Album>, val con
                 .replace(R.id.frame_layout, NgheNgayFragment())
                 .addToBackStack(null)
                 .commit()
+
+            val send_data = Bundle().apply {
+                putString("idAlbum", album.id_album.toString())
+                Log.d("idAlbum",album.id_album.toString())
+
+            }
+            (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_idAlbum", send_data)
         }
     }
 

@@ -7,11 +7,7 @@ android:layout_height="match_parent">
     <SearchView
         android:id="@+id/search_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:background="@drawable/custom_search_view"
-        android:gravity = "center"/>
+        android:layout_height="wrap_content" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_results"

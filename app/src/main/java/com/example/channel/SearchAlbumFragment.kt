@@ -68,7 +68,7 @@ class SearchAlbumFragment : Fragment(), SearchView.OnQueryTextListener,  AlbumAd
                         val channel = albumSnapshot.child("channel").value as? String
                         val logoAlbum = albumSnapshot.child("logo_album").value as? String
                         if (albumName != null && channel != null && logoAlbum != null) {
-                            val album = Album(albumName, channel, logoAlbum, idAlbum)
+                            val album = Album(albumName, channel, logoAlbum,idAlbum!!)
                             allAlbums.add(album)
                             Log.d("pplog", "The value of myValue is: $album")
                         }
