@@ -114,7 +114,7 @@ class AddNewPodcastFragment : Fragment() {
 
         txtXong.setOnClickListener {
             createEpisode()
-            replaceFragment(MyPodcastFragment())
+            parentFragmentManager.popBackStack()
         }
 
     }

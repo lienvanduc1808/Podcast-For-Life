@@ -9,8 +9,8 @@ import android.widget.TextView
 import com.example.channel.R
 import com.example.channel.testData
 
-class ListOpisodeAdapter(context: Context, resource: Int, objects: List<testData>):
-    ArrayAdapter<testData>(context, resource, objects) {
+class ListOpisodeAdapter(context: Context, resource: Int, objects: List<episodeData>):
+    ArrayAdapter<episodeData>(context, resource, objects) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var itemView = convertView
         if (itemView == null) {
@@ -19,14 +19,14 @@ class ListOpisodeAdapter(context: Context, resource: Int, objects: List<testData
 
         val currentItem = getItem(position)
 
-        val itemDate = itemView?.findViewById<TextView>(R.id.dateUpload)
-        itemDate?.text = currentItem?.date
-
         val itemName = itemView?.findViewById<TextView>(R.id.nameOpisode)
-        itemName?.text = currentItem?.opisode
+        itemName?.text = currentItem?.title
 
         val itemDescript = itemView?.findViewById<TextView>(R.id.descriptOpisode)
         itemDescript?.text = currentItem?.descript
+
+        val itemDate = itemView?.findViewById<TextView>(R.id.dateUpload)
+        itemDate?.text = currentItem?.date
 
         return itemView!!
     }

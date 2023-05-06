@@ -1,6 +1,7 @@
 package com.example.channel.NgheNgay
 
 import android.annotation.SuppressLint
+import android.content.res.Resources
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,8 +10,16 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ListView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager2.widget.CompositePageTransformer
+import androidx.viewpager2.widget.MarginPageTransformer
 import com.example.channel.R
 import com.example.channel.Search.reviewData
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 
 
 class AllReviewFragment : Fragment() {
@@ -19,6 +28,13 @@ class AllReviewFragment : Fragment() {
     lateinit var tvBack: TextView
     lateinit var tvMakeReview2: TextView
     lateinit var lvAllReview: ListView
+
+    private lateinit var idCategory: String
+    private lateinit var idAlbum: String
+    private val reviews = arrayListOf<reviewData>()
+
+    private lateinit var databaseReference: DatabaseReference
+    private lateinit var userReference: DatabaseReference
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
@@ -36,30 +52,67 @@ class AllReviewFragment : Fragment() {
             parentFragmentManager.popBackStack()
         }
 
+        lvAllReview = view.findViewById(R.id.lvAllReview)
+
         tvMakeReview2 = view.findViewById(R.id.tvMakeReview2)
-        tvMakeReview2?.setOnClickListener {
-            ReviewBottomSheet().show(getParentFragmentManager(), "Review screen")
-        }
+
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val compositePageTransformer = CompositePageTransformer()
+        compositePageTransformer.addTransformer(MarginPageTransformer((5 * Resources.getSystem().displayMetrics.density).toInt()))
 
-        val exReview = arrayListOf(
-            reviewData("Album 1", "user 1", 3, "ngonngonngonngonngon", "12/12/2012"),
-            reviewData("Album 1", "user 1", 4, "ngonngononngon", "12/12/2012"),
-            reviewData("Album 1", "user 1", 2, "ngngonngonngonon", "12/12/2012"),
-            reviewData("Album 1", "user 1", 1, "ngngonngonon", "12/12/2012"),
-            reviewData("Album 1", "user 1", 4, "ngngonngonon", "12/12/2012"),
-            reviewData("Album 1", "user 1", 5, "ngngonngonngonngonon", "12/12/2012"),
-            reviewData("Album 1", "user 1", 2, "ngngonngonon", "12/12/2012")
-        )
+        databaseReference = FirebaseDatabase.getInstance().getReference("categories")
+        userReference = FirebaseDatabase.getInstance().getReference("users")
 
-        //get by id
-        lvAllReview = view.findViewById(R.id.lvAllReview)
-        lvAllReview.adapter = ReviewAdapter4LV(requireContext(), R.layout.album_review, exReview)
+        parentFragmentManager.setFragmentResultListener("sendatafrNgheNgay2AllReview", this) { _, result ->
+            parentFragmentManager.beginTransaction().show(this@AllReviewFragment)
+            idCategory = result.getString("idCategory").toString()
+            idAlbum = result.getString("idAlbum").toString()
+
+            databaseReference.child("$idCategory/albums/$idAlbum").addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (reviewSnapshot in snapshot.child("reviews").children) {
+                        reviews.add(reviewData(
+                            findNameUser(reviewSnapshot.child("from").value.toString()),
+                            reviewSnapshot.child("rating").value.toString().toFloat(),
+                            reviewSnapshot.child("comment").value.toString(),
+                            reviewSnapshot.child("date").value.toString()))
+                    }
+
+                    lvAllReview.adapter = ReviewAdapter4LV(requireContext(), R.layout.album_review, reviews)
+
+                    val send_data = Bundle().apply {
+                        putString("ref", idAlbum)
+                    }
+                    parentFragmentManager.setFragmentResult("send_ref", send_data)
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    // Xử lý lỗi
+                    Toast.makeText(requireContext(), "Can not get data", Toast.LENGTH_SHORT);
+                }
+            })
+        }
+
+        tvMakeReview2?.setOnClickListener {
+            ReviewBottomSheet().show(getParentFragmentManager(), "Review screen")
+            val send_data = Bundle().apply {
+                putString("idCategory", idCategory)
+                putString("idAlbum", idAlbum)
+            }
+            (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("sendatafrAllReview2MakeReview", send_data)
+
+        }
     }
-
+    fun findNameUser(idUser: String): String{
+        var name = ""
+        userReference.child(idUser).get().addOnSuccessListener{
+            if (it.exists())
+                name = it.child("name").value.toString()
+        }
+        return name
+    }
 
 }

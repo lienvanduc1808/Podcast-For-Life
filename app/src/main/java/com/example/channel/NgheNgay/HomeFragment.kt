@@ -76,9 +76,10 @@ class HomeFragment : Fragment() {
                         val albumName = albumSnapshot.child("album_name").value.toString()
 //                        val channel = albumSnapshot.child("channel").value as String
                         val channel = albumSnapshot.child("channel").value.toString()
+                        val description = albumSnapshot.child("description").value.toString()
 //                        val logoAlbum = albumSnapshot.child("logo_album").value as String
                         val logoAlbum = albumSnapshot.child("logo_album").value.toString()
-                        items.add(albumData(albumName, channel, logoAlbum))
+                        items.add(albumData(albumName, channel, description, logoAlbum))
                     }
                     Log.d("hnlog", "The value of myValue is: $items")
                 }

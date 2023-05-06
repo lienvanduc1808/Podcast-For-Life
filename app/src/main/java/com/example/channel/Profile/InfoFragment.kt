@@ -59,6 +59,7 @@ class InfoFragment : Fragment() {
         etAddress = view.findViewById(R.id.etAddress)
         etEmail = view.findViewById(R.id.etEmail)
 
+        btnUpdate = view.findViewById(R.id.btnUpdate)
         return view
     }
 
@@ -82,7 +83,6 @@ class InfoFragment : Fragment() {
 
         }
 
-        btnUpdate = view.findViewById(R.id.btnUpdate)
         btnUpdate.setOnClickListener {
             saveInfo()
         }

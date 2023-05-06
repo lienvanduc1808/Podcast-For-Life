@@ -32,7 +32,7 @@ class ReviewAdapter(private val carouselDataList: ArrayList<reviewData>) :
         val review: reviewData = carouselDataList[position]
         holder.tvComment.setText(review.comment)
         holder.tvDateCmt.setText(review.date)
-        holder.tvUserCmt.setText(review.user)
+        holder.tvUserCmt.setText(review.from)
         holder.rbRating.setRating(review.rating.toFloat())
     }
 
@@ -60,7 +60,7 @@ class ReviewAdapter4LV(context: Context, resource: Int, objects: List<reviewData
         tvDateCmt?.text = currentItem?.date
 
         val tvUserCmt = itemView?.findViewById<TextView>(R.id.tvUserCmt)
-        tvUserCmt?.text = currentItem?.user
+        tvUserCmt?.text = currentItem?.from
 
         val rbRating = itemView?.findViewById<RatingBar>(R.id.rbRating)
         currentItem?.rating?.let { rbRating?.setRating(it.toFloat()) }

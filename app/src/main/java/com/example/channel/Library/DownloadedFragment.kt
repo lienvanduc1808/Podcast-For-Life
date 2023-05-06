@@ -53,7 +53,7 @@ class DownloadedFragment : Fragment() {
 
         )
 
-        rvListAlbumDownloaded.adapter = XemTatCaAdapter(items, requireContext())
+//        rvListAlbumDownloaded.adapter = XemTatCaAdapter(items, requireContext())
         rvListAlbumDownloaded.layoutManager = GridLayoutManager(context, 2)
 
 
