@@ -136,6 +136,23 @@ class NgheNgayFragment : Fragment() {
                                         reviewSnapshot.child("comment").value.toString(),
                                         reviewSnapshot.child("date").value.toString()))
                                 vpReview.adapter = ReviewAdapter(reviews)
+                                tvAllReview?.setOnClickListener {
+                                    parentFragmentManager.beginTransaction()
+                                        .replace(R.id.frame_layout, AllReviewFragment()).addToBackStack(null).commit()
+                                    val send_data = Bundle().apply {
+                                        putString("idCategory", idCategory)
+                                        putString("idAlbum", idAlbum)
+                                    }
+                                    (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("sendatafrNgheNgay2AllReview", send_data)
+                                }
+                                tvMakeReview?.setOnClickListener {
+                                    ReviewBottomSheet().show(getParentFragmentManager(), "Review screen")
+                                    val send_data = Bundle().apply {
+                                        putString("idCategory", idCategory)
+                                        putString("idAlbum", idAlbum)
+                                    }
+                                    (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("sendatafrNgheNgay2MakeReview", send_data)
+                                }
 
                                 val epiRef = albumSnapshot.ref.toString()
                                 val episoRef = epiRef.replace("https://testdb-80aa6-default-rtdb.firebaseio.com/","")
@@ -168,16 +185,6 @@ class NgheNgayFragment : Fragment() {
             pb1start = view.findViewById(R.id.pb1start)
             pb1start.setProgress(29)
             pb1start.setMax(100)
-        }
-
-        tvAllReview?.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, AllReviewFragment()).addToBackStack(null).commit()
-            val send_data = Bundle().apply {
-                putString("idCategory", idCategory)
-                putString("idAlbum", idAlbum)
-            }
-            (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("sendatafrNgheNgay2AllReview", send_data)
         }
     }
 

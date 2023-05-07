@@ -74,37 +74,48 @@ class ReviewBottomSheet : BottomSheetDialogFragment() {
             parentFragmentManager.beginTransaction().show(this@ReviewBottomSheet)
             idCategory = result.getString("idCategory").toString()
             idAlbum = result.getString("idAlbum").toString()
+            showData()
+        }
 
-            databaseReference.child("$idCategory/albums/$idAlbum").addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    for (reviewSnapshot in snapshot.child("reviews").children) {
-                        if (reviewSnapshot.child("from").value.toString().equals(auth.currentUser!!.uid)) {
-                            idCmt = reviewSnapshot.key.toString()
-                            rbRating2.setRating(reviewSnapshot.child("rating").value.toString().toFloat())
-                            etCmt.setText(reviewSnapshot.child("comment").value.toString())
-                            val send_data = Bundle().apply {
-                                putString("ref", idAlbum)
-                            }
-                            parentFragmentManager.setFragmentResult("send_ref", send_data)
-                            break
+        parentFragmentManager.setFragmentResultListener("sendatafrNgheNgay2MakeReview", this) { _, result ->
+            parentFragmentManager.beginTransaction().show(this@ReviewBottomSheet)
+            idCategory = result.getString("idCategory").toString()
+            idAlbum = result.getString("idAlbum").toString()
+            showData()
+        }
+
+    }
+
+    fun showData(){
+        databaseReference.child("$idCategory/albums/$idAlbum").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (reviewSnapshot in snapshot.child("reviews").children) {
+                    if (reviewSnapshot.child("from").value.toString().equals(auth.currentUser!!.uid)) {
+                        idCmt = reviewSnapshot.key.toString()
+                        rbRating2.setRating(reviewSnapshot.child("rating").value.toString().toFloat())
+                        etCmt.setText(reviewSnapshot.child("comment").value.toString())
+                        val send_data = Bundle().apply {
+                            putString("ref", idAlbum)
                         }
+                        parentFragmentManager.setFragmentResult("send_ref", send_data)
+                        break
                     }
                 }
-                override fun onCancelled(error: DatabaseError) {
-                }
-            })
-            tvPostReview?.setOnClickListener {
-                databaseReference = databaseReference.child("$idCategory/albums/$idAlbum/reviews")
-                if (idCmt == "")
-                    idCmt = databaseReference.push().key!!
-                databaseReference.child(idCmt).setValue(reviewData(auth.currentUser!!.uid, rbRating2.rating, etCmt.text.toString(), "getDate"))
-                //do post cmt feature
-                val send_data = Bundle().apply {
-                    putString("ref", idAlbum)
-                }
-                parentFragmentManager.setFragmentResult("send_ref", send_data)
-                dismiss()
             }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+        tvPostReview?.setOnClickListener {
+            databaseReference = databaseReference.child("$idCategory/albums/$idAlbum/reviews")
+            if (idCmt == "")
+                idCmt = databaseReference.push().key!!
+            databaseReference.child(idCmt).setValue(reviewData(auth.currentUser!!.uid, rbRating2.rating, etCmt.text.toString(), "getDate"))
+            //do post cmt feature
+            val send_data = Bundle().apply {
+                putString("ref", idAlbum)
+            }
+            parentFragmentManager.setFragmentResult("send_ref", send_data)
+            dismiss()
         }
     }
 }

@@ -103,7 +103,6 @@ class AllReviewFragment : Fragment() {
                 putString("idAlbum", idAlbum)
             }
             (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("sendatafrAllReview2MakeReview", send_data)
-
         }
     }
     fun findNameUser(idUser: String): String{
