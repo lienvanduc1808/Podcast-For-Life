@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.*
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContentProviderCompat.requireContext
 import com.bumptech.glide.Glide
 import com.example.channel.Library.tapData
@@ -70,6 +71,26 @@ class ListSavedAdapter(context: Context, resource: Int, objects: MutableList<tap
                 popupWindows[position]?.dismiss()
             } else {
                 popupWindows[position]?.showAsDropDown(itemButtonMoreHoriz, 0, 30)
+                val clDownloadEpisode = itemView?.findViewById<ConstraintLayout>(R.id.clDownloadEpisode)
+                val clGotoChannel = itemView?.findViewById<ConstraintLayout>(R.id.clGotoChannel)
+                val clUnSaved = itemView?.findViewById<ConstraintLayout>(R.id.clUnSaved)
+
+                var test = itemView?.findViewById<TextView>(R.id.test)
+                clDownloadEpisode?.setOnClickListener{
+                    Toast.makeText(itemView?.context, "Download", Toast.LENGTH_SHORT).show()
+                    test?.text = "CCCCCC"
+                    Log.i("adfasd", "adfasdfadsf")
+                }
+
+                clGotoChannel?.setOnClickListener{
+                    Toast.makeText(context, "Goto", Toast.LENGTH_SHORT).show()
+
+                }
+
+                clUnSaved?.setOnClickListener{
+                    Toast.makeText(context, "Unsaved", Toast.LENGTH_SHORT).show()
+
+                }
             }
 
         }
@@ -77,24 +98,10 @@ class ListSavedAdapter(context: Context, resource: Int, objects: MutableList<tap
         //open bottom sheet play episode
         var episodeBS = EpisodeBottomSheet()
         val ibPlayEpisode = itemView?.findViewById<ImageButton>(R.id.ibPlayEpisode)
+
         ibPlayEpisode?.setOnClickListener{
             //Mở tập podcast và đổi podcast thu nhỏ hiện tại
             episodeBS.show((context as AppCompatActivity).getSupportFragmentManager(), "Episode screen")
-                if(popupWindow == null){
-                    val popupView = LayoutInflater.from(context).inflate(R.layout.popup_more_horiz_saved, null)
-                    popupWindow = PopupWindow(popupView,800, ViewGroup.LayoutParams.WRAP_CONTENT)
-
-                    popupWindow?.setOnDismissListener {
-                        popupWindow = null
-                    }
-                    popupWindows[position] = popupWindow!!
-                }
-                if (popupWindows[position]?.isShowing == true) {
-                    popupWindows[position]?.dismiss()
-                } else {
-                    popupWindows[position]?.showAsDropDown(itemButtonMoreHoriz, 0, 30)
-                }
-
         }
 
         return itemView!!

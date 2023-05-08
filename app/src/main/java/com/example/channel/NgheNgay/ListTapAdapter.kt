@@ -1,7 +1,10 @@
 package com.example.channel.NgheNgay
 
 
+import android.app.DownloadManager
 import android.content.Context
+import android.net.Uri
+import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,12 +13,14 @@ import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.TextView
+import androidx.core.content.ContextCompat.getSystemService
 import com.example.channel.R
 import com.google.firebase.FirebaseError
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import java.io.File
 
 
 class ListTapAdapter(context: Context, resource: Int,  list: List<ListTapData>):
@@ -34,6 +39,7 @@ class ListTapAdapter(context: Context, resource: Int,  list: List<ListTapData>):
         val databaseReference: DatabaseReference
 
         auth = FirebaseAuth.getInstance()
+        storageReference = FirebaseStorage.getInstance().getReference("AudioEpisode/")
         databaseReference = FirebaseDatabase.getInstance().getReference("users/"+auth.currentUser?.uid)
 
         val ngayThang = rowView?.findViewById<TextView>(R.id.txtThoiGian)
@@ -54,12 +60,32 @@ class ListTapAdapter(context: Context, resource: Int,  list: List<ListTapData>):
                 R.id.menuSave -> {
                     databaseReference.get().addOnSuccessListener {
                         if (it.exists()){
-                            databaseReference.child("saved").push().setValue("zfOmRg42BEYgMyi0P2SyT9fJ4S52alb15ep1")
+                            databaseReference.child("saved").push().setValue("zfOmRg42BEYgMyi0P2SyT9fJ4S52alb16ep1")
                         }
                     }
                     true
                 }
                 R.id.menuDownload -> {
+                    val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+                    val fileAudio = storageReference.child("ep3")
+                    fileAudio.downloadUrl.addOnSuccessListener { uri ->
+                        // Khởi tạo yêu cầu tải xuống
+                        val request = DownloadManager.Request(uri)
+                        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
+                        request.setTitle("My MP3 File")
+                        request.setDescription("Downloading")
+                        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                        val musicDirectory = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC), "Podcast")
+                        if (!musicDirectory.exists()) {
+                            musicDirectory.mkdirs()
+                        }
+//                        val filePath = File(musicDirectory, "my1.mp3").path
+//                        Log.i("di", filePath.toString())
+//                        request.setDestinationUri(Uri.parse("file://$filePath"))
+                        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_MUSIC, "my.mp3")
+                        // Thực hiện yêu cầu tải xuống
+                        val downloadId = downloadManager.enqueue(request)
+                    }
 
                     true
                 }

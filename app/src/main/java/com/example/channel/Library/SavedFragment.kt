@@ -39,38 +39,50 @@ class SavedFragment : Fragment() {
         val episodeDatabase: DatabaseReference
 
         auth = FirebaseAuth.getInstance()
-        userDatabase = FirebaseDatabase.getInstance().getReference("users/${auth.currentUser?.uid}/downloaded")
-        episodeDatabase = FirebaseDatabase.getInstance().getReference("categories/category_id_2/")
+        userDatabase = FirebaseDatabase.getInstance().getReference("users/${auth.currentUser?.uid}/saved")
+        episodeDatabase = FirebaseDatabase.getInstance().getReference("categories/")
 
         userDatabase.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val downloadedChildrenList = dataSnapshot.children.map { it.value as String }
-                Log.i("saved", downloadedChildrenList.toString())
-                val albumsList = episodeDatabase.child("albums")
-                albumsList.orderByChild("albums").addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        val al = dataSnapshot.children.toList()
-                        var listSavedEpisode = mutableListOf<tapData>()
-                        Log.i("al", al.toString())
-                        for(dl in  downloadedChildrenList){
-                            var renewDl = dl.substring(0, dl.lastIndexOf("e"))
-                            val indexAlbum = binarySearch(renewDl, al)
-                            if (indexAlbum != -1){
-                                Log.i("right", renewDl)
+                val savedChildrenList = dataSnapshot.children.map { it.value as String }
+                var savedSize = savedChildrenList.size
+                Log.i("saved", savedChildrenList.toString())
 
-                                var es = al[indexAlbum].child("episodes").children.toList()
-                                var indexEpisode = binarySearch(dl, es)
-                                if(indexEpisode != -1){
-                                    Log.i("righttttt", dl)
-                                    var date = es[indexEpisode].child("date").value.toString()
-                                    var descript = es[indexEpisode].child("descript").value.toString()
-                                    var img = es[indexEpisode].child("img").value.toString()
-                                    var title = es[indexEpisode].child("title").value.toString()
-                                    listSavedEpisode.add(tapData(date, descript, img, title))
+                episodeDatabase.addValueEventListener(object: ValueEventListener {
+                    override fun onDataChange(categories: DataSnapshot) {
+                        var listSavedEpisode = mutableListOf<tapData>()
+
+                        for(category in categories.children){
+                            Log.i("size", savedSize.toString())
+                            if(savedSize == 0){
+                                break
+                            }
+                            val albumsList = category.child("albums")
+                            val al = albumsList.children.toList()
+                            for(dl in  savedChildrenList){
+                                if(savedSize == 0){
+                                    break
+                                }
+                                var renewDl = dl.substring(0, dl.lastIndexOf("e"))
+                                val indexAlbum = binarySearch(renewDl, al)
+                                if (indexAlbum != -1){
+                                    Log.i("right", renewDl)
+
+                                    var es = al[indexAlbum].child("episodes").children.toList()
+                                    var indexEpisode = binarySearch(dl, es)
+                                    if(indexEpisode != -1){
+                                        Log.i("righttttt", dl)
+                                        var date = es[indexEpisode].child("date").value.toString()
+                                        var descript = es[indexEpisode].child("descript").value.toString()
+                                        var img = es[indexEpisode].child("img").value.toString()
+                                        var title = es[indexEpisode].child("title").value.toString()
+                                        listSavedEpisode.add(tapData(date, descript, img, title))
+                                        savedSize -= 1
+                                    }
                                 }
                             }
-                        }
 
+                        }
                         Log.i("listEp", listSavedEpisode.toString())
                         listViewSaved = view.findViewById(R.id.lvSaved)
                         listSavedAdapter = ListSavedAdapter(requireContext(), R.layout.list_opisode, listSavedEpisode)
@@ -78,13 +90,14 @@ class SavedFragment : Fragment() {
 
                     }
 
-                    override fun onCancelled(databaseError: DatabaseError) {
-                        Log.e("error", "Lỗi khi đọc danh sách các DataSnapshot con", databaseError.toException())
+
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.e("error", "Lỗi khi đọc danh sách các DataSnapshot con", error.toException())
                     }
                 })
 
-                Log.i("downloaded", downloadedChildrenList.toString())
-                // Xử lý các DataSnapshot con ở đây
+
+             // Xử lý các DataSnapshot con ở đây
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
