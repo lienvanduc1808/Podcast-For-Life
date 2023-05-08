@@ -12,10 +12,15 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.channel.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 
 
-class ListTapAdapter(context: Context, resource: Int, list: List<episodeData>):
-    ArrayAdapter<episodeData>(context, resource, list) {
+class ListTapAdapter(context: Context, resource: Int, list: List<ListTapData>):
+    ArrayAdapter<ListTapData>(context, resource, list) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var rowView = convertView
@@ -31,11 +36,19 @@ class ListTapAdapter(context: Context, resource: Int, list: List<episodeData>):
         val imgBtnPlay = rowView?.findViewById<ImageButton>(R.id.imgBtnPlay)
         val imgbtnMore = rowView?.findViewById<ImageButton>(R.id.imgBtnMore)
 
+        val auth: FirebaseAuth
+        val storageReference: StorageReference
+        val databaseReference: DatabaseReference
+
+        auth = FirebaseAuth.getInstance()
+        storageReference = FirebaseStorage.getInstance().getReference("AudioEpisode/")
+        databaseReference = FirebaseDatabase.getInstance().getReference("users/"+auth.currentUser?.uid)
+
         imgBtnPlay?.setOnClickListener {
             EpisodeBottomSheet().show((context as AppCompatActivity).getSupportFragmentManager(), "Episode screen")
 
             val send_data = Bundle().apply {
-                putString("idAlbum", currentItem?.img.toString())
+//                putString("idAlbum", currentItem?.img.toString())
                 putString("position", position.toString())
             }
             (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_idEpisode", send_data)
@@ -49,7 +62,11 @@ class ListTapAdapter(context: Context, resource: Int, list: List<episodeData>):
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.menuSave -> {
-
+                    databaseReference.get().addOnSuccessListener {
+                        if (it.exists()){
+                            databaseReference.child("saved").push().setValue(currentItem?._id.toString())
+                        }
+                    }
 
                     true
                 }
@@ -84,8 +101,8 @@ class ListTapAdapter(context: Context, resource: Int, list: List<episodeData>):
         }
 
 
-        ngayThang?.text = currentItem?.date
-        tenTap?.text = currentItem?.title
+        ngayThang?.text = currentItem?.ngay_thang
+        tenTap?.text = currentItem?.ten_tap
 //        phut?.text = currentItem?.phut
         phut?.text = "20s"
 

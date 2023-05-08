@@ -40,7 +40,7 @@ class ListTapFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var list = mutableListOf<episodeData>()
+        var list = mutableListOf<ListTapData>()
 
         parentFragmentManager.setFragmentResultListener("send_ref", this) { _, result ->
             parentFragmentManager.beginTransaction().show(this@ListTapFragment)
@@ -51,9 +51,9 @@ class ListTapFragment : Fragment() {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     for (episodeSnapshot in snapshot.children) {
                         val epTitle = episodeSnapshot.child("title").value.toString()
-                        val epdes = episodeSnapshot.child("descript").value.toString()
+//                        val epdes = episodeSnapshot.child("descript").value.toString()
                         val date = episodeSnapshot.child("date").value.toString()
-                        list.add(episodeData(epTitle, epdes, date,albumRef.key.toString()))
+                        list.add(ListTapData(episodeSnapshot.key.toString(), date, epTitle, ""))
                     }
                     listTapAdapter = ListTapAdapter(requireContext(), R.layout.list_tap, list.toList())
                     listView = view.findViewById(R.id.lvTap)
