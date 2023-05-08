@@ -2,14 +2,14 @@ package com.example.channel.NgheNgay
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
+import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.channel.*
@@ -17,11 +17,10 @@ import com.example.channel.R
 import com.example.channel.Search.reviewData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.makeramen.roundedimageview.RoundedImageView
+import kotlinx.coroutines.tasks.await
 
 class NgheNgayFragment : Fragment() {
     private lateinit var ibBack: ImageButton
@@ -38,6 +37,8 @@ class NgheNgayFragment : Fragment() {
 
     private lateinit var tvAllReview: TextView
 
+    private lateinit var tvAverage: TextView
+    private lateinit var tvTotalRating: TextView
     private lateinit var pb5start: ProgressBar
     private lateinit var pb4start: ProgressBar
     private lateinit var pb3start: ProgressBar
@@ -48,8 +49,9 @@ class NgheNgayFragment : Fragment() {
 //    private lateinit var reviewAdapter: ReviewAdapter
     private lateinit var tvMakeReview: TextView
 
-    private lateinit var idCategory: String
+    private lateinit var ref: String
     private lateinit var idAlbum: String
+    private lateinit var name: String
     private val episodes = arrayListOf<episodeData>()
     private val reviews = arrayListOf<reviewData>()
 
@@ -76,38 +78,38 @@ class NgheNgayFragment : Fragment() {
         tvAlbDescription = view.findViewById(R.id.tvAlbDescription)
 
         tvAllEpisode = view.findViewById(R.id.tvAllEpisode)
-        tvAllEpisode?.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, ListTapFragment()).addToBackStack(null).commit()
-        }
         lvListEpisode = view.findViewById(R.id.lvListEpisode)
 
         tvAllReview = view.findViewById(R.id.tvAllReview)
-
         vpReview = view.findViewById(R.id.vpReview)
-
         tvMakeReview = view.findViewById(R.id.tvMakeReview)
-        tvMakeReview?.setOnClickListener {
-            ReviewBottomSheet().show(getParentFragmentManager(), "Review screen")
-        }
+
+        tvAverage = view.findViewById(R.id.tvAverage)
+        tvTotalRating = view.findViewById(R.id.tvTotalRating)
+        pb5start = view.findViewById(R.id.pb5start)
+        pb4start = view.findViewById(R.id.pb4start)
+        pb3start = view.findViewById(R.id.pb3start)
+        pb2start = view.findViewById(R.id.pb2start)
+        pb1start = view.findViewById(R.id.pb1start)
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        userReference = FirebaseDatabase.getInstance().getReference("users")
         parentFragmentManager.setFragmentResultListener("send_idAlbum", this) { _, result ->
             parentFragmentManager.beginTransaction().show(this@NgheNgayFragment)
             idAlbum = result.getString("idAlbum").toString()
 
-            userReference = FirebaseDatabase.getInstance().getReference("users")
             databaseReference = FirebaseDatabase.getInstance().getReference("categories")
             databaseReference?.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     for (categorySnapshot in snapshot.children) {
                         for (albumSnapshot in categorySnapshot.child("albums").children) {
                             if (albumSnapshot.key.toString().equals(idAlbum)) {
-                                idCategory = categorySnapshot.key.toString()
+                                val albref = albumSnapshot.ref.toString()
+                                ref = albref.replace("https://testdb-80aa6-default-rtdb.firebaseio.com/","")
                                 tvAlbName.setText(albumSnapshot.child("album_name").value.toString())
                                 tvAlbChannel.setText(findNameUser(albumSnapshot.child("channel").value.toString()))
                                 tvAlbDescription.setText(albumSnapshot.child("description").value.toString())
@@ -128,6 +130,14 @@ class NgheNgayFragment : Fragment() {
                                         episodeSnapshot.child("descript").value.toString(),
                                         episodeSnapshot.child("date").value.toString(), idAlbum))
                                 lvListEpisode.adapter = ListOpisodeAdapter(requireContext(), R.layout.list_opisode, episodes.take(3))
+                                tvAllEpisode?.setOnClickListener {
+                                    parentFragmentManager.beginTransaction()
+                                        .replace(R.id.frame_layout, ListTapFragment()).addToBackStack(null).commit()
+                                    val send_data = Bundle().apply {
+                                        putString("ref", ref)
+                                    }
+                                    (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_ref", send_data)
+                                }
 
                                 for (reviewSnapshot in albumSnapshot.child("reviews").children)
                                     reviews.add(reviewData(
@@ -135,23 +145,22 @@ class NgheNgayFragment : Fragment() {
                                         reviewSnapshot.child("rating").value.toString().toFloat(),
                                         reviewSnapshot.child("comment").value.toString(),
                                         reviewSnapshot.child("date").value.toString()))
+                                showRating()
                                 vpReview.adapter = ReviewAdapter(reviews)
                                 tvAllReview?.setOnClickListener {
                                     parentFragmentManager.beginTransaction()
                                         .replace(R.id.frame_layout, AllReviewFragment()).addToBackStack(null).commit()
                                     val send_data = Bundle().apply {
-                                        putString("idCategory", idCategory)
-                                        putString("idAlbum", idAlbum)
+                                        putString("ref", ref)
                                     }
-                                    (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("sendatafrNgheNgay2AllReview", send_data)
+                                    (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_ref", send_data)
                                 }
                                 tvMakeReview?.setOnClickListener {
                                     ReviewBottomSheet().show(getParentFragmentManager(), "Review screen")
                                     val send_data = Bundle().apply {
-                                        putString("idCategory", idCategory)
-                                        putString("idAlbum", idAlbum)
+                                        putString("ref", ref)
                                     }
-                                    (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("sendatafrNgheNgay2MakeReview", send_data)
+                                    (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_ref", send_data)
                                 }
 
                                 val epiRef = albumSnapshot.ref.toString()
@@ -169,31 +178,53 @@ class NgheNgayFragment : Fragment() {
                     // Handle errors
                 }
             })
+        }
+    }
 
-            pb5start = view.findViewById(R.id.pb5start)
-            pb5start.setProgress(45)
-            pb5start.setMax(100)
-            pb4start = view.findViewById(R.id.pb4start)
-            pb4start.setProgress(4)
-            pb4start.setMax(100)
-            pb3start = view.findViewById(R.id.pb3start)
-            pb3start.setProgress(0)
-            pb3start.setMax(100)
-            pb2start = view.findViewById(R.id.pb2start)
-            pb2start.setProgress(12)
-            pb2start.setMax(100)
-            pb1start = view.findViewById(R.id.pb1start)
-            pb1start.setProgress(29)
-            pb1start.setMax(100)
+    fun showRating(){
+        if (reviews.size == 0){
+            tvAverage.setText("5")
+            tvTotalRating.setText("Hãy là người đầu tiên đánh giá")
+        }
+        else{
+            var rat5 = 0
+            var rat4 = 0
+            var rat3 = 0
+            var rat2 = 0
+            var rat1 = 0
+            for (rv in reviews) {
+                if (rv.rating == 5F) rat5 += 1
+                if (rv.rating == 4F) rat4 += 1
+                if (rv.rating == 3F) rat3 += 1
+                if (rv.rating == 2F) rat2 += 1
+                if (rv.rating == 1F) rat1 += 1
+            }
+            var sumRat = 5*rat5 + 4*rat4 + 3*rat3 + 2*rat2 + rat1
+            Thread {
+                pb5start.progress = (rat5 / sumRat * 100).toInt()
+                pb4start.progress = (rat4 / sumRat * 100).toInt()
+                pb3start.progress = (rat3 / sumRat * 100).toInt()
+                pb2start.progress = (rat2 / sumRat * 100).toInt()
+//                pb1start.progress = (rat1 / sumRat * 100).toInt()
+                pb1start.progress = 90
+            }
+            tvAverage.setText(((5*rat5 + 4*rat4 + 3*rat3 + 2*rat2 + rat1)/reviews.size).toString().format(1))
+            tvTotalRating.setText(reviews.size.toString() + " lượt đánh giá")
         }
     }
 
     fun findNameUser(idUser: String): String{
-        var name = ""
-        userReference.child(idUser).get().addOnSuccessListener{
-            if (it.exists())
-                name = it.child("name").value.toString()
-        }
+        name = ""
+        userReference.child(idUser).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                name = dataSnapshot.child("name").value.toString()
+
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Log.d("eror", "Failed to read value.", error.toException())
+            }
+
+        })
         return name
     }
 }

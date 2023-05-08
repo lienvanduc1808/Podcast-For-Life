@@ -2,6 +2,7 @@ package com.example.channel.NgheNgay
 
 
 import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +10,12 @@ import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.example.channel.R
 
 
-class ListTapAdapter(context: Context, resource: Int,  list: List<ListTapData>):
-    ArrayAdapter<ListTapData>(context, resource, list) {
+class ListTapAdapter(context: Context, resource: Int, list: List<episodeData>):
+    ArrayAdapter<episodeData>(context, resource, list) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var rowView = convertView
@@ -28,7 +30,15 @@ class ListTapAdapter(context: Context, resource: Int,  list: List<ListTapData>):
         val phut = rowView?.findViewById<TextView>(R.id.txtPhut)
         val imgBtnPlay = rowView?.findViewById<ImageButton>(R.id.imgBtnPlay)
         val imgbtnMore = rowView?.findViewById<ImageButton>(R.id.imgBtnMore)
+
         imgBtnPlay?.setOnClickListener {
+            EpisodeBottomSheet().show((context as AppCompatActivity).getSupportFragmentManager(), "Episode screen")
+
+            val send_data = Bundle().apply {
+                putString("idAlbum", currentItem?.img.toString())
+                putString("position", position.toString())
+            }
+            (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_idEpisode", send_data)
 
         }
 
@@ -74,9 +84,10 @@ class ListTapAdapter(context: Context, resource: Int,  list: List<ListTapData>):
         }
 
 
-        ngayThang?.text = currentItem?.ngay_thang
-        tenTap?.text = currentItem?.ten_tap
-        phut?.text = currentItem?.phut
+        ngayThang?.text = currentItem?.date
+        tenTap?.text = currentItem?.title
+//        phut?.text = currentItem?.phut
+        phut?.text = "20s"
 
 
 

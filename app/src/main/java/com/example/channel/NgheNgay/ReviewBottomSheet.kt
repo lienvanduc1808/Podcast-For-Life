@@ -36,8 +36,7 @@ class ReviewBottomSheet : BottomSheetDialogFragment() {
     lateinit var rbRating2: RatingBar
     lateinit var etCmt: EditText
 
-    private lateinit var idCategory: String
-    private lateinit var idAlbum: String
+    private lateinit var ref: String
     private lateinit var idCmt: String
 
     private lateinit var auth: FirebaseAuth
@@ -68,54 +67,42 @@ class ReviewBottomSheet : BottomSheetDialogFragment() {
 
         idCmt = ""
         auth = FirebaseAuth.getInstance()
-        databaseReference = FirebaseDatabase.getInstance().getReference("categories")
 
-        parentFragmentManager.setFragmentResultListener("sendatafrAllReview2MakeReview", this) { _, result ->
+        parentFragmentManager.setFragmentResultListener("send_ref", this) { _, result ->
             parentFragmentManager.beginTransaction().show(this@ReviewBottomSheet)
-            idCategory = result.getString("idCategory").toString()
-            idAlbum = result.getString("idAlbum").toString()
-            showData()
-        }
+            ref = result.getString("ref").toString()
 
-        parentFragmentManager.setFragmentResultListener("sendatafrNgheNgay2MakeReview", this) { _, result ->
-            parentFragmentManager.beginTransaction().show(this@ReviewBottomSheet)
-            idCategory = result.getString("idCategory").toString()
-            idAlbum = result.getString("idAlbum").toString()
-            showData()
-        }
-
-    }
-
-    fun showData(){
-        databaseReference.child("$idCategory/albums/$idAlbum").addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for (reviewSnapshot in snapshot.child("reviews").children) {
-                    if (reviewSnapshot.child("from").value.toString().equals(auth.currentUser!!.uid)) {
-                        idCmt = reviewSnapshot.key.toString()
-                        rbRating2.setRating(reviewSnapshot.child("rating").value.toString().toFloat())
-                        etCmt.setText(reviewSnapshot.child("comment").value.toString())
-                        val send_data = Bundle().apply {
-                            putString("ref", idAlbum)
+            databaseReference = FirebaseDatabase.getInstance().getReference(ref)
+            databaseReference.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(albumSnapshot: DataSnapshot) {
+                    for (reviewSnapshot in albumSnapshot.child("reviews").children) {
+                        if (reviewSnapshot.child("from").value.toString().equals(auth.currentUser!!.uid)) {
+                            idCmt = reviewSnapshot.key.toString()
+                            rbRating2.setRating(reviewSnapshot.child("rating").value.toString().toFloat())
+                            etCmt.setText(reviewSnapshot.child("comment").value.toString())
+                            val send_data = Bundle().apply {
+                                putString("ref", ref)
+                            }
+                            parentFragmentManager.setFragmentResult("send_ref3", send_data)
+                            break
                         }
-                        parentFragmentManager.setFragmentResult("send_ref", send_data)
-                        break
                     }
                 }
+                override fun onCancelled(error: DatabaseError) {
+                }
+            })
+            tvPostReview?.setOnClickListener {
+                databaseReference = databaseReference.child("reviews")
+                if (idCmt == "")
+                    idCmt = databaseReference.push().key!!
+                databaseReference.child(idCmt).setValue(reviewData(auth.currentUser!!.uid, rbRating2.rating, etCmt.text.toString(), "getDate"))
+                //do post cmt feature
+                val send_data = Bundle().apply {
+                    putString("ref", ref)
+                }
+                parentFragmentManager.setFragmentResult("send_ref", send_data)
+                dismiss()
             }
-            override fun onCancelled(error: DatabaseError) {
-            }
-        })
-        tvPostReview?.setOnClickListener {
-            databaseReference = databaseReference.child("$idCategory/albums/$idAlbum/reviews")
-            if (idCmt == "")
-                idCmt = databaseReference.push().key!!
-            databaseReference.child(idCmt).setValue(reviewData(auth.currentUser!!.uid, rbRating2.rating, etCmt.text.toString(), "getDate"))
-            //do post cmt feature
-            val send_data = Bundle().apply {
-                putString("ref", idAlbum)
-            }
-            parentFragmentManager.setFragmentResult("send_ref", send_data)
-            dismiss()
         }
     }
 }

@@ -3,6 +3,7 @@ package com.example.channel.NgheNgay
 import android.annotation.SuppressLint
 import android.content.res.Resources
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -29,8 +30,7 @@ class AllReviewFragment : Fragment() {
     lateinit var tvMakeReview2: TextView
     lateinit var lvAllReview: ListView
 
-    private lateinit var idCategory: String
-    private lateinit var idAlbum: String
+    private lateinit var ref: String
     private val reviews = arrayListOf<reviewData>()
 
     private lateinit var databaseReference: DatabaseReference
@@ -64,17 +64,16 @@ class AllReviewFragment : Fragment() {
         val compositePageTransformer = CompositePageTransformer()
         compositePageTransformer.addTransformer(MarginPageTransformer((5 * Resources.getSystem().displayMetrics.density).toInt()))
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("categories")
         userReference = FirebaseDatabase.getInstance().getReference("users")
 
-        parentFragmentManager.setFragmentResultListener("sendatafrNgheNgay2AllReview", this) { _, result ->
+        parentFragmentManager.setFragmentResultListener("send_ref", this) { _, result ->
             parentFragmentManager.beginTransaction().show(this@AllReviewFragment)
-            idCategory = result.getString("idCategory").toString()
-            idAlbum = result.getString("idAlbum").toString()
+            ref = result.getString("ref").toString()
 
-            databaseReference.child("$idCategory/albums/$idAlbum").addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    for (reviewSnapshot in snapshot.child("reviews").children) {
+            databaseReference = FirebaseDatabase.getInstance().getReference(ref)
+            databaseReference.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(albumSnapshot: DataSnapshot) {
+                    for (reviewSnapshot in albumSnapshot.child("reviews").children) {
                         reviews.add(reviewData(
                             findNameUser(reviewSnapshot.child("from").value.toString()),
                             reviewSnapshot.child("rating").value.toString().toFloat(),
@@ -82,12 +81,13 @@ class AllReviewFragment : Fragment() {
                             reviewSnapshot.child("date").value.toString()))
                     }
 
+                    Log.d("sz", reviews.size.toString())
                     lvAllReview.adapter = ReviewAdapter4LV(requireContext(), R.layout.album_review, reviews)
 
                     val send_data = Bundle().apply {
-                        putString("ref", idAlbum)
+                        putString("ref", ref)
                     }
-                    parentFragmentManager.setFragmentResult("send_ref", send_data)
+                    parentFragmentManager.setFragmentResult("send_ref2", send_data)
                 }
                 override fun onCancelled(error: DatabaseError) {
                     // Xử lý lỗi
@@ -99,10 +99,9 @@ class AllReviewFragment : Fragment() {
         tvMakeReview2?.setOnClickListener {
             ReviewBottomSheet().show(getParentFragmentManager(), "Review screen")
             val send_data = Bundle().apply {
-                putString("idCategory", idCategory)
-                putString("idAlbum", idAlbum)
+                putString("ref", ref)
             }
-            (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("sendatafrAllReview2MakeReview", send_data)
+            (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_ref2", send_data)
         }
     }
     fun findNameUser(idUser: String): String{

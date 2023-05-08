@@ -9,6 +9,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ListView
 import com.example.channel.R
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class ListTapFragment : Fragment() {
     private lateinit var ivBack4: ImageView
@@ -36,27 +40,29 @@ class ListTapFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var list = mutableListOf<ListTapData>()
+        var list = mutableListOf<episodeData>()
 
-        list.add(ListTapData("18 thang 5","Lời khuyên hữu ích","20 phut"))
-        list.add(ListTapData("11 thang 4","Marketing","25 phut"))
-        list.add(ListTapData("23 thang 4","Tay mơ học đời bằng Tâm lý học","25 phut"))
-        list.add(ListTapData("08 thang 2","Bình thường một cách bất thường","25 phut"))
-        list.add(ListTapData("24 thang 1","sức khỏe tâm lý","25 phut"))
-        list.add(ListTapData("31 thang 1","mọi chuyện trong cuộc sống","25 phut"))
-        list.add(ListTapData("20 thang 3","câu chuyện lịch sử","25 phut"))
-        list.add(ListTapData("12 thang 5","lắng nghe và chia sẻ ","25 phut"))
-        list.add(ListTapData("13 thang 6","Vipassana","25 phut"))
-        list.add(ListTapData("23 thang 2","những bệnh lý thời hiện đại","25 phut"))
+        parentFragmentManager.setFragmentResultListener("send_ref", this) { _, result ->
+            parentFragmentManager.beginTransaction().show(this@ListTapFragment)
+            val taskDanhmuc = result.getString("ref")
+            val albumRef = FirebaseDatabase.getInstance().getReference(taskDanhmuc.toString())
+            val episodesRef = albumRef.child("episodes")
+            episodesRef.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (episodeSnapshot in snapshot.children) {
+                        val epTitle = episodeSnapshot.child("title").value.toString()
+                        val epdes = episodeSnapshot.child("descript").value.toString()
+                        val date = episodeSnapshot.child("date").value.toString()
+                        list.add(episodeData(epTitle, epdes, date,albumRef.key.toString()))
+                    }
+                    listTapAdapter = ListTapAdapter(requireContext(), R.layout.list_tap, list.toList())
+                    listView = view.findViewById(R.id.lvTap)
+                    listView.adapter = listTapAdapter
+                }
+                override fun onCancelled(error: DatabaseError) {
 
-
-
-
-        listTapAdapter = ListTapAdapter(requireContext(), R.layout.list_tap, list)
-        listView = view.findViewById(R.id.lvTap)
-
-        listView.adapter = listTapAdapter
-
-
+                }
+            })
+        }
     }
 }

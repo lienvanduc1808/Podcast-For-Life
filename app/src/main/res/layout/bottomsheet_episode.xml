@@ -9,10 +9,14 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-267dp">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <ImageView
                 android:id="@+id/ivCoverImage"
                 android:layout_width="374dp"
@@ -73,10 +77,10 @@
                 android:layout_width="375dp"
                 android:layout_height="33dp"
                 android:layout_marginTop="4dp"
+                android:ellipsize="marquee"
                 android:text="Đồ không ngon là đồ dở, người không thở là người ra đi"
                 android:textColor="@color/violet"
                 android:textSize="18dp"
-                android:ellipsize="marquee"
                 app:layout_constraintEnd_toEndOf="@+id/tvTitle"
                 app:layout_constraintHorizontal_bias="0.333"
                 app:layout_constraintStart_toStartOf="@+id/tvTitle"
@@ -143,17 +147,16 @@
                 app:tint="@color/light_gray" />
 
 
-
             <ImageButton
                 android:id="@+id/ibMore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="@color/white"
-                app:tint="@color/purple_200"
                 app:layout_constraintEnd_toEndOf="@+id/ivMaxVolume"
                 app:layout_constraintTop_toBottomOf="@+id/sbVolume"
-                app:srcCompat="@drawable/more_horiz" />
+                app:srcCompat="@drawable/more_horiz"
+                app:tint="@color/purple_200" />
 
             <ImageView
                 android:id="@+id/ivAirPlay"
@@ -161,10 +164,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:src="@drawable/baseline_airplay"
-                app:tint="@color/violet"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sbVolume" />
+                app:layout_constraintTop_toBottomOf="@+id/sbVolume"
+                app:tint="@color/violet" />
 
             <TextView
                 android:id="@+id/tvSpeed"
@@ -172,8 +175,8 @@
                 android:layout_height="29dp"
                 android:layout_marginTop="20dp"
                 android:text="1x"
-                android:textSize="22dp"
                 android:textColor="@color/violet"
+                android:textSize="22dp"
                 app:layout_constraintStart_toStartOf="@+id/ivMute"
                 app:layout_constraintTop_toBottomOf="@+id/sbVolume" />
         </androidx.constraintlayout.widget.ConstraintLayout>
