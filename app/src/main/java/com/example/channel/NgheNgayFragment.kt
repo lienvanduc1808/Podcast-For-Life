@@ -107,7 +107,8 @@ class NgheNgayFragment : Fragment() {
                         for (albumSnapshot in categorySnapshot.child("albums").children) {
                             if (albumSnapshot.key.toString().equals(taskDanhmuc)) {
                                 Log.d("cone", "cone")
-
+                                val dmName = categorySnapshot.child("cate_name").value.toString()
+                                txtdm.setText(dmName)
                                 val albumName = albumSnapshot.child("album_name").value.toString()
                                 txtAlbumName.setText(albumName)
                                 val imgString = albumSnapshot.child("logo_album").value.toString()

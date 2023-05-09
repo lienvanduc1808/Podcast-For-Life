@@ -23,7 +23,7 @@ class TopItemAdapter(private val carouselDataList: ArrayList<Top_Item>, val cont
         val albumNameTV = view.findViewById<TextView>(R.id.tvAlbumName)
         val albumArtistTV = view.findViewById<TextView>(R.id.tvAlbumArtist)
         val albumLogoIV = view.findViewById<ImageView>(R.id.ivLogo)
-        val rankingItem = view.findViewById<TextView>(R.id.txtRankingItem)
+        //val rankingItem = view.findViewById<TextView>(R.id.txtRankingItem)
         init {
             view.setOnClickListener {
                 onItemClick?.invoke(carouselDataList[adapterPosition])
@@ -56,10 +56,10 @@ class TopItemAdapter(private val carouselDataList: ArrayList<Top_Item>, val cont
             // Handle any errors
             Log.e("FirebaseStorage", "Error getting download URL", exception)
         }
-        val rankingItem = holder.rankingItem
-        if(album.totalListeners !=0){
-            //rankingItem.setText(album.totalListeners.toString())
-        }
+//        val rankingItem = holder.rankingItem
+//        if(album.totalListeners !=0){
+//            //rankingItem.setText(album.totalListeners.toString())
+//        }
 
 
         holder.itemView.setOnClickListener{
