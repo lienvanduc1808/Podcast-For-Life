@@ -8,7 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ListView
-import com.example.channel.ListSavedAdapter
+import com.example.channel.NgheNgay.ListTapAdapter
+import com.example.channel.NgheNgay.ListTapData
 import com.example.channel.NgheNgay.episodeData
 import com.example.channel.R
 import com.google.firebase.auth.FirebaseAuth
@@ -51,7 +52,7 @@ class SavedFragment : Fragment() {
 
                 episodeDatabase.addValueEventListener(object: ValueEventListener {
                     override fun onDataChange(categories: DataSnapshot) {
-                        var listSavedEpisode = mutableListOf<episodeData>()
+                        var listSavedEpisode = mutableListOf<ListTapData>()
 
                         for(category in categories.children){
                             Log.i("size", savedSize.toString())
@@ -77,7 +78,9 @@ class SavedFragment : Fragment() {
                                         var descript = es[indexEpisode].child("descript").value.toString()
                                         var img = es[indexEpisode].child("img").value.toString()
                                         var title = es[indexEpisode].child("title").value.toString()
-                                        listSavedEpisode.add(episodeData(title, descript, date, img))
+                                        var _id = es[indexEpisode].key.toString()
+//                                        listSavedEpisode.add(episodeData(title, descript, date, img))
+                                        listSavedEpisode.add(ListTapData(_id, date, title, descript, img, ""))
                                         savedSize -= 1
                                     }
                                 }
@@ -86,7 +89,7 @@ class SavedFragment : Fragment() {
                         }
                         Log.i("listEp", listSavedEpisode.toString())
                         listViewSaved = view.findViewById(R.id.lvSaved)
-                        listSavedAdapter = ListSavedAdapter(requireContext(), R.layout.list_opisode, listSavedEpisode)
+                        listSavedAdapter = ListSavedAdapter(requireContext(), R.layout.item_episode_saved, listSavedEpisode)
                         listViewSaved.adapter = listSavedAdapter
 
                     }

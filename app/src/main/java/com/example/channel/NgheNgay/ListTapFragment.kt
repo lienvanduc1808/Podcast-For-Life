@@ -53,7 +53,7 @@ class ListTapFragment : Fragment() {
                         val epTitle = episodeSnapshot.child("title").value.toString()
 //                        val epdes = episodeSnapshot.child("descript").value.toString()
                         val date = episodeSnapshot.child("date").value.toString()
-                        list.add(ListTapData(episodeSnapshot.key.toString(), date, epTitle, ""))
+                        list.add(ListTapData(episodeSnapshot.key.toString(), date, epTitle, "", "", ""))
                     }
                     listTapAdapter = ListTapAdapter(requireContext(), R.layout.list_tap, list.toList())
                     listView = view.findViewById(R.id.lvTap)

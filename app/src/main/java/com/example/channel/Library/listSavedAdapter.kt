@@ -1,6 +1,7 @@
-package com.example.channel
+package com.example.channel.Library
 
 import android.content.Context
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,20 +10,22 @@ import android.widget.*
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContentProviderCompat.requireContext
 import com.bumptech.glide.Glide
 import com.example.channel.NgheNgay.EpisodeBottomSheet
+import com.example.channel.NgheNgay.ListTapData
+import com.example.channel.NgheNgay.NgheNgayFragment
 import com.example.channel.NgheNgay.episodeData
+import com.example.channel.R
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.makeramen.roundedimageview.RoundedImageView
-class ListSavedAdapter(context: Context, resource: Int, objects: MutableList<episodeData>):
-    ArrayAdapter<episodeData>(context, resource, objects) {
+
+class ListSavedAdapter(context: Context, resource: Int, objects: MutableList<ListTapData>):
+    ArrayAdapter<ListTapData>(context, resource, objects) {
 
     private lateinit var storageReference: StorageReference
+    private lateinit var popupView: View
     private val popupWindows = mutableMapOf<Int, PopupWindow>()
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var itemView = convertView
@@ -32,6 +35,15 @@ class ListSavedAdapter(context: Context, resource: Int, objects: MutableList<epi
 
         var popupWindow: PopupWindow? = null
         val currentItem = getItem(position)
+
+        val auth: FirebaseAuth
+        val storageReference: StorageReference
+        val userDatabase: DatabaseReference
+        val episodeDatabase: DatabaseReference
+
+        auth = FirebaseAuth.getInstance()
+        userDatabase = FirebaseDatabase.getInstance().getReference("users/${auth.currentUser?.uid}")
+//        episodeDatabase = FirebaseDatabase.getInstance().getReference("categories/")
 
         val itemImg = itemView?.findViewById<ImageView>(R.id.rivCover)
 
@@ -50,7 +62,7 @@ class ListSavedAdapter(context: Context, resource: Int, objects: MutableList<epi
         val itemName = itemView?.findViewById<TextView>(R.id.nameEpisode)
         itemName?.text = currentItem?.title
 
-        val itemDescript = itemView?.findViewById<TextView>(R.id.descriptOpisode)
+        val itemDescript = itemView?.findViewById<TextView>(R.id.descriptEpisode)
         itemDescript?.text = currentItem?.descript
 
         //Popup
@@ -58,7 +70,7 @@ class ListSavedAdapter(context: Context, resource: Int, objects: MutableList<epi
         itemButtonMoreHoriz?.setOnClickListener{
 
             if(popupWindow == null){
-                val popupView = LayoutInflater.from(context).inflate(R.layout.popup_more_horiz_saved, null)
+                popupView = LayoutInflater.from(context).inflate(R.layout.popup_more_horiz_saved, null)
                 popupWindow = PopupWindow(popupView,800, ViewGroup.LayoutParams.WRAP_CONTENT)
 
                 popupWindow?.setOnDismissListener {
@@ -70,26 +82,53 @@ class ListSavedAdapter(context: Context, resource: Int, objects: MutableList<epi
                 popupWindows[position]?.dismiss()
             } else {
                 popupWindows[position]?.showAsDropDown(itemButtonMoreHoriz, 0, 30)
-//                val clDownloadEpisode = itemView?.findViewById<ConstraintLayout>(R.id.clDownloadEpisode)
-//                val clGotoChannel = itemView?.findViewById<ConstraintLayout>(R.id.clGotoChannel)
-//                val clUnSaved = itemView?.findViewById<ConstraintLayout>(R.id.clUnSaved)
-//
-//                var test = itemView?.findViewById<TextView>(R.id.test)
-//                clDownloadEpisode?.setOnClickListener{
-//                    Toast.makeText(itemView?.context, "Download", Toast.LENGTH_SHORT).show()
-//                    test?.text = "CCCCCC"
-//                    Log.i("adfasd", "adfasdfadsf")
-//                }
-//
-//                clGotoChannel?.setOnClickListener{
-//                    Toast.makeText(context, "Goto", Toast.LENGTH_SHORT).show()
-//
-//                }
-//
-//                clUnSaved?.setOnClickListener{
-//                    Toast.makeText(context, "Unsaved", Toast.LENGTH_SHORT).show()
-//
-//                }
+                val clDownloadEpisode = popupView?.findViewById<ConstraintLayout>(R.id.clDownloadEpisode)
+                val clGotoChannel = popupView?.findViewById<ConstraintLayout>(R.id.clGotoChannel)
+                val clUnSaved = popupView?.findViewById<ConstraintLayout>(R.id.clUnSaved)
+
+                clDownloadEpisode?.setOnClickListener{
+                    Toast.makeText(context, currentItem?._id.toString(), Toast.LENGTH_SHORT).show()
+                    Log.i("adfasd", "adfasdfadsf")
+                }
+
+                clGotoChannel?.setOnClickListener{
+                    Toast.makeText(context, "Goto", Toast.LENGTH_SHORT).show()
+                    (context as AppCompatActivity).getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frame_layout, NgheNgayFragment())
+                        .addToBackStack(null)
+                        .commit()
+
+                    val send_data = Bundle().apply {
+                        putString("idAlbum", currentItem?.img.toString())
+                        Log.d("idAlbum", currentItem?.img.toString())
+
+                    }
+                    (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_idAlbum", send_data)
+
+                }
+
+                clUnSaved?.setOnClickListener{
+                    Toast.makeText(context, "Unsaved", Toast.LENGTH_SHORT).show()
+                    val _id = currentItem?._id
+                    val saved = userDatabase.child("saved")
+                    saved.orderByValue().equalTo(_id.toString()).addListenerForSingleValueEvent(object :
+                        ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                val nodeToDelete = dataSnapshot.children.iterator().next()
+                                nodeToDelete.ref.removeValue().addOnSuccessListener {
+                                    popupWindows[position]?.dismiss()
+                                }.addOnFailureListener {
+
+                                }
+                            }
+                        }
+
+                        override fun onCancelled(databaseError: DatabaseError) {
+                            // Xử lý lỗi nếu có
+                        }
+                    })
+                }
             }
 
         }
