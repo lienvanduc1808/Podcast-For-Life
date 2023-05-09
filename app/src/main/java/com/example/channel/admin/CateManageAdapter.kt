@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.channel.DanhMuc
@@ -17,9 +18,13 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
+
 class CateManageAdapter(private val data: ArrayList<DanhMuc>, val context: Context) : RecyclerView.Adapter<CateManageAdapter.ViewHolder>() {
     var onItemClick: ((DanhMuc) -> Unit)? = null
-
+    fun clearData() {
+        data.clear()
+        notifyDataSetChanged()
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.admin_item_danh_muc, parent, false)
         return ViewHolder(view)
@@ -38,13 +43,15 @@ class CateManageAdapter(private val data: ArrayList<DanhMuc>, val context: Conte
             val ref = database.reference.child("categories")
             ref.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
+
                     for (categorySnapshot in dataSnapshot.children) {
-                        if(name.equals(categorySnapshot.key.toString())){
+                       val cate =  categorySnapshot.child("cate_name").value as String
+                        if(name.equals(cate)){
 
                             var cateRef = categorySnapshot.key.toString()
 
                             val reafRef = "categories" +"/" +cateRef
-                            Log.d("RealRef",reafRef)
+                            Log.d("Realf",reafRef)
                             val myRef = database.getReference(reafRef)
                             myRef.removeValue()
 
@@ -57,6 +64,7 @@ class CateManageAdapter(private val data: ArrayList<DanhMuc>, val context: Conte
                     TODO("Not yet implemented")
                 }
             })
+
         }
         holder.itemView.setOnClickListener {
 
@@ -103,6 +111,5 @@ class CateManageAdapter(private val data: ArrayList<DanhMuc>, val context: Conte
             }
         }
     }
-
 
 }

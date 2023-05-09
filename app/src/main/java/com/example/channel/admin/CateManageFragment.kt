@@ -41,6 +41,7 @@ class CateManageFragment : Fragment() {
 
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                adapter?.clearData()
                 for (categorySnapshot in snapshot.children) {
 
                     val cateName = categorySnapshot.child("cate_name").value as String
@@ -51,6 +52,7 @@ class CateManageFragment : Fragment() {
                 }
                 Log.d("calog", "The value of search is: $items")
                 adapter = CateManageAdapter(items, requireContext())
+
                 recyclerView!!.adapter = adapter
                 adapter?.onItemClick = { danhMuc ->
                     when (danhMuc.name) {
