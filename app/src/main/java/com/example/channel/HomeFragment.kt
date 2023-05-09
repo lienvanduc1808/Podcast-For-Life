@@ -127,8 +127,11 @@ class HomeFragment : Fragment() {
                     }
                 }
 
-                adapter2 = HomeAdapter(items2, requireContext())
-                viewPager2 = view.findViewById<ViewPager2>(R.id.viewPager2)
+                val itemShuffle = items2.shuffled().take(20)
+
+
+                adapter2 = HomeAdapter(itemShuffle as ArrayList<Album>, requireContext())
+                viewPager2 = view!!.findViewById<ViewPager2>(R.id.viewPager2)
 
                 viewPager2.apply {
                     clipChildren = false  // No clipping the left and right items
