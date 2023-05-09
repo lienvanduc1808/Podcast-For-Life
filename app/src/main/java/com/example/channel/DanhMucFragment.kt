@@ -75,7 +75,6 @@ class DanhMucFragment : Fragment() {
 
                             val send_data = Bundle().apply {
                                 putString("tendanhmuc",danhMuc.name )
-
                             }
                             parentFragmentManager.setFragmentResult("send_dm", send_data)
 

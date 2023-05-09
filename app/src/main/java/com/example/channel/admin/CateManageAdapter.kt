@@ -1,6 +1,8 @@
 package com.example.channel.admin
 
 import android.content.Context
+import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,12 +24,36 @@ class CateManageAdapter(private val data: ArrayList<DanhMuc>, val context: Conte
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item: DanhMuc = data[position]
 
-        holder.textView.text = item.name
-
+        holder.catName.text = item.name
+        holder.editTV.setOnClickListener{
+            Log.d("ffb", "edit")
+        }
         holder.itemView.setOnClickListener {
 
-            onItemClick?.invoke(DanhMuc("New Fragment 2", ""))
+            //onItemClick?.invoke(DanhMuc(item.name, ""))
+            when (position) {
+                0 -> {
+                    onItemClick?.invoke(DanhMuc("Tin tức", ""))
 
+                }
+                1 -> {
+                    onItemClick?.invoke(DanhMuc("Thể thao", ""))
+
+                }
+                2 -> {
+                    onItemClick?.invoke(DanhMuc("Hài", ""))
+
+                }
+                3 -> {
+                    onItemClick?.invoke(DanhMuc("Kinh doanh", ""))
+
+                }
+                4 -> {
+                    onItemClick?.invoke(DanhMuc("Xã hội và văn hóa", ""))
+
+                }
+
+            }
 
         }
 
@@ -37,8 +63,9 @@ class CateManageAdapter(private val data: ArrayList<DanhMuc>, val context: Conte
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val textView: TextView = itemView.findViewById(R.id.adminCateNameTV)
-
+        val catName: TextView = itemView.findViewById(R.id.adminCateNameTV)
+        val editTV: TextView = itemView.findViewById(R.id.cateEdit)
+        val deleteTV: TextView = itemView.findViewById(R.id.cateDelete)
         init {
             itemView.setOnClickListener {
                 onItemClick?.invoke(data[adapterPosition])
@@ -46,4 +73,6 @@ class CateManageAdapter(private val data: ArrayList<DanhMuc>, val context: Conte
             }
         }
     }
+
+
 }

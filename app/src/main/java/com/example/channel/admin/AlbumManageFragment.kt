@@ -1,4 +1,4 @@
-package com.example.test3
+package com.example.channel.admin
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
