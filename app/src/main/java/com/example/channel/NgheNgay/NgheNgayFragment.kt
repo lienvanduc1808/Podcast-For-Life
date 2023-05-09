@@ -52,7 +52,7 @@ class NgheNgayFragment : Fragment() {
     private lateinit var ref: String
     private lateinit var idAlbum: String
     private lateinit var name: String
-    private val episodes = arrayListOf<episodeData>()
+    private val episodes = arrayListOf<ListTapData>()
     private val reviews = arrayListOf<reviewData>()
 
     private lateinit var auth: FirebaseAuth
@@ -125,10 +125,15 @@ class NgheNgayFragment : Fragment() {
                                     )
                                 }
 
-                                for (episodeSnapshot in albumSnapshot.child("episodes").children)
-                                    episodes.add(episodeData(episodeSnapshot.child("title").value.toString(),
-                                        episodeSnapshot.child("descript").value.toString(),
-                                        episodeSnapshot.child("date").value.toString(), idAlbum))
+                                for (episodeSnapshot in albumSnapshot.child("episodes").children){
+                                    val epTitle = episodeSnapshot.child("title").value.toString()
+                                    val epdes = episodeSnapshot.child("descript").value.toString()
+                                    val date = episodeSnapshot.child("date").value.toString()
+                                    val img = episodeSnapshot.child("img").value.toString()
+                                    val _id = episodeSnapshot.key.toString()
+                                    episodes.add(ListTapData(_id, date, epTitle, epdes, img, ""))
+                                }
+
                                 lvListEpisode.adapter = ListOpisodeAdapter(requireContext(), R.layout.list_opisode, episodes.take(3))
                                 tvAllEpisode?.setOnClickListener {
                                     parentFragmentManager.beginTransaction()

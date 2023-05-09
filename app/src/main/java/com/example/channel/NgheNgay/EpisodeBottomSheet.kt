@@ -75,7 +75,6 @@ class EpisodeBottomSheet : BottomSheetDialogFragment() {
         ibMore.setOnClickListener {
             MoreBottomSheet().show(getParentFragmentManager(), "Bottom Sheet Fragment")
         }
-
         return view
     }
 

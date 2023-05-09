@@ -3,6 +3,7 @@ package com.example.channel.NgheNgay
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,8 +49,13 @@ class ListTapAdapter(context: Context, resource: Int, list: List<ListTapData>):
             EpisodeBottomSheet().show((context as AppCompatActivity).getSupportFragmentManager(), "Episode screen")
 
             val send_data = Bundle().apply {
-//                putString("idAlbum", currentItem?.img.toString())
-                putString("position", position.toString())
+                putString("idEpisode", currentItem?._id.toString())
+                putString("dateEpisode", currentItem?.date.toString())
+                putString("titleEpisode", currentItem?.title.toString())
+                putString("descriptEpisode", currentItem?.descript.toString())
+                putString("imgEpisode", currentItem?.img.toString())
+                Log.d("idEpisode", currentItem?._id.toString())
+//                putString("position", position.toString())
             }
             (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_idEpisode", send_data)
 

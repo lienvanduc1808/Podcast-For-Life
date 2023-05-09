@@ -51,9 +51,11 @@ class ListTapFragment : Fragment() {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     for (episodeSnapshot in snapshot.children) {
                         val epTitle = episodeSnapshot.child("title").value.toString()
-//                        val epdes = episodeSnapshot.child("descript").value.toString()
+                        val epdes = episodeSnapshot.child("descript").value.toString()
                         val date = episodeSnapshot.child("date").value.toString()
-                        list.add(ListTapData(episodeSnapshot.key.toString(), date, epTitle, "", "", ""))
+                        val img = episodeSnapshot.child("img").value.toString()
+                        val _id = episodeSnapshot.key.toString()
+                        list.add(ListTapData(_id, date, epTitle, epdes, img, ""))
                     }
                     listTapAdapter = ListTapAdapter(requireContext(), R.layout.list_tap, list.toList())
                     listView = view.findViewById(R.id.lvTap)
