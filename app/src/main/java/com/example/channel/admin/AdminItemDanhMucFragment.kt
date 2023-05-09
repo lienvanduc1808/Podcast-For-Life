@@ -1,4 +1,9 @@
-package com.example.channel
+package com.example.channel.admin
+
+import com.example.channel.Album
+import com.example.channel.ItemDanhMucAdapter
+import com.example.channel.R
+import com.example.channel.XemTatCaFragment
 
 import android.annotation.SuppressLint
 import android.content.ClipData.Item
@@ -26,7 +31,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class ItemDanhmucFragment : Fragment() {
+class AdminItemDanhmucFragment : Fragment() {
 
     private lateinit var viewPager: ViewPager2
     private lateinit var viewPager2: ViewPager2
@@ -75,7 +80,7 @@ class ItemDanhmucFragment : Fragment() {
         var reference = database.getReference("categories")
         parentFragmentManager.setFragmentResultListener("send_dm", this) { _, result ->
 
-            parentFragmentManager.beginTransaction().show(this@ItemDanhmucFragment)
+            parentFragmentManager.beginTransaction().show(this@AdminItemDanhmucFragment)
             val taskDanhmuc = result.getString("tendanhmuc")
 
 
@@ -130,7 +135,7 @@ class ItemDanhmucFragment : Fragment() {
     private fun replaceFragment(fragment: Fragment){
         val fragmentManager = parentFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frame_layout, fragment).addToBackStack(null)
+        fragmentTransaction.replace(R.id.admin_frame_layout, fragment).addToBackStack(null)
         fragmentTransaction.commit()
     }
     private fun displayCarousel(reference: DatabaseReference){
@@ -181,17 +186,17 @@ class ItemDanhmucFragment : Fragment() {
 
 
 
-                    for (albumSnapshot in snapshot.child("albums").children) {
-                        val idAlbum = albumSnapshot.key as String
-                        val albumName = albumSnapshot.child("album_name").value as? String
-                        val channel = albumSnapshot.child("channel").value as? String
-                        val logoAlbum = albumSnapshot.child("logo_album").value as? String
-                        val album = Album(albumName!!, channel!!, logoAlbum!!,idAlbum!!)
-                        items2.add(album)
-                    }
+                for (albumSnapshot in snapshot.child("albums").children) {
+                    val idAlbum = albumSnapshot.key as String
+                    val albumName = albumSnapshot.child("album_name").value as? String
+                    val channel = albumSnapshot.child("channel").value as? String
+                    val logoAlbum = albumSnapshot.child("logo_album").value as? String
+                    val album = Album(albumName!!, channel!!, logoAlbum!!,idAlbum!!)
+                    items2.add(album)
+                }
                 val itemShuffle = items2.shuffled().take(7)
 
-
+                Log.d("ppp","items: $itemShuffle")
                 adapter2 = ItemDanhMucAdapter(itemShuffle as ArrayList<Album>, requireContext())
                 viewPager2 = view!!.findViewById<ViewPager2>(R.id.viewPager2)
 
