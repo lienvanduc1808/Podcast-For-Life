@@ -1,15 +1,21 @@
 package com.example.channel
 
+import android.content.Context
+import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.google.firebase.storage.FirebaseStorage
 
 
-class TopItemAdapter(private val carouselDataList: ArrayList<Top_Item>) :
+class TopItemAdapter(private val carouselDataList: ArrayList<Top_Item>, val context: Context) :
     RecyclerView.Adapter<TopItemAdapter.CarouselItemViewHolder>() {
     var onItemClick: ((Top_Item) -> Unit)? = null
 
@@ -37,9 +43,40 @@ class TopItemAdapter(private val carouselDataList: ArrayList<Top_Item>) :
         val albumArtistTV = holder.albumArtistTV
         albumArtistTV.setText(album.channel)
         val logoIV = holder.albumLogoIV
-        logoIV.setImageResource(album.logo)
+        val storageRef = FirebaseStorage.getInstance().reference
+        val logo = album.logo
+
+        val imageRef = storageRef.child("Album/$logo")
+
+        // Get the download URL of the image
+        imageRef.downloadUrl.addOnSuccessListener { uri ->
+            // Use the URL to display the image
+            Glide.with(context).load(uri).placeholder(R.drawable.img_17).into(holder.albumLogoIV)
+        }.addOnFailureListener { exception ->
+            // Handle any errors
+            Log.e("FirebaseStorage", "Error getting download URL", exception)
+        }
         val rankingItem = holder.rankingItem
-        rankingItem.setText(album.rank)
+        if(album.totalListeners !=0){
+            //rankingItem.setText(album.totalListeners.toString())
+        }
+
+
+        holder.itemView.setOnClickListener{
+            (context as AppCompatActivity).getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frame_layout, NgheNgayFragment())
+                .addToBackStack(null)
+                .commit()
+
+            val send_data = Bundle().apply {
+                putString("idAlbum", album.id_album.toString())
+
+
+            }
+            (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_idAlbum", send_data)
+
+
+        }
     }
 
     override fun getItemCount(): Int {

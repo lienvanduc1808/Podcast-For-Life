@@ -49,7 +49,7 @@ class ItemDanhMucAdapter(private val carouselDataList: ArrayList<Album>, val con
         // Get the download URL of the image
         imageRef.downloadUrl.addOnSuccessListener { uri ->
             // Use the URL to display the image
-            Glide.with(context).load(uri).into(holder.albumLogoIV)
+            Glide.with(context).load(uri).placeholder(R.drawable.img_17).into(holder.albumLogoIV)
         }.addOnFailureListener { exception ->
             // Handle any errors
             Log.e("FirebaseStorage", "Error getting download URL", exception)

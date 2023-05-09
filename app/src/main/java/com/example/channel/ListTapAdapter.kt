@@ -29,6 +29,7 @@ class ListTapAdapter(context: Context, resource: Int,  list: List<ListTapData>):
         val imgbtnMore = rowView?.findViewById<ImageButton>(R.id.imgBtnMore)
         imgBtnPlay?.setOnClickListener {
 
+
         }
 
         //popup menu cho imgbutton more

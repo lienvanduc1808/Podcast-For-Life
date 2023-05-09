@@ -189,7 +189,7 @@ class ItemDanhmucFragment : Fragment() {
                         val album = Album(albumName!!, channel!!, logoAlbum!!,idAlbum!!)
                         items2.add(album)
                     }
-                val itemShuffle = items2.shuffled().take(7)
+                val itemShuffle = items2.shuffled().take(20)
 
 
                 adapter2 = ItemDanhMucAdapter(itemShuffle as ArrayList<Album>, requireContext())

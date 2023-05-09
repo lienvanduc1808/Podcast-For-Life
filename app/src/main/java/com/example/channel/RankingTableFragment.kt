@@ -2,31 +2,52 @@ package com.example.channel
 
 import android.content.res.Resources
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 
 class RankingTableFragment : Fragment() {
     private lateinit var viewPager: ViewPager2
 
-    private lateinit var adapter: TopItemAdapter
 
+    private lateinit var auth: FirebaseAuth
     private lateinit var listView: ListView
     private lateinit var adapter2:TopTapAdapter
+    private lateinit var authId: String
+    private var episodeID:String=""
+    private var sumListenerEpisode:Int= 0
+    private var albumName:String=""
+    private var channelName:String=""
+    private var episodeImage:String=""
+    private var idAlbum:String=""
+    val items = arrayListOf<Top_Item>()
+    val itemss = arrayListOf<Top_Item>()
+    val listTopTap = arrayListOf<TopTapData>()
+    val listTopTaps = arrayListOf<TopTapData>()
+    private lateinit var adapter: TopItemAdapter
+    private lateinit var tvAllAlbum2: TextView
+    private lateinit var tvAllAlbum3: TextView
+
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val view = inflater.inflate(R.layout.fragment_ranking_table, container, false)
+        tvAllAlbum2 = view.findViewById(R.id.txtSeeAll)
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ranking_table, container, false)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,10 +67,10 @@ class RankingTableFragment : Fragment() {
     private fun turnBack(view: View) {
         val imgBack = view.findViewById<ImageView>(R.id.imgBack)
         imgBack.setOnClickListener {
-//                if(fragmentManager!=null){
-//                    fragmentManager?.popBackStack()
-//
-//                }
+                if(fragmentManager!=null){
+                    fragmentManager?.popBackStack()
+
+                }
             //nhớ phải add fragment này vào backStack thì mới dùng được
             //https://www.youtube.com/watch?v=b9a3-gZ9CGc
 
@@ -73,27 +94,27 @@ class RankingTableFragment : Fragment() {
                 }
                 R.id.menuXH -> {
                     txtShowList.setText(menuItem.title.toString())
-                    showDataXH(view)
+                    showDataItemCate(view,"Xã hội và văn hóa")
                     true
                 }
                 R.id.menuNews -> {
                     txtShowList.setText(menuItem.title.toString())
-                    showDataNews(view)
+                    showDataItemCate(view,"Tin tức")
                     true
                 }
                 R.id.menuComedy -> {
                     txtShowList.setText(menuItem.title.toString())
-                    showDataComedy(view)
+                    showDataItemCate(view,"Hài")
                     true
                 }
                 R.id.menuBusiness -> {
                     txtShowList.setText(menuItem.title.toString())
-                    showDataBusiness(view)
+                    showDataItemCate(view,"Kinh doanh")
                     true
                 }
                 R.id.menuSport -> {
                     txtShowList.setText(menuItem.title.toString())
-                    showDataSport(view)
+                    showDataItemCate(view,"Thể thao")
                     true
                 }
                 else -> false
@@ -117,268 +138,293 @@ class RankingTableFragment : Fragment() {
     }
 
     private fun showDataAll(view: View) {
-        val items = arrayListOf(
-            Top_Item("Xa hoi", "Lời khuyên hữu ích", R.drawable.img_2, 1.toString()),
-            Top_Item("Xa hoi", "Marketing", R.drawable.trikycamxuc,2.toString()),
-            Top_Item("Xa hoi", "Bình thường một cách bất thường",R.drawable.img_5,3.toString() ),
-            Top_Item("Xa hoi", "sức khỏe tâm lý", R.drawable.img_3,4.toString()),
-            Top_Item("Xa hoi", "sức khỏe tâm lý", R.drawable.img_7,5.toString()),
-            Top_Item("Xa hoi", "sức khỏe tâm lý",R.drawable.img_6,6.toString() )
-        )
-        adapter = TopItemAdapter(items)
-        adapter.onItemClick = {  album->
 
-        }
-        viewPager = view.findViewById(R.id.viewPager)
+        val database = FirebaseDatabase.getInstance()
+        val ref = database.reference.child("categories")
+        auth = FirebaseAuth.getInstance()
+        authId =auth.currentUser?.uid.toString()
+        var list = mutableListOf<MyPodCastData>()
 
-        viewPager.apply {
-            clipChildren = false  // No clipping the left and right items
-            clipToPadding = false  // Show the viewpager in full width without clipping the padding
-            offscreenPageLimit = 5  // Render the left and right items
-            (getChildAt(0) as RecyclerView).overScrollMode =
-                RecyclerView.OVER_SCROLL_NEVER // Remove the scroll effect
-        }
-        viewPager.adapter = adapter
-        val compositePageTransformer = CompositePageTransformer()
-        compositePageTransformer.addTransformer(MarginPageTransformer((5 * Resources.getSystem().displayMetrics.density).toInt()))
-        viewPager.setPageTransformer(compositePageTransformer)
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
 
-        var listTopTap = mutableListOf<TopTapData>()
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.img,"Bình thường một cách bất thường","Thứ 2","9"))
-        listTopTap.add(TopTapData(R.drawable.img_7,"Lời khuyên hữu ích","Thứ 3","6"))
-        listTopTap.add(TopTapData(R.drawable.img_5,"Csức khỏe tâm lý","Thứ 4","7"))
-        listTopTap.add(TopTapData(R.drawable.img_4,"sức khỏe tâm lý","Thứ 5","2"))
-        listTopTap.add(TopTapData(R.drawable.img_3,"Marketing","Thứ 6","1"))
-        listTopTap.add(TopTapData(R.drawable.img_2,"Còn yêu được cứ yêu đi","Thứ 7","4"))
+                    for (categorySnapshot in dataSnapshot.children) {
+                        for (albumSnapshot in categorySnapshot.child("albums").children) {
+                            for (episodeSnapshot in albumSnapshot.child("episodes").children) {
 
-        adapter2 = TopTapAdapter(requireContext(),R.layout.top_tap,listTopTap)
-        listView = view.findViewById(R.id.lvRankingTap)
 
-        listView.adapter = adapter2
+                                 idAlbum =  albumSnapshot.key.toString()
+                                    episodeID = episodeSnapshot.key.toString()
+                                    val categoryName = categorySnapshot.child("cate_name").value.toString()
+
+                                     albumName = albumSnapshot.child("album_name").value.toString()
+                                    channelName = albumSnapshot.child("channel").value.toString()
+
+                                    val episodeDate = episodeSnapshot.child("date").value.toString()
+
+
+                                    val episodeDes = episodeSnapshot.child("descript").value.toString()
+
+
+                                     episodeImage = episodeSnapshot.child("img").value.toString()
+                                    var numListener = 0
+                                    var esposideListener  = episodeSnapshot.child("listener").value
+
+                                    if(esposideListener !=null){
+
+                                        numListener= esposideListener.toString().toInt()
+
+                                    }else{
+                                        numListener =0
+                                    }
+
+
+
+
+
+
+                                    val episodeName = episodeSnapshot.child("title").value.toString()
+                                listTopTap.add(TopTapData(episodeImage,episodeName,episodeDate,numListener))
+
+
+
+
+                                    sumListenerEpisode+=numListener.toInt()
+
+
+
+
+
+
+
+                            }
+                            if(sumListenerEpisode!=0){
+                                items.add(Top_Item(albumName,channelName,episodeImage,sumListenerEpisode,idAlbum))
+                                //Log.d("hhhh",sumListenerEpisode.toString()+albumName)
+                            }
+
+
+
+                            sumListenerEpisode =0
+
+
+
+
+                        }
+
+                    }
+
+
+
+                 items.sortedByDescending { it.totalListeners.toInt()
+                   }
+
+
+
+                var sortlist = items.sortedWith(compareByDescending { it.totalListeners })
+                for (album in sortlist) {
+                    itemss.add(album)
+
+
+                }
+                var sortlistTopTap = listTopTap.sortedWith(compareByDescending { it.totalListeners })
+                for (episode in sortlistTopTap ){
+                    listTopTaps.add(episode)
+                }
+
+
+
+                adapter2 = TopTapAdapter(requireContext(),R.layout.top_tap,listTopTaps)
+                listView = view.findViewById(R.id.lvRankingTap)
+                listView.adapter = adapter2
+
+                adapter = TopItemAdapter(itemss, requireContext())
+                adapter.onItemClick = {  album->
+                }
+                viewPager = view.findViewById(R.id.viewPager)
+
+                viewPager.apply {
+                    clipChildren = false  // No clipping the left and right items
+                    clipToPadding = false  // Show the viewpager in full width without clipping the padding
+                    offscreenPageLimit = 5  // Render the left and right items
+                    (getChildAt(0) as RecyclerView).overScrollMode =
+                        RecyclerView.OVER_SCROLL_NEVER // Remove the scroll effect
+                }
+                viewPager.adapter = adapter
+                val compositePageTransformer = CompositePageTransformer()
+                compositePageTransformer.addTransformer(MarginPageTransformer((5 * Resources.getSystem().displayMetrics.density).toInt()))
+                viewPager.setPageTransformer(compositePageTransformer)
+
+                tvAllAlbum2.setOnClickListener {
+                    replaceFragment(XemTatCaRankingFragment(itemss))
+                }
+
+
+
+
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle errors
+            }
+        })
+
+
+
+
+
+
+
     }
-    private fun showDataXH(view: View) {
-        val items = arrayListOf(
-            Top_Item("Xa hoi", "Lời khuyên hữu ích", R.drawable.img_2, 1.toString()),
-            Top_Item("Xa hoi", "Marketing", R.drawable.trikycamxuc,2.toString()),
-            Top_Item("Xa hoi", "Bình thường một cách bất thường",R.drawable.img_5,3.toString() ),
-            Top_Item("Xa hoi", "sức khỏe tâm lý", R.drawable.img_3,4.toString()),
-            Top_Item("Xa hoi", "sức khỏe tâm lý", R.drawable.img_7,5.toString()),
-            Top_Item("Xa hoi", "sức khỏe tâm lý",R.drawable.img_6,6.toString() )
-        )
-        adapter = TopItemAdapter(items)
-        adapter.onItemClick = {  album->
 
+
+    private fun showDataItemCate(view: View,cateName:String) {
+
+        val database = FirebaseDatabase.getInstance()
+        if(cateName.equals("Thể thao")){
+            var ref= database.getReference("categories").child("category_id_2")
+            getData(ref)
         }
-        viewPager = view.findViewById(R.id.viewPager)
-
-        viewPager.apply {
-            clipChildren = false  // No clipping the left and right items
-            clipToPadding = false  // Show the viewpager in full width without clipping the padding
-            offscreenPageLimit = 5  // Render the left and right items
-            (getChildAt(0) as RecyclerView).overScrollMode =
-                RecyclerView.OVER_SCROLL_NEVER // Remove the scroll effect
+        if(cateName.equals("Kinh doanh")){
+            var ref= database.getReference("categories").child("category_id_4")
+            Log.d("ref",ref.toString())
+            getData(ref)
         }
-        viewPager.adapter = adapter
-        val compositePageTransformer = CompositePageTransformer()
-        compositePageTransformer.addTransformer(MarginPageTransformer((5 * Resources.getSystem().displayMetrics.density).toInt()))
-        viewPager.setPageTransformer(compositePageTransformer)
+        if(cateName.equals("Tin tức")){
+            var ref= database.getReference("categories").child("category_id_1")
+            Log.d("ref",ref.toString())
+            getData(ref)
+        }
+        if(cateName.equals("Hài")){
+            var ref= database.getReference("categories").child("category_id_3")
+            Log.d("ref",ref.toString())
+            getData(ref)
+        }
+        if(cateName.equals("Xã hội và văn hóa")){
+            var ref= database.getReference("categories").child("category_id_5")
+            Log.d("ref",ref.toString())
+            getData(ref)
+        }
 
-        var listTopTap = mutableListOf<TopTapData>()
-        listTopTap.add(TopTapData(R.drawable.img_7,"Xa hoi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.img_2,"Xa hoi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.img_3,"Xa hoi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.img_4,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.img_5,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.img,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.img_8,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.img_9,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
 
-        adapter2 = TopTapAdapter(requireContext(),R.layout.top_tap,listTopTap)
-        listView = view.findViewById(R.id.lvRankingTap)
 
-        listView.adapter = adapter2
     }
-    private fun showDataNews(view: View) {
-        val items = arrayListOf(
-            Top_Item("News", "Lời khuyên hữu ích", R.drawable.img_2, 1.toString()),
-            Top_Item("News", "Marketing", R.drawable.trikycamxuc,2.toString()),
-            Top_Item("News", "Bình thường một cách bất thường",R.drawable.img_5,3.toString() ),
-            Top_Item("News", "sức khỏe tâm lý", R.drawable.img_3,4.toString()),
-            Top_Item("News", "sức khỏe tâm lý", R.drawable.img_7,5.toString()),
-            Top_Item("News", "sức khỏe tâm lý",R.drawable.img_6,6.toString() )
-        )
-        adapter = TopItemAdapter(items)
-        adapter.onItemClick = {  album->
 
-        }
-        viewPager = view.findViewById(R.id.viewPager)
+    private fun getData(ref: DatabaseReference) {
 
-        viewPager.apply {
-            clipChildren = false  // No clipping the left and right items
-            clipToPadding = false  // Show the viewpager in full width without clipping the padding
-            offscreenPageLimit = 5  // Render the left and right items
-            (getChildAt(0) as RecyclerView).overScrollMode =
-                RecyclerView.OVER_SCROLL_NEVER // Remove the scroll effect
-        }
-        viewPager.adapter = adapter
-        val compositePageTransformer = CompositePageTransformer()
-        compositePageTransformer.addTransformer(MarginPageTransformer((5 * Resources.getSystem().displayMetrics.density).toInt()))
-        viewPager.setPageTransformer(compositePageTransformer)
 
-        var listTopTap = mutableListOf<TopTapData>()
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Tin tuc ","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Tin tuc ","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Tin tuc ","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Tin tuc ","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Tin tuc ","Chủ nhật","10"))
+        Log.d("co vi","co vo")
+        auth = FirebaseAuth.getInstance()
+        authId =auth.currentUser?.uid.toString()
+        var list = mutableListOf<MyPodCastData>()
+        val itemCate = arrayListOf<Top_Item>()
+        val itemCateSort = arrayListOf<Top_Item>()
+        val topEpisode = arrayListOf<TopTapData>()
+        val topEpisodeSort = arrayListOf<TopTapData>()
 
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (albumSnapshot in dataSnapshot.child("albums").children) {
+                    for (episodeSnapshot in albumSnapshot.child("episodes").children) {
+                        Log.d("episodeSnapshot",episodeSnapshot.ref.toString())
+                        idAlbum =  albumSnapshot.key.toString()
+                        episodeID = episodeSnapshot.key.toString()
+                        albumName = albumSnapshot.child("album_name").value.toString()
+                        channelName = albumSnapshot.child("channel").value.toString()
+                        val episodeDate = episodeSnapshot.child("date").value.toString()
+                        episodeImage = episodeSnapshot.child("img").value.toString()
+                        var numListener = 0
+                        var esposideListener  = episodeSnapshot.child("listener").value
 
-        adapter2 = TopTapAdapter(requireContext(),R.layout.top_tap,listTopTap)
-        listView = view.findViewById(R.id.lvRankingTap)
+                        if(esposideListener !=null){
 
-        listView.adapter = adapter2
+                            numListener= esposideListener.toString().toInt()
+
+                        }else{
+                            numListener =0
+                        }
+
+                        val episodeName = episodeSnapshot.child("title").value.toString()
+                        topEpisode.add(TopTapData(episodeImage,episodeName,episodeDate,numListener))
+                        Log.d("topEpisode",topEpisode.toString())
+                        sumListenerEpisode+=numListener.toInt()
+                    }
+                    if(sumListenerEpisode!=0){
+                        itemCate.add(Top_Item(albumName,channelName,episodeImage,sumListenerEpisode,idAlbum))
+                       // Log.d("hhhh",sumListenerEpisode.toString()+albumName)
+                    }
+                    sumListenerEpisode =0
+
+
+                }
+
+
+                val sortlist = itemCate.sortedWith(compareByDescending { it.totalListeners })
+                for (album in sortlist) {
+                    itemCateSort.add(album)
+
+
+                }
+
+
+                val sortTopEpisode = topEpisode.sortedWith(compareByDescending { it.totalListeners })
+                for (episode in sortTopEpisode ){
+                    topEpisodeSort.add(episode)
+                }
+
+
+
+                adapter2 = TopTapAdapter(requireContext(),R.layout.top_tap,topEpisodeSort)
+                listView = view!!.findViewById(R.id.lvRankingTap)
+                listView.adapter = adapter2
+
+                adapter = TopItemAdapter(itemCateSort, requireContext())
+                adapter.onItemClick = {  album->
+                }
+                viewPager = view!!.findViewById(R.id.viewPager)
+
+                viewPager.apply {
+                    clipChildren = false  // No clipping the left and right items
+                    clipToPadding = false  // Show the viewpager in full width without clipping the padding
+                    offscreenPageLimit = 5  // Render the left and right items
+                    (getChildAt(0) as RecyclerView).overScrollMode =
+                        RecyclerView.OVER_SCROLL_NEVER // Remove the scroll effect
+                }
+                viewPager.adapter = adapter
+                val compositePageTransformer = CompositePageTransformer()
+                compositePageTransformer.addTransformer(MarginPageTransformer((5 * Resources.getSystem().displayMetrics.density).toInt()))
+                viewPager.setPageTransformer(compositePageTransformer)
+
+
+                tvAllAlbum2.setOnClickListener {
+                    replaceFragment(XemTatCaRankingFragment(itemCateSort))
+                }
+
+
+
+
+
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle errors
+            }
+        })
     }
-    private fun showDataComedy(view: View) {
-        val items = arrayListOf(
-            Top_Item("Comedy 1", "Subtitle 1", R.drawable.trikycamxuc, 1.toString()),
-            Top_Item("TComedy 1", "Subtitle 2", R.drawable.trikycamxuc,2.toString()),
-            Top_Item("Comedy 1", "Subtitle 1", R.drawable.trikycamxuc, 1.toString()),
-            Top_Item("TComedy 1", "Subtitle 2", R.drawable.trikycamxuc,2.toString()),
-            Top_Item("Comedy 1", "Subtitle 1", R.drawable.trikycamxuc, 1.toString()),
-            Top_Item("TComedy 1", "Subtitle 2", R.drawable.trikycamxuc,2.toString()),
-            Top_Item("Title 3", "Subtitle 3",R.drawable.trikycamxuc,3.toString() ),
-            Top_Item("Title 4", "Subtitle 4", R.drawable.trikycamxuc,4.toString()),
-            Top_Item("Title 5", "Subtitle 5", R.drawable.trikycamxuc,5.toString()),
-            Top_Item("Title 6", "Subtitle 6",R.drawable.trikycamxuc,6.toString() )
-        )
-        adapter = TopItemAdapter(items)
-        adapter.onItemClick = {  album->
 
-        }
-        viewPager = view.findViewById(R.id.viewPager)
-
-        viewPager.apply {
-            clipChildren = false  // No clipping the left and right items
-            clipToPadding = false  // Show the viewpager in full width without clipping the padding
-            offscreenPageLimit = 5  // Render the left and right items
-            (getChildAt(0) as RecyclerView).overScrollMode =
-                RecyclerView.OVER_SCROLL_NEVER // Remove the scroll effect
-        }
-        viewPager.adapter = adapter
-        val compositePageTransformer = CompositePageTransformer()
-        compositePageTransformer.addTransformer(MarginPageTransformer((5 * Resources.getSystem().displayMetrics.density).toInt()))
-        viewPager.setPageTransformer(compositePageTransformer)
-
-        var listTopTap = mutableListOf<TopTapData>()
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Comdy","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Comdy","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Comdy","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Comdy","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-
-        adapter2 = TopTapAdapter(requireContext(),R.layout.top_tap,listTopTap)
-        listView = view.findViewById(R.id.lvRankingTap)
-
-        listView.adapter = adapter2
-    }
-    private fun showDataBusiness(view: View) {
-        val items = arrayListOf(
-            Top_Item("Title 1", "Subtitle 1", R.drawable.trikycamxuc, 1.toString()),
-            Top_Item("Title 2", "Subtitle 2", R.drawable.trikycamxuc,2.toString()),
-            Top_Item("Title 3", "Subtitle 3",R.drawable.trikycamxuc,3.toString() ),
-            Top_Item("Title 4", "Subtitle 4", R.drawable.trikycamxuc,4.toString()),
-            Top_Item("Title 5", "Subtitle 5", R.drawable.trikycamxuc,5.toString()),
-            Top_Item("Title 6", "Subtitle 6",R.drawable.trikycamxuc,6.toString() )
-        )
-        adapter = TopItemAdapter(items)
-        adapter.onItemClick = {  album->
-
-        }
-        viewPager = view.findViewById(R.id.viewPager)
-
-        viewPager.apply {
-            clipChildren = false  // No clipping the left and right items
-            clipToPadding = false  // Show the viewpager in full width without clipping the padding
-            offscreenPageLimit = 5  // Render the left and right items
-            (getChildAt(0) as RecyclerView).overScrollMode =
-                RecyclerView.OVER_SCROLL_NEVER // Remove the scroll effect
-        }
-        viewPager.adapter = adapter
-        val compositePageTransformer = CompositePageTransformer()
-        compositePageTransformer.addTransformer(MarginPageTransformer((5 * Resources.getSystem().displayMetrics.density).toInt()))
-        viewPager.setPageTransformer(compositePageTransformer)
-
-        var listTopTap = mutableListOf<TopTapData>()
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-
-        adapter2 = TopTapAdapter(requireContext(),R.layout.top_tap,listTopTap)
-        listView = view.findViewById(R.id.lvRankingTap)
-
-        listView.adapter = adapter2
-    }
-    private fun showDataSport(view: View) {
-        val items = arrayListOf(
-            Top_Item("Title 1", "Subtitle 1", R.drawable.trikycamxuc, 1.toString()),
-            Top_Item("Title 2", "Subtitle 2", R.drawable.trikycamxuc,2.toString()),
-            Top_Item("Title 3", "Subtitle 3",R.drawable.trikycamxuc,3.toString() ),
-            Top_Item("Title 4", "Subtitle 4", R.drawable.trikycamxuc,4.toString()),
-            Top_Item("Title 5", "Subtitle 5", R.drawable.trikycamxuc,5.toString()),
-            Top_Item("Title 6", "Subtitle 6",R.drawable.trikycamxuc,6.toString() )
-        )
-        adapter = TopItemAdapter(items)
-        adapter.onItemClick = {  album->
-
-        }
-        viewPager = view.findViewById(R.id.viewPager)
-
-        viewPager.apply {
-            clipChildren = false  // No clipping the left and right items
-            clipToPadding = false  // Show the viewpager in full width without clipping the padding
-            offscreenPageLimit = 5  // Render the left and right items
-            (getChildAt(0) as RecyclerView).overScrollMode =
-                RecyclerView.OVER_SCROLL_NEVER // Remove the scroll effect
-        }
-        viewPager.adapter = adapter
-        val compositePageTransformer = CompositePageTransformer()
-        compositePageTransformer.addTransformer(MarginPageTransformer((5 * Resources.getSystem().displayMetrics.density).toInt()))
-        viewPager.setPageTransformer(compositePageTransformer)
-
-        var listTopTap = mutableListOf<TopTapData>()
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-        listTopTap.add(TopTapData(R.drawable.trikycamxuc,"Còn yêu được cứ yêu đi","Chủ nhật","10"))
-
-        adapter2 = TopTapAdapter(requireContext(),R.layout.top_tap,listTopTap)
-        listView = view.findViewById(R.id.lvRankingTap)
-
-        listView.adapter = adapter2
+    private fun replaceFragment(fragment: Fragment){
+        val fragmentManager = parentFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.frame_layout, fragment).addToBackStack(null)
+        fragmentTransaction.commit()
     }
 
 
 }
+
+
 
 
 

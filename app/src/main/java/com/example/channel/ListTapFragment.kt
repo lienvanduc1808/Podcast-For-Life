@@ -52,6 +52,7 @@ class ListTapFragment : Fragment() {
                 override fun onDataChange(snapshot: DataSnapshot) {
 
                     for (episodeSnapshot in snapshot.children) {
+
                         val date = episodeSnapshot.child("date").value.toString()
                         val epdes = episodeSnapshot.child("descript").value.toString()
                         val epTitle = episodeSnapshot.child("title").value.toString()

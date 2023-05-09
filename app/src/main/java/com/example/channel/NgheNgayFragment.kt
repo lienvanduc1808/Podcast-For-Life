@@ -114,7 +114,7 @@ class NgheNgayFragment : Fragment() {
                                 val imageRef = storageRef.child("Album/$imgString")
                                 imageRef.downloadUrl.addOnSuccessListener { uri ->
                                     // Use the URL to display the image
-                                    Glide.with(requireContext()).load(uri).into(ivLogoAlbum)
+                                    Glide.with(requireContext()).load(uri).placeholder(R.drawable.img_17).into(ivLogoAlbum)
                                 }.addOnFailureListener { exception ->
                                     // Handle any errors
                                     Log.e(
