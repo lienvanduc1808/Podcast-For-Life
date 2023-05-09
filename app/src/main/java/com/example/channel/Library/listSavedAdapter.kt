@@ -139,7 +139,18 @@ class ListSavedAdapter(context: Context, resource: Int, objects: MutableList<Lis
 
         ibPlayEpisode?.setOnClickListener{
             //Mở tập podcast và đổi podcast thu nhỏ hiện tại
+
+            val send_data = Bundle().apply {
+                putString("idEpisode", currentItem?._id.toString())
+                putString("dateEpisode", currentItem?.date.toString())
+                putString("titleEpisode", currentItem?.title.toString())
+                putString("descriptEpisode", currentItem?.descript.toString())
+                putString("imgEpisode", currentItem?.img.toString())
+                Log.d("idEpisode", currentItem?._id.toString())
+
+            }
             episodeBS.show((context as AppCompatActivity).getSupportFragmentManager(), "Episode screen")
+            (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_idEpisode", send_data)
         }
 
         return itemView!!

@@ -24,8 +24,7 @@
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/trikycamxuc" />
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <SeekBar
@@ -63,7 +62,7 @@
                 android:layout_height="33dp"
                 android:layout_marginTop="36dp"
                 android:ellipsize="marquee"
-                android:text="Nhạc giật tại thiên trách người không lắk"
+                android:text=""
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold"
@@ -78,7 +77,7 @@
                 android:layout_height="33dp"
                 android:layout_marginTop="4dp"
                 android:ellipsize="marquee"
-                android:text="Đồ không ngon là đồ dở, người không thở là người ra đi"
+                android:text=""
                 android:textColor="@color/violet"
                 android:textSize="18dp"
                 app:layout_constraintEnd_toEndOf="@+id/tvTitle"
