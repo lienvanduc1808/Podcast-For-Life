@@ -12,6 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.channel.DanhMuc
 import com.example.channel.R
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class CateManageAdapter(private val data: ArrayList<DanhMuc>, val context: Context) : RecyclerView.Adapter<CateManageAdapter.ViewHolder>() {
     var onItemClick: ((DanhMuc) -> Unit)? = null
@@ -27,6 +31,32 @@ class CateManageAdapter(private val data: ArrayList<DanhMuc>, val context: Conte
         holder.catName.text = item.name
         holder.editTV.setOnClickListener{
             Log.d("ffb", "edit")
+        }
+        val name = item.name
+        holder.deleteTV.setOnClickListener{
+            val database = FirebaseDatabase.getInstance()
+            val ref = database.reference.child("categories")
+            ref.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    for (categorySnapshot in dataSnapshot.children) {
+                        if(name.equals(categorySnapshot.key.toString())){
+
+                            var cateRef = categorySnapshot.key.toString()
+
+                            val reafRef = "categories" +"/" +cateRef
+                            Log.d("RealRef",reafRef)
+                            val myRef = database.getReference(reafRef)
+                            myRef.removeValue()
+
+                        }
+
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+            })
         }
         holder.itemView.setOnClickListener {
 
