@@ -91,6 +91,8 @@ class NgheNgayFragment : Fragment() {
         pb3start = view.findViewById(R.id.pb3start)
         pb2start = view.findViewById(R.id.pb2start)
         pb1start = view.findViewById(R.id.pb1start)
+
+
         return view
     }
 
@@ -178,6 +180,7 @@ class NgheNgayFragment : Fragment() {
                             }
                         }
                     }
+
                 }
                 override fun onCancelled(error: DatabaseError) {
                     // Handle errors
@@ -190,6 +193,7 @@ class NgheNgayFragment : Fragment() {
         if (reviews.size == 0){
             tvAverage.setText("5")
             tvTotalRating.setText("Hãy là người đầu tiên đánh giá")
+
         }
         else{
             var rat5 = 0
@@ -213,9 +217,18 @@ class NgheNgayFragment : Fragment() {
 //                pb1start.progress = (rat1 / sumRat * 100).toInt()
                 pb1start.progress = 90
             }
+            pb5start.progress = 50
+            pb4start.progress = 50
+            pb3start.progress = 30
+            pb2start.progress = 20
             tvAverage.setText(((5*rat5 + 4*rat4 + 3*rat3 + 2*rat2 + rat1)/reviews.size).toString().format(1))
             tvTotalRating.setText(reviews.size.toString() + " lượt đánh giá")
         }
+//        pb5start.progress = 80
+//        pb4start.progress = 50
+//        pb3start.progress = 30
+//        pb2start.progress = 20
+//        pb1start.progress = 40
     }
 
     fun findNameUser(idUser: String): String{
