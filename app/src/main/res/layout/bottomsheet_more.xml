@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Profile.MoreBottomSheet"
+    tools:context=".NgheNgay.MoreBottomSheet"
     android:background="@color/super_light_gray">
 
     <!-- TODO: Update blank fragment layout -->
@@ -52,23 +52,84 @@
         app:layout_constraintTop_toBottomOf="@+id/ivCoverImage2"
         tools:layout_editor_absoluteX="13dp" />
 
-    <ListView
-        android:id="@+id/lvShareBtn"
-        android:layout_width="357dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vLine" />
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/vLine"
+        tools:layout_editor_absoluteX="0dp"
+        android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/lvMore"
-        android:layout_width="357dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="98dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vLine" />
+        <LinearLayout
+            android:id="@+id/llGoToAlb2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="30dp"
+                android:gravity="left"
+                android:text="Đi tới chương trình"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="25dp"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="6dp"
+                app:srcCompat="@drawable/baseline_podcasts_24" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/llSave2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="30dp"
+                android:gravity="left"
+                android:text="Lưu tập"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="25dp"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="6dp"
+                app:srcCompat="@drawable/outline_bookmark_border_24" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/llDownload2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="30dp"
+                android:gravity="left"
+                android:text="Tải tập "
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="25dp"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="6dp"
+                app:srcCompat="@drawable/baseline_arrow_circle_down_24" />
+
+        </LinearLayout>
+    </LinearLayout>
 
     <ImageButton
         android:id="@+id/ibClose"
