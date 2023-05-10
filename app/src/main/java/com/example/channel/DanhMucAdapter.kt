@@ -24,7 +24,6 @@ class DanhMucAdapter(private val data: ArrayList<DanhMuc>,val context: Context) 
         val item:DanhMuc = data[position]
         Glide.with(context).load(item.image).placeholder(R.drawable.img_17)
             .into(holder.imageView)
-        //holder.imageView.setImageResource(item.image)
         holder.textView.text = item.name
 
         holder.itemView.setOnClickListener {

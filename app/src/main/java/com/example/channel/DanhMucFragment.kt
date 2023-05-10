@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import android.widget.AutoCompleteTextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
@@ -34,7 +35,12 @@ class DanhMucFragment : Fragment() {
         recyclerView = view.findViewById(R.id.rvListDanhMuc)
         searchET = view.findViewById(R.id.searchEditText)
         searchET?.setOnClickListener{
-            replaceFragment(SearchAlbumFragment())
+            (requireContext() as AppCompatActivity).getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frame_layout, SearchAlbumFragment())
+                .addToBackStack(null)
+                .commit()
+
+           // replaceFragment(SearchAlbumFragment())
         }
         val items = arrayListOf<DanhMuc>(DanhMuc("Bảng xếp hạng", "https://firebasestorage.googleapis.com/v0/b/testdb-80aa6.appspot.com/o/Category%2Fimg_11.png?alt=media&token=4fc51f1a-6dc9-4c8b-9bc1-2a18b943b696"))
 

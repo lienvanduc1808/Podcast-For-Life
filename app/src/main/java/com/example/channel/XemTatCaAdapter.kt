@@ -42,9 +42,6 @@ class XemTatCaAdapter(private val items: ArrayList<Album>, val context: Context)
         val item = items[position]
         holder.text1.text = item.name
         holder.text2.text = item.channel
-//        Glide.with(context).load(item.logo)
-//            .into(holder.image)
-        // Create a reference to the image file in Firebase Storage
         val storageRef = FirebaseStorage.getInstance().reference
         val logo = item.logo
         val imageRef = storageRef.child("Album/$logo")
