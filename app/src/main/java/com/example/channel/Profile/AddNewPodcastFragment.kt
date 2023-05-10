@@ -317,10 +317,17 @@ class AddNewPodcastFragment : Fragment() {
                 var count_episode: Int = 0
                 if(dataSnapshot.childrenCount == null)
                     count_episode = 0
-                else
+                else {
                     count_episode = dataSnapshot.childrenCount.toInt()
+                    for (episodeSnapshot in dataSnapshot.children){
+                        Log.d("num", episodeSnapshot.key.toString().lastIndexOf("ep").toString())
+                        Log.d("num", episodeSnapshot.key.toString().substring(episodeSnapshot.key.toString().lastIndexOf("ep") + 2, episodeSnapshot.key.toString().length))
+                        if(episodeSnapshot.key.toString().substring(episodeSnapshot.key.toString().lastIndexOf("ep") + 2, episodeSnapshot.key.toString().length).toInt() >= count_episode)
+                            count_episode = episodeSnapshot.key.toString().substring(episodeSnapshot.key.toString().lastIndexOf("ep") + 2, episodeSnapshot.key.toString().length).toInt() + 1
+                    }
+                }
 
-                var newEpisodeId: String = albumSource + "ep" +(count_episode+1).toString()
+                var newEpisodeId: String = albumSource + "ep" + count_episode.toString()
                 databaseReference.child(newEpisodeId).setValue(episodeData(etTitle4.text.toString(), etDescription4.text.toString(), "LocalDate.now()", albumSource))
                 storageReference = FirebaseStorage.getInstance().getReference("AudioEpisode/"+newEpisodeId)
 
