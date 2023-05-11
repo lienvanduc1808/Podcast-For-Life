@@ -37,15 +37,14 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 import com.example.channel.R
+import java.time.LocalDate
 
 
 class AddNewPodcastFragment : Fragment() {
     private lateinit var btnAddAudio: Button
     private lateinit var imgBack: ImageView
-    private lateinit var txtNewAlbumName: TextView
-    private lateinit var txtNewEsposideName: TextView
-    private lateinit var txtNewDes: TextView
-    private lateinit var newImage: RoundedImageView
+
+
     private lateinit var txtXong: TextView
     private lateinit var txtChonDanhmuc: TextView
     private lateinit var spnAlbum: Spinner
@@ -77,10 +76,8 @@ class AddNewPodcastFragment : Fragment() {
 
         btnAddAudio = view.findViewById(R.id.btnAddAudio)
         imgBack = view.findViewById(R.id.imgBack)
-        txtNewAlbumName = view.findViewById(R.id.txtNewAlbumName)
-        txtNewEsposideName = view.findViewById(R.id.txtNewEsposideName)
-        txtNewDes = view.findViewById(R.id.txtNewDes)
-        newImage = view.findViewById(R.id.newImage)
+
+
         txtXong = view.findViewById(R.id.txtXong)
         txtChonDanhmuc = view.findViewById(R.id.txtChonDanhmuc)
         spnAlbum = view.findViewById(R.id.spnAlbum)
@@ -114,7 +111,7 @@ class AddNewPodcastFragment : Fragment() {
 
         txtXong.setOnClickListener {
             createEpisode()
-            parentFragmentManager.popBackStack()
+            replaceFragment(MyPodcastFragment())
         }
 
     }
@@ -328,7 +325,8 @@ class AddNewPodcastFragment : Fragment() {
                 }
 
                 var newEpisodeId: String = albumSource + "ep" + count_episode.toString()
-                databaseReference.child(newEpisodeId).setValue(episodeData(etTitle4.text.toString(), etDescription4.text.toString(), "LocalDate.now()", albumSource))
+                databaseReference.child(newEpisodeId).setValue(episodeData(etTitle4.text.toString(), etDescription4.text.toString(), "${LocalDate.now()}", albumSource))
+                databaseReference.child(newEpisodeId).child("listener").setValue(0)
                 storageReference = FirebaseStorage.getInstance().getReference("AudioEpisode/"+newEpisodeId)
 
                 val file = Uri.fromFile(File(audioUri))
