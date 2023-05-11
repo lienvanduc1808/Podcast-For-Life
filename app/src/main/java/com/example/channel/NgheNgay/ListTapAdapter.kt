@@ -46,7 +46,7 @@ class ListTapAdapter(context: Context, resource: Int, list: List<ListTapData>):
         databaseReference = FirebaseDatabase.getInstance().getReference("users/"+auth.currentUser?.uid)
 
         imgBtnPlay?.setOnClickListener {
-            EpisodeBottomSheet().show((context as AppCompatActivity).getSupportFragmentManager(), "Episode screen")
+          //  EpisodeBottomSheet().show((context as AppCompatActivity).getSupportFragmentManager(), "Episode screen")
 
             val send_data = Bundle().apply {
                 putString("idEpisode", currentItem?._id.toString())
