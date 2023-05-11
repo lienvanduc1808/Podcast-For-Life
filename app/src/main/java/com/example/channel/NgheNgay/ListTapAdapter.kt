@@ -12,10 +12,10 @@ import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.channel.Profile.MyPodcastFragment
 import com.example.channel.R
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
@@ -46,7 +46,7 @@ class ListTapAdapter(context: Context, resource: Int, list: List<ListTapData>):
         databaseReference = FirebaseDatabase.getInstance().getReference("users/"+auth.currentUser?.uid)
 
         imgBtnPlay?.setOnClickListener {
-          //  EpisodeBottomSheet().show((context as AppCompatActivity).getSupportFragmentManager(), "Episode screen")
+            EpisodeBottomSheet().show((context as AppCompatActivity).getSupportFragmentManager(), "Episode screen")
 
             val send_data = Bundle().apply {
                 putString("idEpisode", currentItem?._id.toString())
@@ -58,6 +58,54 @@ class ListTapAdapter(context: Context, resource: Int, list: List<ListTapData>):
 //                putString("position", position.toString())
             }
             (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_idEpisode", send_data)
+
+
+
+            val database = FirebaseDatabase.getInstance()
+            val ref = database.reference.child("categories")
+            ref.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                    for (categorySnapshot in dataSnapshot.children) {
+                        for (albumSnapshot in categorySnapshot.child("albums").children) {
+                            for (episodeSnapshot in albumSnapshot.child("episodes").children) {
+                                if(currentItem?._id.toString().equals(episodeSnapshot.key.toString())){
+
+
+                                    val numListener = episodeSnapshot.child("listener").value.toString().toInt()
+
+                                    val newNumListener = numListener +1
+
+                                    var cateRef = categorySnapshot.key.toString()
+                                    Log.d("cateRef",cateRef)
+                                    var AlbumRef = albumSnapshot.key.toString()
+                                    Log.d("AlbumRef",cateRef)
+                                    var episoedeRef = albumSnapshot.child("episodes").ref
+                                    val reafRef = "categories" +"/" +cateRef+"/albums/"+AlbumRef+"/episodes/"+ episodeSnapshot.key.toString()
+                                    Log.d("RealRef",reafRef)
+                                    val myRef = database.getReference(reafRef)
+                                    val updates: MutableMap<String, Any> = HashMap()
+                                    updates["listener"] = newNumListener.toString()
+
+                                    myRef.updateChildren(updates)
+
+
+
+
+
+
+                                }
+
+                            }
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    // Handle errors
+                }
+            })
+
 
         }
 

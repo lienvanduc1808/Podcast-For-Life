@@ -91,8 +91,6 @@ class NgheNgayFragment : Fragment() {
         pb3start = view.findViewById(R.id.pb3start)
         pb2start = view.findViewById(R.id.pb2start)
         pb1start = view.findViewById(R.id.pb1start)
-
-
         return view
     }
 

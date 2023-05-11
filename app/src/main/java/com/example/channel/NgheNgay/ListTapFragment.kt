@@ -2,6 +2,7 @@ package com.example.channel.NgheNgay
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -47,7 +48,9 @@ class ListTapFragment : Fragment() {
             val taskDanhmuc = result.getString("ref")
             val albumRef = FirebaseDatabase.getInstance().getReference(taskDanhmuc.toString())
             val episodesRef = albumRef.child("episodes")
-            episodesRef.addValueEventListener(object : ValueEventListener {
+            val uniqueItems = ArrayList<ListTapData>()
+            val set = HashSet<ListTapData>()
+            episodesRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     for (episodeSnapshot in snapshot.children) {
                         val epTitle = episodeSnapshot.child("title").value.toString()
@@ -56,15 +59,38 @@ class ListTapFragment : Fragment() {
                         val img = episodeSnapshot.child("img").value.toString()
                         val _id = episodeSnapshot.key.toString()
                         list.add(ListTapData(_id, date, epTitle, epdes, img, ""))
+                        Log.d("soluongeepisode",list.size.toString())
+                        val numListEpisode = list.size
+                        listTapAdapter = ListTapAdapter(requireContext(), R.layout.list_tap, list.toList())
+                        listView = view.findViewById(R.id.lvTap)
+                        listView.adapter = listTapAdapter
+                        uniqueItems.add(ListTapData(_id, date, epTitle, epdes, img, ""))
+
+
+
+
+
+
                     }
-                    listTapAdapter = ListTapAdapter(requireContext(), R.layout.list_tap, list.toList())
-                    listView = view.findViewById(R.id.lvTap)
-                    listView.adapter = listTapAdapter
+                    listTapAdapter.clear()
+                    Log.d("sgsgdgf",uniqueItems.toString())
+
+
+                    listTapAdapter.addAll(uniqueItems)
+                    listTapAdapter.notifyDataSetChanged()
+
+
+
+
                 }
+               // val numList = list.size
+
                 override fun onCancelled(error: DatabaseError) {
 
                 }
             })
+            Log.d("list",list.toString())
+
         }
     }
 }
