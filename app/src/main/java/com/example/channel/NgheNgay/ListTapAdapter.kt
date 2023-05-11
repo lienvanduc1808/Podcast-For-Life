@@ -158,7 +158,7 @@ class ListTapAdapter(context: Context, resource: Int, list: List<ListTapData>):
         ngayThang?.text = currentItem?.date
         tenTap?.text = currentItem?.title
 //        phut?.text = currentItem?.phut
-        phut?.text = "20s"
+        phut?.text = currentItem?.duration
 
 
 
