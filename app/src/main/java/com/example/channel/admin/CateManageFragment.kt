@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
@@ -24,7 +25,7 @@ import com.google.firebase.ktx.Firebase
 class CateManageFragment : Fragment() {
     private var recyclerView: RecyclerView? = null
     private var adapter: CateManageAdapter? = null
-
+    private var btnAddCate: Button? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,6 +33,11 @@ class CateManageFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_admin_cate_manage, container, false)
         recyclerView = view.findViewById(R.id.adminListCateRV)
+        btnAddCate = view.findViewById(R.id.btn_add_cate)
+        btnAddCate!!.setOnClickListener{
+            replaceFragment(AdminAddCateFragment())
+        }
+
 
         recyclerView?.layoutManager = LinearLayoutManager(requireContext())
         val items = arrayListOf<DanhMuc>()
@@ -55,24 +61,24 @@ class CateManageFragment : Fragment() {
 
                 recyclerView!!.adapter = adapter
                 adapter?.onItemClick = { danhMuc ->
-                    when (danhMuc.name) {
+                    when (danhMuc.cate_name) {
                         "Tin tức" -> {
-                            adminReplaceFragment(danhMuc.name)
+                            adminReplaceFragment(danhMuc.cate_name)
 
                         }
                         "Thể thao" -> {
 
-                            adminReplaceFragment(danhMuc.name)
+                            adminReplaceFragment(danhMuc.cate_name)
                         }
                         "Hài" -> {
 
-                            adminReplaceFragment(danhMuc.name)
+                            adminReplaceFragment(danhMuc.cate_name)
                         }
                         "Kinh doanh" -> {
-                            adminReplaceFragment(danhMuc.name)
+                            adminReplaceFragment(danhMuc.cate_name)
                         }
                         "Xã hội và văn hóa" -> {
-                            adminReplaceFragment(danhMuc.name)
+                            adminReplaceFragment(danhMuc.cate_name)
                         }
 
                     }
@@ -118,5 +124,10 @@ class CateManageFragment : Fragment() {
         parentFragmentManager.setFragmentResult("send_dm", send_data)
 
     }
-
+    private fun replaceFragment(fragment: Fragment){
+        val fragmentManager = parentFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.admin_frame_layout, fragment).addToBackStack(null)
+        fragmentTransaction.commit()
+    }
 }

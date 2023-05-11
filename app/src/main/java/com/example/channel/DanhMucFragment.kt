@@ -61,7 +61,7 @@ class DanhMucFragment : Fragment() {
               //  setUpAutoCompleteTVAdapter(DanhMucList.getDanhMucNameList())
 
                 adapter?.onItemClick = { danhMuc ->
-                    when (danhMuc.name) {
+                    when (danhMuc.cate_name) {
                         "New Fragment 1" -> {
                             replaceFragment(RankingTableFragment())
                         }
@@ -74,7 +74,7 @@ class DanhMucFragment : Fragment() {
                                 .commit()
 
                             val send_data = Bundle().apply {
-                                putString("tendanhmuc",danhMuc.name )
+                                putString("tendanhmuc",danhMuc.cate_name )
                             }
                             parentFragmentManager.setFragmentResult("send_dm", send_data)
 
@@ -89,7 +89,7 @@ class DanhMucFragment : Fragment() {
                                 .commit()
 
                             val send_data = Bundle().apply {
-                                putString("tendanhmuc",danhMuc.name )
+                                putString("tendanhmuc",danhMuc.cate_name )
 
                             }
                             parentFragmentManager.setFragmentResult("send_dm", send_data)
@@ -105,7 +105,7 @@ class DanhMucFragment : Fragment() {
                                 .commit()
 
                             val send_data = Bundle().apply {
-                                putString("tendanhmuc",danhMuc.name )
+                                putString("tendanhmuc",danhMuc.cate_name )
 
                             }
                             parentFragmentManager.setFragmentResult("send_dm", send_data)
@@ -121,7 +121,7 @@ class DanhMucFragment : Fragment() {
                                 .commit()
 
                             val send_data = Bundle().apply {
-                                putString("tendanhmuc",danhMuc.name )
+                                putString("tendanhmuc",danhMuc.cate_name )
 
                             }
                             parentFragmentManager.setFragmentResult("send_dm", send_data)
@@ -137,7 +137,7 @@ class DanhMucFragment : Fragment() {
                                 .commit()
 
                             val send_data = Bundle().apply {
-                                putString("tendanhmuc",danhMuc.name )
+                                putString("tendanhmuc",danhMuc.cate_name )
 
                             }
                             parentFragmentManager.setFragmentResult("send_dm", send_data)

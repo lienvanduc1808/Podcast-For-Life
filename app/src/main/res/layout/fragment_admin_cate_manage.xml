@@ -22,4 +22,17 @@ android:orientation="vertical">
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <Button
+        android:id="@+id/btn_add_cate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="16dp"
+        android:background="@drawable/btn_add_item"
+        android:drawableLeft="@drawable/ic_add"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="Thêm danh mục"
+        android:textColor="@color/black" />
+
 </LinearLayout>

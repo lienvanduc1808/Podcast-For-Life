@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -33,11 +34,11 @@ class CateManageAdapter(private val data: ArrayList<DanhMuc>, val context: Conte
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item: DanhMuc = data[position]
 
-        holder.catName.text = item.name
+        holder.catName.text = item.cate_name
         holder.editTV.setOnClickListener{
             Log.d("ffb", "edit")
         }
-        val name = item.name
+        val name = item.cate_name
         holder.deleteTV.setOnClickListener{
             val database = FirebaseDatabase.getInstance()
             val ref = database.reference.child("categories")
@@ -54,10 +55,11 @@ class CateManageAdapter(private val data: ArrayList<DanhMuc>, val context: Conte
                             Log.d("Realf",reafRef)
                             val myRef = database.getReference(reafRef)
                             myRef.removeValue()
-
+                            Toast.makeText(context, "Danh mục $name đã được xóa", Toast.LENGTH_SHORT)
                         }
 
                     }
+
                 }
 
                 override fun onCancelled(error: DatabaseError) {

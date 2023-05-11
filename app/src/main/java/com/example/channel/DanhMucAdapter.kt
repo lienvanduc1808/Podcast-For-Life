@@ -22,10 +22,10 @@ class DanhMucAdapter(private val data: ArrayList<DanhMuc>,val context: Context) 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item:DanhMuc = data[position]
-        Glide.with(context).load(item.image).placeholder(R.drawable.img_17)
+        Glide.with(context).load(item.cate_image).placeholder(R.drawable.img_17)
             .into(holder.imageView)
         //holder.imageView.setImageResource(item.image)
-        holder.textView.text = item.name
+        holder.textView.text = item.cate_name
 
         holder.itemView.setOnClickListener {
             when (position) {

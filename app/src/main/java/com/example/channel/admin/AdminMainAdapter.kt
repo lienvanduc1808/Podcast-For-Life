@@ -1,9 +1,12 @@
 package com.example.channel.admin
 
+import android.view.View
+import android.widget.FrameLayout
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.test3.*
+import com.example.channel.admin.*
 
 class AdminMainAdapter(fragment: FragmentActivity) : FragmentStateAdapter(fragment)
 {
@@ -20,4 +23,6 @@ class AdminMainAdapter(fragment: FragmentActivity) : FragmentStateAdapter(fragme
             }
         }
     }
+
+
 }
