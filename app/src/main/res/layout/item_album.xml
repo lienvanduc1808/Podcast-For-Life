@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="15dp"
     tools:ignore="MissingDefaultResource">
 
     <ImageView
@@ -18,21 +19,25 @@
 
     <TextView
         android:id="@+id/tvAlbumName"
-        android:layout_width="wrap_content"
+        android:layout_width="152dp"
         android:layout_height="wrap_content"
         android:text="TextView"
         android:textColor="@color/black"
         android:textSize="18dp"
+        android:maxLines="1"
+        android:ellipsize="end"
         app:layout_constraintStart_toStartOf="@+id/ivLogo"
         app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
 
     <TextView
         android:id="@+id/tvAlbumArtist"
-        android:layout_width="wrap_content"
+        android:layout_width="152dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="-3dp"
         android:text="TextView"
         android:textSize="14dp"
+        android:maxLines="1"
+        android:ellipsize="end"
         app:layout_constraintStart_toStartOf="@+id/tvAlbumName"
         app:layout_constraintTop_toBottomOf="@+id/tvAlbumName" />
 </androidx.constraintlayout.widget.ConstraintLayout>

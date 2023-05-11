@@ -24,7 +24,7 @@ import kotlinx.coroutines.tasks.await
 
 class NgheNgayFragment : Fragment() {
     private lateinit var ibBack: ImageButton
-
+    private lateinit var ibSub: ImageButton
     private lateinit var rivAlbLogo: RoundedImageView
     private lateinit var tvAlbName: TextView
     private lateinit var tvAlbChannel: TextView
@@ -68,6 +68,7 @@ class NgheNgayFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_nghe_ngay, container, false)
         ibBack = view.findViewById(R.id.ibBack)
+        ibSub = view.findViewById(R.id.addBtn)
         ibBack.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
@@ -98,9 +99,44 @@ class NgheNgayFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         userReference = FirebaseDatabase.getInstance().getReference("users")
+        auth = FirebaseAuth.getInstance()
+        val idUser = auth.currentUser?.uid
+        val nodeUser = userReference.child("$idUser")
         parentFragmentManager.setFragmentResultListener("send_idAlbum", this) { _, result ->
             parentFragmentManager.beginTransaction().show(this@NgheNgayFragment)
             idAlbum = result.getString("idAlbum").toString()
+
+            nodeUser?.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+
+                    val subUser = snapshot.child("subcribed")
+                    if(subUser.exists()){
+                        if(subUser.child("${idAlbum}").exists()){
+                            ibSub.setImageResource(R.drawable.baseline_check_24)
+                        }
+                    }
+
+                    ibSub.setOnClickListener {
+                        val subAlbum = subUser.child("${idAlbum}")
+                        if(subUser.exists()) {
+                            if (subAlbum.exists()) {
+                                subAlbum.ref.removeValue()
+                                ibSub.setImageResource(R.drawable.add)
+                            }
+                            else {
+                                subAlbum.ref.setValue("")
+                            }
+                        }
+                        else{
+                            subAlbum.ref.setValue("")
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            })
 
             databaseReference = FirebaseDatabase.getInstance().getReference("categories")
             databaseReference?.addValueEventListener(object : ValueEventListener {

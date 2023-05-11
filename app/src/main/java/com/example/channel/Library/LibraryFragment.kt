@@ -31,7 +31,7 @@ class LibraryFragment : Fragment() {
 //        }
 
         clSaved.setOnClickListener {
-            //replaceFragment(SavedFragment())
+            replaceFragment(SavedFragment())
         }
 
         clDownloaded.setOnClickListener {
