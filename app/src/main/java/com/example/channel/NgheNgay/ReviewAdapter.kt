@@ -1,6 +1,7 @@
 package com.example.channel.NgheNgay
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.channel.R
 import com.example.channel.Search.reviewData
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class ReviewAdapter(private val carouselDataList: ArrayList<reviewData>) :
     RecyclerView.Adapter<ReviewAdapter.CarouselItemViewHolder>() {
@@ -32,7 +38,16 @@ class ReviewAdapter(private val carouselDataList: ArrayList<reviewData>) :
         val review: reviewData = carouselDataList[position]
         holder.tvComment.setText(review.comment)
         holder.tvDateCmt.setText(review.date)
-        holder.tvUserCmt.setText(review.from)
+        val userReference = Firebase.database.getReference("users")
+        userReference.child(review.from).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                holder.tvUserCmt.setText(dataSnapshot.child("name").value.toString())
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Log.d("eror", "Failed to read value.", error.toException())
+            }
+        })
+//        holder.tvUserCmt.setText(review.from)
         holder.rbRating.setRating(review.rating.toFloat())
     }
 
@@ -60,7 +75,19 @@ class ReviewAdapter4LV(context: Context, resource: Int, objects: List<reviewData
         tvDateCmt?.text = currentItem?.date
 
         val tvUserCmt = itemView?.findViewById<TextView>(R.id.tvUserCmt)
-        tvUserCmt?.text = currentItem?.from
+//        tvUserCmt?.text = currentItem?.from
+        val userReference = Firebase.database.getReference("users")
+        if (currentItem != null) {
+            userReference.child(currentItem.from).addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    tvUserCmt?.text = dataSnapshot.child("name").value.toString()
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("eror", "Failed to read value.", error.toException())
+                }
+
+            })
+        }
 
         val rbRating = itemView?.findViewById<RatingBar>(R.id.rbRating)
         currentItem?.rating?.let { rbRating?.setRating(it.toFloat()) }

@@ -15,6 +15,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.bumptech.glide.Glide
 import com.example.channel.R
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 
 class HomeAdapter(private val carouselDataList: ArrayList<albumData>, val context: Context) :
@@ -43,7 +48,18 @@ class HomeAdapter(private val carouselDataList: ArrayList<albumData>, val contex
         val albumNameTV = holder.albumNameTV
         albumNameTV.setText(album.album_name)
         val albumArtistTV = holder.albumArtistTV
-        albumArtistTV.setText(album.channel)
+//        albumArtistTV.setText(album.channel)
+        val userReference = Firebase.database.getReference("users")
+        userReference.child(album.channel).addValueEventListener(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                albumArtistTV.setText(dataSnapshot.child("name").value.toString())
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Log.d("eror", "Failed to read value.", error.toException())
+            }
+        })
+
         val storageRef = FirebaseStorage.getInstance().reference
         val logo = album.logo_album
         val imageRef = storageRef.child("Album/$logo")

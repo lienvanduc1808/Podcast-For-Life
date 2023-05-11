@@ -56,7 +56,7 @@
 
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/tvAverage"
                 android:layout_width="110dp"
                 android:layout_height="90dp"
                 android:layout_marginTop="15dp"
@@ -75,9 +75,9 @@
                 android:textColor="@color/light_gray"
                 android:textSize="20dp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/textView3"
-                app:layout_constraintStart_toStartOf="@+id/textView3"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                app:layout_constraintEnd_toEndOf="@+id/tvAverage"
+                app:layout_constraintStart_toStartOf="@+id/tvAverage"
+                app:layout_constraintTop_toBottomOf="@+id/tvAverage" />
 
             <!--                    5 star-->
             <ProgressBar
@@ -86,11 +86,12 @@
                 android:layout_width="150dp"
                 android:layout_height="12dp"
                 android:layout_marginEnd="25dp"
-                android:indeterminate="true"
-                android:indeterminateTint="@color/light_gray"
-                android:indeterminateTintMode="src_atop"
+                android:indeterminate="false"
+                android:max="100"
+                android:progressBackgroundTint="#858383"
+                android:progressTint="@color/light_gray"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView3" />
+                app:layout_constraintTop_toTopOf="@+id/tvAverage" />
 
             <ImageView
                 android:id="@+id/imageView"
@@ -144,11 +145,12 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="150dp"
                 android:layout_height="12dp"
-                android:indeterminate="true"
-                android:indeterminateTint="@color/light_gray"
-                android:indeterminateTintMode="src_atop"
+                android:indeterminate="false"
+                android:max="100"
+                android:progressBackgroundTint="#858383"
+                android:progressTint="@color/light_gray"
                 app:layout_constraintEnd_toEndOf="@+id/pb5start"
-                app:layout_constraintTop_toBottomOf="@+id/pb5start" />
+                app:layout_constraintTop_toBottomOf="@+id/pb5start"  />
 
             <ImageView
                 android:id="@+id/imageView5"
@@ -193,11 +195,12 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="150dp"
                 android:layout_height="12dp"
-                android:indeterminate="true"
-                android:indeterminateTint="@color/light_gray"
-                android:indeterminateTintMode="src_atop"
+                android:indeterminate="false"
+                android:max="100"
+                android:progressBackgroundTint="#858383"
+                android:progressTint="@color/light_gray"
                 app:layout_constraintEnd_toEndOf="@+id/pb4start"
-                app:layout_constraintTop_toBottomOf="@+id/pb4start" />
+                app:layout_constraintTop_toBottomOf="@+id/pb4start"  />
 
             <ImageView
                 android:id="@+id/imageView9"
@@ -233,9 +236,10 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="150dp"
                 android:layout_height="12dp"
-                android:indeterminate="true"
-                android:indeterminateTint="@color/light_gray"
-                android:indeterminateTintMode="src_atop"
+                android:indeterminate="false"
+                android:max="100"
+                android:progressBackgroundTint="#858383"
+                android:progressTint="@color/light_gray"
                 app:layout_constraintEnd_toEndOf="@+id/pb3start"
                 app:layout_constraintTop_toBottomOf="@+id/pb3start" />
 
@@ -264,9 +268,10 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="150dp"
                 android:layout_height="12dp"
-                android:indeterminate="true"
-                android:indeterminateTint="@color/light_gray"
-                android:indeterminateTintMode="src_atop"
+                android:indeterminate="false"
+                android:max="100"
+                android:progressBackgroundTint="#858383"
+                android:progressTint="@color/light_gray"
                 app:layout_constraintEnd_toEndOf="@+id/pb2start"
                 app:layout_constraintTop_toBottomOf="@+id/pb2start" />
 

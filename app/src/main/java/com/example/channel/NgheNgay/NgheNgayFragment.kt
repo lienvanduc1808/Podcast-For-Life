@@ -17,6 +17,7 @@ import com.example.channel.R
 import com.example.channel.Search.reviewData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.database.ktx.values
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.makeramen.roundedimageview.RoundedImageView
@@ -51,7 +52,7 @@ class NgheNgayFragment : Fragment() {
 
     private lateinit var ref: String
     private lateinit var idAlbum: String
-    private lateinit var name: String
+    private var name: String = ""
     private val episodes = arrayListOf<ListTapData>()
     private val reviews = arrayListOf<reviewData>()
 
@@ -147,7 +148,16 @@ class NgheNgayFragment : Fragment() {
                                 val albref = albumSnapshot.ref.toString()
                                 ref = albref.replace("https://testdb-80aa6-default-rtdb.firebaseio.com/","")
                                 tvAlbName.setText(albumSnapshot.child("album_name").value.toString())
-                                tvAlbChannel.setText(findNameUser(albumSnapshot.child("channel").value.toString()))
+
+                                userReference.child(albumSnapshot.child("channel").value.toString()).addValueEventListener(object : ValueEventListener {
+                                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                        tvAlbChannel.setText(dataSnapshot.child("name").value.toString())
+                                    }
+                                    override fun onCancelled(error: DatabaseError) {
+                                        Log.d("eror", "Failed to read value.", error.toException())
+                                    }
+                                })
+
                                 tvAlbDescription.setText(albumSnapshot.child("description").value.toString())
                                 storageReference = FirebaseStorage.getInstance().reference.child("Album/$idAlbum")
                                 storageReference.downloadUrl.addOnSuccessListener { uri ->
@@ -181,11 +191,9 @@ class NgheNgayFragment : Fragment() {
                                 }
 
                                 for (reviewSnapshot in albumSnapshot.child("reviews").children)
-                                    reviews.add(reviewData(
-                                        findNameUser(reviewSnapshot.child("from").value.toString()),
-                                        reviewSnapshot.child("rating").value.toString().toFloat(),
-                                        reviewSnapshot.child("comment").value.toString(),
-                                        reviewSnapshot.child("date").value.toString()))
+                                    reviews.add(reviewData(reviewSnapshot.child("from").value.toString(), reviewSnapshot.child("rating").value.toString().toFloat(),
+                                            reviewSnapshot.child("comment").value.toString(), reviewSnapshot.child("date").value.toString()))
+
                                 showRating()
                                 vpReview.adapter = ReviewAdapter(reviews)
                                 tvAllReview?.setOnClickListener {
@@ -242,20 +250,19 @@ class NgheNgayFragment : Fragment() {
                 if (rv.rating == 2F) rat2 += 1
                 if (rv.rating == 1F) rat1 += 1
             }
-            var sumRat = 5*rat5 + 4*rat4 + 3*rat3 + 2*rat2 + rat1
-            Thread {
-                pb5start.progress = (rat5 / sumRat * 100).toInt()
-                pb4start.progress = (rat4 / sumRat * 100).toInt()
-                pb3start.progress = (rat3 / sumRat * 100).toInt()
-                pb2start.progress = (rat2 / sumRat * 100).toInt()
-//                pb1start.progress = (rat1 / sumRat * 100).toInt()
-                pb1start.progress = 90
-            }
-            pb5start.progress = 50
-            pb4start.progress = 50
-            pb3start.progress = 30
-            pb2start.progress = 20
-            tvAverage.setText(((5*rat5 + 4*rat4 + 3*rat3 + 2*rat2 + rat1)/reviews.size).toString().format(1))
+//            Thread {
+            pb5start.progress = (rat5 * 100 / reviews.size).toInt()
+            pb4start.progress = (rat4 * 100 / reviews.size).toInt()
+            pb3start.progress = (rat3 * 100 / reviews.size).toInt()
+            pb2start.progress = (rat2 * 100 / reviews.size).toInt()
+            pb1start.progress = (rat1 * 100 / reviews.size).toInt()
+//                pb1start.progress = 90
+//            }
+//            pb5start.progress = 50
+//            pb4start.progress = 50
+//            pb3start.progress = 30
+//            pb2start.progress = 20
+            tvAverage.setText(((5*rat5 + 4*rat4 + 3*rat3 + 2*rat2 + rat1).toFloat()/reviews.size).toString().format(1))
             tvTotalRating.setText(reviews.size.toString() + " lượt đánh giá")
         }
 //        pb5start.progress = 80
@@ -265,19 +272,5 @@ class NgheNgayFragment : Fragment() {
 //        pb1start.progress = 40
     }
 
-    fun findNameUser(idUser: String): String{
-        name = ""
-        userReference.child(idUser).addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                name = dataSnapshot.child("name").value.toString()
-
-            }
-            override fun onCancelled(error: DatabaseError) {
-                Log.d("eror", "Failed to read value.", error.toException())
-            }
-
-        })
-        return name
-    }
 }
 
