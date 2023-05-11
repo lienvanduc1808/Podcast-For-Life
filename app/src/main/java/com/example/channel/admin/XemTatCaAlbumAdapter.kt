@@ -1,4 +1,4 @@
-package com.example.channel
+package com.example.channel.admin
 
 
 
@@ -19,16 +19,12 @@ import androidx.fragment.app.FragmentActivity
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.channel.*
 import com.google.firebase.storage.FirebaseStorage
 
-class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val text1: TextView = itemView.findViewById(R.id.tvAlbumName)
-    val text2: TextView = itemView.findViewById(R.id.tvAlbumArtist)
-    val image: ImageView = itemView.findViewById(R.id.ivLogo)
 
-}
 
-class XemTatCaAdapter(private val items: ArrayList<Album>, val context: Context) :
+class XemTatCaAlbumAdapter(private val items: ArrayList<Album>, val context: Context) :
     RecyclerView.Adapter<ItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -57,7 +53,7 @@ class XemTatCaAdapter(private val items: ArrayList<Album>, val context: Context)
 
         holder.itemView.setOnClickListener{
             (context as AppCompatActivity).getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frame_layout, NgheNgayFragment())
+                .replace(R.id.admin_frame_layout, AdminEditAlbumFragment())
                 .addToBackStack(null)
                 .commit()
 

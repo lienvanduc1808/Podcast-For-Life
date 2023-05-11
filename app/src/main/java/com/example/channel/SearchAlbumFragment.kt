@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -23,6 +24,7 @@ class SearchAlbumFragment : Fragment(), SearchView.OnQueryTextListener,  AlbumAd
     private lateinit var searchView: SearchView
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: AlbumAdapter
+    private lateinit var txtHuy: TextView
 
     override fun onItemClick(album: Album) {
         TODO("Not yet implemented")
@@ -53,6 +55,11 @@ class SearchAlbumFragment : Fragment(), SearchView.OnQueryTextListener,  AlbumAd
 
         recyclerView.adapter = adapter
         searchView.setOnQueryTextListener(this)
+
+        txtHuy = view.findViewById(R.id.txtHuy)
+        txtHuy.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
         return view
     }
 
