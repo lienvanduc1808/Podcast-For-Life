@@ -59,7 +59,7 @@ class AlbumManageFragment : Fragment() {
 
                 adapter?.onItemClick = { danhMuc ->
 
-                    when (danhMuc.name) {
+                    when (danhMuc.cate_name) {
 
                         "Tin tức" -> {
                             val fragment = ItemAlbumManageFragment()
@@ -71,7 +71,7 @@ class AlbumManageFragment : Fragment() {
 
 
                             val send_data = Bundle().apply {
-                                putString("tendanhmuc",danhMuc.name )
+                                putString("tendanhmuc",danhMuc.cate_name )
                             }
                             parentFragmentManager.setFragmentResult("send_dm", send_data)
 
@@ -86,7 +86,7 @@ class AlbumManageFragment : Fragment() {
                                 .commit()
 
                             val send_data = Bundle().apply {
-                                putString("tendanhmuc",danhMuc.name )
+                                putString("tendanhmuc",danhMuc.cate_name )
 
                             }
                             parentFragmentManager.setFragmentResult("send_dm", send_data)
@@ -102,7 +102,7 @@ class AlbumManageFragment : Fragment() {
                                 .commit()
 
                             val send_data = Bundle().apply {
-                                putString("tendanhmuc",danhMuc.name )
+                                putString("tendanhmuc",danhMuc.cate_name )
 
                             }
                             parentFragmentManager.setFragmentResult("send_dm", send_data)
@@ -118,7 +118,7 @@ class AlbumManageFragment : Fragment() {
                                 .commit()
 
                             val send_data = Bundle().apply {
-                                putString("tendanhmuc",danhMuc.name )
+                                putString("tendanhmuc",danhMuc.cate_name )
 
                             }
                             parentFragmentManager.setFragmentResult("send_dm", send_data)
@@ -134,7 +134,7 @@ class AlbumManageFragment : Fragment() {
                                 .commit()
 
                             val send_data = Bundle().apply {
-                                putString("tendanhmuc",danhMuc.name )
+                                putString("tendanhmuc",danhMuc.cate_name )
 
                             }
                             parentFragmentManager.setFragmentResult("send_dm", send_data)

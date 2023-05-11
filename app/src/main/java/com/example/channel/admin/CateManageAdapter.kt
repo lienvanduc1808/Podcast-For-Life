@@ -10,10 +10,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.channel.DanhMuc
 import com.example.channel.R
+import com.example.channel.admin.UserManageFragment.Companion.newInstance
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -36,7 +40,16 @@ class CateManageAdapter(private val data: ArrayList<DanhMuc>, val context: Conte
 
         holder.catName.text = item.cate_name
         holder.editTV.setOnClickListener{
-            Log.d("ffb", "edit")
+            val fragment = AdminEditCateFragment()
+
+            // Pass the selected category information to the fragment
+            val bundle = Bundle()
+            bundle.putString("cate_name", item.cate_name)
+            bundle.putString("cate_image", item.cate_image)
+            fragment.arguments = bundle
+
+            replaceFragment(fragment)
+
         }
         val name = item.cate_name
         holder.deleteTV.setOnClickListener{
@@ -113,5 +126,10 @@ class CateManageAdapter(private val data: ArrayList<DanhMuc>, val context: Conte
             }
         }
     }
-
+    private fun replaceFragment(fragment: Fragment) {
+        val fragmentManager: FragmentManager = (context as FragmentActivity).supportFragmentManager
+        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.admin_frame_layout, fragment).addToBackStack(null)
+        fragmentTransaction.commit()
+    }
 }
