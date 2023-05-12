@@ -18,7 +18,7 @@
 
     <TextView
         android:id="@+id/tvAlbumName"
-        android:layout_width="152dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView"
         android:textColor="@color/black"

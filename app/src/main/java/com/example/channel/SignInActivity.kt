@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.example.channel.admin.AdminMainActivity
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -135,26 +136,31 @@ class SignInActivity : AppCompatActivity() {
 
 
     private fun signInWithEmailPassword(email: String, password: String) {
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(Activity()) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    val user = auth.currentUser
-                    Toast.makeText(
-                        this,
-                        "Sign in successful! Welcome, ${user?.email}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    switchToHomeFragment()
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Toast.makeText(
-                        this,
-                        "Sign in failed. ${task.exception?.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+        if (email.equals("admin@gmail.com") && password.equals("123456")) {
+            val intent = Intent(this, AdminMainActivity::class.java)
+            startActivity(intent)
+        } else {
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(Activity()) { task ->
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+                        val user = auth.currentUser
+                        Toast.makeText(
+                            this,
+                            "Sign in successful! Welcome, ${user?.email}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        switchToHomeFragment()
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Toast.makeText(
+                            this,
+                            "Sign in failed. ${task.exception?.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
-            }
+        }
     }
 
     private fun switchToHomeFragment() {

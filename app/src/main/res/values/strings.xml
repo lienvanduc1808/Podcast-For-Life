@@ -13,7 +13,7 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_sign_up">SignUpActivity</string>
     <string name="title_activity_google">GoogleActivity</string>
-    <string name="app_id">869364940749-akjh5mrgpj77i25rubpr1dvfs34m7irj.apps.googleusercontent.com</string>
+
 
 
 </resources>
