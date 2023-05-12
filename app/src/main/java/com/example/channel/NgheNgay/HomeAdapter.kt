@@ -15,16 +15,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.bumptech.glide.Glide
 import com.example.channel.R
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
+import com.example.channel.Search.Album
 import com.google.firebase.storage.FirebaseStorage
 
-class HomeAdapter(private val carouselDataList: ArrayList<albumData>, val context: Context) :
+class HomeAdapter(private val carouselDataList: ArrayList<Album>, val context: Context) :
     RecyclerView.Adapter<HomeAdapter.CarouselItemViewHolder>() {
-    var onItemClick: ((albumData) -> Unit)? = null
+    var onItemClick: ((Album) -> Unit)? = null
 
     inner class CarouselItemViewHolder(view: View) : RecyclerView.ViewHolder(view){
         val albumNameTV = view.findViewById<TextView>(R.id.tvAlbumName)
@@ -44,32 +40,27 @@ class HomeAdapter(private val carouselDataList: ArrayList<albumData>, val contex
     }
 
     override fun onBindViewHolder(holder: CarouselItemViewHolder, position: Int) {
-        val album: albumData = carouselDataList[position]
+        val album: Album = carouselDataList[position]
         val albumNameTV = holder.albumNameTV
-        albumNameTV.setText(album.album_name)
+        albumNameTV.setText(album.name)
         val albumArtistTV = holder.albumArtistTV
-//        albumArtistTV.setText(album.channel)
-        val userReference = Firebase.database.getReference("users")
-        userReference.child(album.channel).addValueEventListener(object :
-            ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                albumArtistTV.setText(dataSnapshot.child("name").value.toString())
-            }
-            override fun onCancelled(error: DatabaseError) {
-                Log.d("eror", "Failed to read value.", error.toException())
-            }
-        })
-
+        albumArtistTV.setText(album.channel)
+        //  val logoIV = holder.albumLogoIV
+        //logoIV.setImageURI(album.logo.toUri())
+        // Create a reference to the image file in Firebase Storage
         val storageRef = FirebaseStorage.getInstance().reference
-        val logo = album.logo_album
+        val logo = album.logo
         val imageRef = storageRef.child("Album/$logo")
 
+        // Get the download URL of the image
         imageRef.downloadUrl.addOnSuccessListener { uri ->
-            Glide.with(context).load(uri).into(holder.albumLogoIV)
+            // Use the URL to display the image
+            Glide.with(context).load(uri).placeholder(R.drawable.img_17).into(holder.albumLogoIV)
         }.addOnFailureListener { exception ->
             // Handle any errors
             Log.e("FirebaseStorage", "Error getting download URL", exception)
         }
+
 
         holder.itemView.setOnClickListener{
             (context as AppCompatActivity).getSupportFragmentManager().beginTransaction()
@@ -78,11 +69,12 @@ class HomeAdapter(private val carouselDataList: ArrayList<albumData>, val contex
                 .commit()
 
             val send_data = Bundle().apply {
-                putString("idAlbum", album.logo_album.toString())
-                Log.d("idAlbum",album.logo_album.toString())
+                putString("idAlbum", album.id_album.toString())
+                Log.d("idAlbum",album.id_album.toString())
 
             }
             (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_idAlbum", send_data)
+
 
         }
     }

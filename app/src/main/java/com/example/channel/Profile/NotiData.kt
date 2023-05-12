@@ -5,4 +5,3 @@ data class NotiData(
     var content: String,
     var time: String
 ){}
-

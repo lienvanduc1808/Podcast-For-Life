@@ -1,5 +1,6 @@
 package com.example.channel.Profile
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,11 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.channel.R
+import com.example.channel.SignInActivity
 
 class ProfileFragment : Fragment() {
     private lateinit var clPersonalInfo: ConstraintLayout
     private lateinit var clMyPodcast: ConstraintLayout
     private lateinit var clNotification: ConstraintLayout
+    private lateinit var clLogout: ConstraintLayout
 
 
     override fun onCreateView(
@@ -35,6 +38,13 @@ class ProfileFragment : Fragment() {
         clNotification.setOnClickListener {
             replaceFragment(NotiFragment())
         }
+        clLogout = view.findViewById(R.id.clLogout)
+        clLogout.setOnClickListener {
+            val intent = Intent(requireContext(),SignInActivity::class.java)
+            startActivity(intent)
+
+        }
+
         return view
     }
 

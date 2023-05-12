@@ -14,7 +14,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.channel.*
 import com.example.channel.R
-import com.example.channel.Search.reviewData
+import com.example.channel.NgheNgay.reviewData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.values

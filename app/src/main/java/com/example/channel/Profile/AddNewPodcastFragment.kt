@@ -23,7 +23,7 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import com.example.channel.NgheNgay.albumData
 import com.example.channel.NgheNgay.episodeData
-import com.example.channel.Profile.ExistAlbumFragment
+
 import com.example.channel.Profile.NewAlbumFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*

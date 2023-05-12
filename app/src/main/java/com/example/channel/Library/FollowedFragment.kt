@@ -10,6 +10,7 @@ import android.widget.ImageButton
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.channel.NgheNgay.XemTatCaAdapter
+import com.example.channel.NgheNgay.XemTatCaAlbumAdapter
 import com.example.channel.NgheNgay.albumData
 import com.example.channel.R
 import com.google.firebase.auth.FirebaseAuth
@@ -79,7 +80,7 @@ class FollowedFragment : Fragment() {
                             }
                         }
                         Log.i("items", items.toString())
-                        val adapter = XemTatCaAdapter(items, requireContext())
+                        val adapter = XemTatCaAlbumAdapter(items, requireContext())
                         rvListSubcribed.adapter = adapter
                         val layoutManager = GridLayoutManager(requireContext(), 2)
                         rvListSubcribed.layoutManager = layoutManager

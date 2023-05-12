@@ -8,11 +8,12 @@ import android.widget.LinearLayout
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 import com.example.channel.Library.LibraryFragment
+import com.example.channel.Search.DanhMucFragment
 import com.example.channel.NgheNgay.EpisodeBottomSheet
 import com.example.channel.NgheNgay.HomeFragment
 import com.example.channel.NgheNgay.ListOpisodeAdapter
 import com.example.channel.Profile.ProfileFragment
-import com.example.channel.Search.RankingTableFragment
+
 import com.example.channel.databinding.ActivityMainBinding
 import com.google.firebase.FirebaseApp
 
@@ -33,8 +34,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         FirebaseApp.initializeApp(this)
-        // replaceFragment(NgheNgayFragment())
-        replaceFragment(SignInFragment())
+         replaceFragment(HomeFragment())
+    //    replaceFragment(SignInFragment())
 //        val signInFragment = SignInFragment()
 //        val signUpFragment = SignUpFragment()
 
@@ -55,7 +56,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.action_NgheNgay -> replaceFragment(HomeFragment())
                 R.id.action_Profile -> replaceFragment(ProfileFragment())
                 R.id.action_ThuVien -> replaceFragment(LibraryFragment())
-                R.id.action_Timkiem -> replaceFragment(RankingTableFragment())
+                R.id.action_Timkiem -> replaceFragment(DanhMucFragment())
                 else -> {
 
                 }

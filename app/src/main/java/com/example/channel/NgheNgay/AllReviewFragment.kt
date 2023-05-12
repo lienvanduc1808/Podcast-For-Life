@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.example.channel.R
-import com.example.channel.Search.reviewData
+import com.example.channel.NgheNgay.reviewData
 import com.google.firebase.database.*
 
 

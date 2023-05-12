@@ -1,4 +1,4 @@
-package com.example.channel.NgheNgay
+package com.example.channel.Search
 
 
 
@@ -8,27 +8,26 @@ import android.util.Log
 
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 
 import androidx.appcompat.app.AppCompatActivity
 
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.channel.NgheNgay.ItemViewHolder
+import com.example.channel.NgheNgay.NgheNgayFragment
 import com.example.channel.R
-import com.example.channel.Search.Album
 import com.google.firebase.storage.FirebaseStorage
 
 
-class XemTatCaAdapter(private val items: ArrayList<Album>, val context: Context) :
+
+class XemTatCaTopItemAdapter(private val items: ArrayList<Top_Item>, val context: Context) :
     RecyclerView.Adapter<ItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_album, parent, false)
+            .inflate(R.layout.item_ranking_chanel, parent, false)
 
         return ItemViewHolder(view)
     }
@@ -37,6 +36,9 @@ class XemTatCaAdapter(private val items: ArrayList<Album>, val context: Context)
         val item = items[position]
         holder.text1.text = item.name
         holder.text2.text = item.channel
+//        Glide.with(context).load(item.logo)
+//            .into(holder.image)
+        // Create a reference to the image file in Firebase Storage
         val storageRef = FirebaseStorage.getInstance().reference
         val logo = item.logo
         val imageRef = storageRef.child("Album/$logo")

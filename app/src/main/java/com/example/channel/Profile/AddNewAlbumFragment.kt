@@ -14,6 +14,7 @@ import com.example.channel.NgheNgay.albumData
 import com.example.channel.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.database.ktx.values
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.io.File
@@ -72,12 +73,21 @@ class NewAlbumFragment : Fragment() {
         ivBack5.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
-        tvDone5.setOnClickListener {
-            databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    var newAlbumId: String = currentUser.key.toString() + "alb" +sum_album.toString()
-                    databaseReference.child(newAlbumId).setValue(albumData(edtName5.text.toString(), currentUser.key.toString(), edtDescription5.text.toString(), newAlbumId))
-                    storageReference = FirebaseStorage.getInstance().getReference("Album/"+newAlbumId)
+
+        val userId = currentUser.key.toString()
+        val database = FirebaseDatabase.getInstance()
+        val userRef = database.getReference("users").child(userId)
+        userRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val userName = dataSnapshot.child("name").value as String
+                // sử dụng userName ở đây
+                tvDone5.setOnClickListener {
+                    databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            var newAlbumId: String = currentUser.key.toString() + "alb" +sum_album.toString()
+
+                            databaseReference.child(newAlbumId).setValue(albumData(edtName5.text.toString(), userName, edtDescription5.text.toString(), newAlbumId))
+                            storageReference = FirebaseStorage.getInstance().getReference("Album/"+newAlbumId)
 
 //                        val file = Uri.fromFile(File(uriData))
 //                        storageReference.putFile(file)
@@ -87,20 +97,29 @@ class NewAlbumFragment : Fragment() {
 //                                // Handle failure
 //                            }
 
-                    storageReference.putFile(uri).addOnCompleteListener{
-                    }.addOnFailureListener{
-                        parentFragmentManager.popBackStack()
-                    }
+                            storageReference.putFile(uri).addOnCompleteListener{
+                            }.addOnFailureListener{
+                                parentFragmentManager.popBackStack()
+                            }
 
-                    currentUser.child("sumalbum").setValue(sum_album + 1)
-                    parentFragmentManager.popBackStack()
-                }
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
+                            currentUser.child("sumalbum").setValue(sum_album + 1)
+                            parentFragmentManager.popBackStack()
+                        }
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("Not yet implemented")
+                        }
 
-            })
-        }
+                    })
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // xử lý lỗi ở đây (nếu có)
+            }
+        })
+
+
+
     }
     private fun choiceCategory() {
         val popupMenu = PopupMenu(view?.context, tvChoiceCategory)

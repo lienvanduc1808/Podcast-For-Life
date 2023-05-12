@@ -1,4 +1,4 @@
-package com.example.channel.Search
+package com.example.channel.NgheNgay
 
 data class reviewData (
     var from: String,
@@ -6,4 +6,3 @@ data class reviewData (
     var comment: String,
     var date: String
 )
-

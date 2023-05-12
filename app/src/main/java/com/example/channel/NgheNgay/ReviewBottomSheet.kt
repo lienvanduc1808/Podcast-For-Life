@@ -15,7 +15,7 @@ import android.widget.Toast
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.example.channel.R
-import com.example.channel.Search.reviewData
+import com.example.channel.NgheNgay.reviewData
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*

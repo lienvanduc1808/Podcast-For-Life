@@ -128,10 +128,7 @@ class ListTapAdapter(context: Context, resource: Int, list: List<ListTapData>):
 
                     true
                 }
-                R.id.menuShare -> {
 
-                    true
-                }
                 else -> false
             }
         }

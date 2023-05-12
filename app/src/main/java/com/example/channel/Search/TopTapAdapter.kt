@@ -2,6 +2,7 @@ package com.example.channel.Search
 
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,9 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.example.channel.R
+import com.google.firebase.storage.FirebaseStorage
 
 
 class TopTapAdapter(context: Context, resource: Int, list: List<TopTapData>):
@@ -26,7 +29,7 @@ class TopTapAdapter(context: Context, resource: Int, list: List<TopTapData>):
 
         val time_top_tap = rowView?.findViewById<TextView>(R.id.txtTimeRankingTap)
         val ten_top_tap = rowView?.findViewById<TextView>(R.id.txtNameRankingTap)
-        val rank_top_tap = rowView?.findViewById<TextView>(R.id.txtRankingTap)
+
         val img_top_tap = rowView?.findViewById<ImageView>(R.id.imgTopTap)
         val imgbtnMore = rowView?.findViewById<ImageButton>(R.id.imgBtnMoreRankingTap)
 
@@ -36,7 +39,9 @@ class TopTapAdapter(context: Context, resource: Int, list: List<TopTapData>):
         popupMenu.inflate(R.menu.ranking_tap)
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.menuPlay ->{
+                R.id.menuPlay->{
+
+
                     true
                 }
                 R.id.menuSave -> {
@@ -46,10 +51,7 @@ class TopTapAdapter(context: Context, resource: Int, list: List<TopTapData>):
 
                     true
                 }
-                R.id.menuShare -> {
 
-                    true
-                }
                 else -> false
             }
         }
@@ -75,8 +77,22 @@ class TopTapAdapter(context: Context, resource: Int, list: List<TopTapData>):
 
         time_top_tap?.text = currentItem?.time_top_tap
         ten_top_tap?.text = currentItem?.ten_top_tap
-        rank_top_tap?.text = currentItem?.rank_top_tap
-        img_top_tap?.setImageResource(currentItem?.img_top_tap!!)
+
+        val storageRef = FirebaseStorage.getInstance().reference
+        val logo = currentItem?.img_top_tap
+
+        val imageRef = storageRef.child("Album/$logo")
+
+        // Get the download URL of the image
+        imageRef.downloadUrl.addOnSuccessListener { uri ->
+            // Use the URL to display the image
+            Glide.with(context).load(uri).placeholder(R.drawable.img_17).into(img_top_tap!!)
+        }.addOnFailureListener { exception ->
+            // Handle any errors
+            Log.e("FirebaseStorage", "Error getting download URL", exception)
+        }
+
+
 
         return rowView!!
     }

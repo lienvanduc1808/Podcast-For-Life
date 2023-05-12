@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <SearchView
+            android:id="@+id/search_view"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content">
+
+
+        </SearchView>
+        <TextView
+            android:id="@+id/txtHuy"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Huỷ"
+            android:textStyle="bold"
+            android:textColor="@color/violet"
+            android:textSize="20dp"
+
+/>
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="40dp"
+        android:id="@+id/search_results"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+</RelativeLayout>

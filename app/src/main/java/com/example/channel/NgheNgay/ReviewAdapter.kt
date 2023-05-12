@@ -10,7 +10,7 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.channel.R
-import com.example.channel.Search.reviewData
+import com.example.channel.NgheNgay.reviewData
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener

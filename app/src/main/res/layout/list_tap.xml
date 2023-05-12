@@ -53,6 +53,7 @@
             app:layout_constraintStart_toEndOf="@+id/imgBtnPlay"
             app:layout_constraintTop_toTopOf="@+id/imgBtnPlay" />
 
+
         <ImageButton
             android:id="@+id/imgBtnMore"
             android:layout_width="37dp"

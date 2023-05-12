@@ -1,10 +1,8 @@
 package com.example.channel.Search
 
-data class Top_Item(
-
+data class Album(
     var name: String,
     var channel: String,
     var logo: String,
-    var totalListeners: Int,
-    var id_album:String,
+    var id_album: String,
 )

@@ -7,23 +7,23 @@
 
     <ImageView
         android:id="@+id/ivLogo"
-        android:layout_width="140dp"
-        android:layout_height="190dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="152dp"
+        android:layout_height="157dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/card_background"
+        android:elevation="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher_background" />
 
     <TextView
         android:id="@+id/tvAlbumName"
-        android:layout_width="wrap_content"
+        android:layout_width="154dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="7dp"
         android:text="TextView"
         android:textColor="@color/black"
-        android:textSize="18dp"
+        android:textSize="15dp"
         app:layout_constraintStart_toStartOf="@+id/ivLogo"
         app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
 
@@ -37,16 +37,5 @@
         app:layout_constraintStart_toStartOf="@+id/tvAlbumName"
         app:layout_constraintTop_toBottomOf="@+id/tvAlbumName" />
 
-    <TextView
-        android:id="@+id/txtRankingItem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="TextView"
-        android:textSize="18dp"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="@+id/tvAlbumArtist"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tvAlbumArtist"
-        app:layout_constraintTop_toBottomOf="@+id/tvAlbumArtist" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
