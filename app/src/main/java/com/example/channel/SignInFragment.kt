@@ -40,7 +40,7 @@ class SignInFragment : Fragment() {
 
         val etEmail = view.findViewById<EditText>(R.id.etEmail)
         val etPassword = view.findViewById<EditText>(R.id.etPassword)
-        val btnEmailSignIn = view.findViewById<Button>(R.id.btnEmailSignIn)
+        val btnEmailSignIn = view.findViewById<Button>(R.id.btnGoogleSignIns)
         val btnGoogleSignIn = view.findViewById<Button>(R.id.btnGoogleSignIn)
         val tvSwitchToSignUp = view.findViewById<TextView>(R.id.tvSwitchToSignUp)
 

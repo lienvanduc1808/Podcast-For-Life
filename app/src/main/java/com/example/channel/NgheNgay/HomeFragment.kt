@@ -61,6 +61,14 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        if (!isAdded) {
+            // Nếu Fragment chưa được gắn vào Activity, thêm nó vào
+            childFragmentManager.beginTransaction()
+                .add(this, "HomeFragment")
+                .commit()
+        }
         val compositePageTransformer = CompositePageTransformer()
         compositePageTransformer.addTransformer(MarginPageTransformer((5 * Resources.getSystem().displayMetrics.density).toInt()))
 

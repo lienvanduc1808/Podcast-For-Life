@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "869364940749",
+    "firebase_url": "https://testdb-80aa6-default-rtdb.firebaseio.com",
     "project_id": "testdb-80aa6",
     "storage_bucket": "testdb-80aa6.appspot.com"
   },
@@ -14,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "869364940749-akjh5mrgpj77i25rubpr1dvfs34m7irj.apps.googleusercontent.com",
+          "client_id": "869364940749-efjjs9mq364re6csq0tc3li9oah0j0i2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.channel",
-            "certificate_hash": "5d54c1ddcf2a2db4a1b8d2e63de3cc9e993f86bc"
+            "certificate_hash": "79a75f1ce01653ee676c891644d273919b8afd26"
           }
         },
         {
