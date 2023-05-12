@@ -17,57 +17,59 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.channel.DanhMuc
 import com.example.channel.R
+import com.example.channel.User
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
 
 
-class CateManageAdapter(private val data: ArrayList<DanhMuc>, val context: Context) : RecyclerView.Adapter<CateManageAdapter.ViewHolder>() {
-    var onItemClick: ((DanhMuc) -> Unit)? = null
+class UserManageAdapter(private val data: ArrayList<User>, val context: Context) : RecyclerView.Adapter<UserManageAdapter.ViewHolder>() {
+    var onItemClick: ((User) -> Unit)? = null
     fun clearData() {
         data.clear()
         notifyDataSetChanged()
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.admin_item_danh_muc, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.admin_user_item, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item: DanhMuc = data[position]
+        val item: User = data[position]
 
-        holder.catName.text = item.cate_name
-        holder.editTV.setOnClickListener{
-            val fragment = AdminEditCateFragment()
+        holder.userName.text = item.name
+        holder.userEmail.text = item.email
 
-            // Pass the selected category information to the fragment
-            val bundle = Bundle()
-            bundle.putString("cate_name", item.cate_name)
-            bundle.putString("cate_image", item.cate_image)
-            fragment.arguments = bundle
-
-            replaceFragment(fragment)
-
+        val storageRef = FirebaseStorage.getInstance().reference
+        val imageRef = storageRef.child("User/${item.idUser}")
+        imageRef.downloadUrl.addOnSuccessListener { uri ->
+            // Use the URL to display the image
+            Glide.with(context).load(uri).placeholder(R.drawable.avt).into(holder.userImg)
+        }.addOnFailureListener { exception ->
+            // Handle any errors
+            Log.e("FirebaseStorage", "Error getting download URL", exception)
         }
-        val name = item.cate_name
+        val mail = item.email
         holder.deleteTV.setOnClickListener{
             val database = FirebaseDatabase.getInstance()
-            val ref = database.reference.child("categories")
+            val ref = database.reference.child("users")
             ref.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
 
-                    for (categorySnapshot in dataSnapshot.children) {
-                       val cate =  categorySnapshot.child("cate_name").value as String
-                        if(name.equals(cate)){
+                    for (userSnapshot in dataSnapshot.children) {
 
-                            var cateRef = categorySnapshot.key.toString()
+                        val email =  userSnapshot.child("email").value as String
+                        if(mail.equals(email)){
 
-                            val reafRef = "categories" +"/" +cateRef
+                            var cateRef = userSnapshot.key.toString()
+
+                            val reafRef = "users" +"/" +cateRef
                             Log.d("Realf",reafRef)
                             val myRef = database.getReference(reafRef)
                             myRef.removeValue()
-                            Toast.makeText(context, "Danh mục $name đã được xóa", Toast.LENGTH_SHORT)
+                            Toast.makeText(context, "User $mail đã được xóa", Toast.LENGTH_SHORT)
                         }
 
                     }
@@ -80,44 +82,16 @@ class CateManageAdapter(private val data: ArrayList<DanhMuc>, val context: Conte
             })
 
         }
-        holder.itemView.setOnClickListener {
-
-            //onItemClick?.invoke(DanhMuc(item.name, ""))
-            when (position) {
-                0 -> {
-                    onItemClick?.invoke(DanhMuc("Tin tức", ""))
-
-                }
-                1 -> {
-                    onItemClick?.invoke(DanhMuc("Thể thao", ""))
-
-                }
-                2 -> {
-                    onItemClick?.invoke(DanhMuc("Hài", ""))
-
-                }
-                3 -> {
-                    onItemClick?.invoke(DanhMuc("Kinh doanh", ""))
-
-                }
-                4 -> {
-                    onItemClick?.invoke(DanhMuc("Xã hội và văn hóa", ""))
-
-                }
-
-            }
-
-        }
-
     }
 
     override fun getItemCount() = data.size
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val catName: TextView = itemView.findViewById(R.id.adminCateNameTV)
-        val editTV: TextView = itemView.findViewById(R.id.cateEdit)
-        val deleteTV: TextView = itemView.findViewById(R.id.cateDelete)
+        val userName: TextView = itemView.findViewById(R.id.userNameTV)
+        val userEmail: TextView = itemView.findViewById(R.id.emailUserTV)
+        val userImg:ImageView = itemView.findViewById(R.id.user_image)
+        val deleteTV: TextView = itemView.findViewById(R.id.userDelete)
         init {
             itemView.setOnClickListener {
                 onItemClick?.invoke(data[adapterPosition])

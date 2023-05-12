@@ -53,8 +53,8 @@
 
     <ImageView
         android:id="@+id/ivEditCateImg"
-        android:layout_width="153dp"
-        android:layout_height="152dp"
+        android:layout_width="186dp"
+        android:layout_height="172dp"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="@+id/textView17"
         app:layout_constraintTop_toBottomOf="@+id/textView17"

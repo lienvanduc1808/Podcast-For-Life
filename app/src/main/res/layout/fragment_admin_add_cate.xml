@@ -35,6 +35,7 @@
         android:layout_marginStart="48dp"
         android:layout_marginTop="64dp"
         android:text="Nhập tên danh mục"
+        android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
@@ -42,7 +43,7 @@
         android:id="@+id/addCateNameET"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="Nhap ten danh muc"
         android:inputType="textPersonName"
@@ -67,8 +68,9 @@
         android:id="@+id/textView14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:text="Chọn ảnh cho danh mục"
+        android:textSize="20dp"
         app:layout_constraintStart_toStartOf="@+id/addCateNameET"
         app:layout_constraintTop_toBottomOf="@+id/addCateNameET" />
 
@@ -76,16 +78,16 @@
         android:id="@+id/btnCateImg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/ic_baseline_image_search_24"
         android:text="Chọn ảnh"
         app:layout_constraintStart_toStartOf="@+id/textView14"
-        app:layout_constraintTop_toBottomOf="@+id/textView14"
-        android:drawableLeft="@drawable/ic_baseline_image_search_24"/>
+        app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
     <ImageView
         android:id="@+id/cateImgIV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:layout_height="159dp"
         android:layout_marginStart="40dp"
         app:layout_constraintStart_toEndOf="@+id/btnCateImg"
         app:layout_constraintTop_toTopOf="@+id/btnCateImg"

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.channel.DanhMuc
 import com.example.channel.R
+import com.google.firebase.storage.FirebaseStorage
 
 class DanhMucAdminAdapter(private val data: ArrayList<DanhMuc>, val context: Context) : RecyclerView.Adapter<DanhMucAdminAdapter.ViewHolder>() {
     var onItemClick: ((DanhMuc) -> Unit)? = null
@@ -24,8 +25,17 @@ class DanhMucAdminAdapter(private val data: ArrayList<DanhMuc>, val context: Con
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item:DanhMuc = data[position]
-        Glide.with(context).load(item.cate_image).placeholder(R.drawable.img_17)
-            .into(holder.imageView)
+//        Glide.with(context).load(item.cate_image).placeholder(R.drawable.img_17)
+//            .into(holder.imageView)
+        val storageRef = FirebaseStorage.getInstance().reference
+        val imageRef = storageRef.child("Category/${item.cate_image}")
+        imageRef.downloadUrl.addOnSuccessListener { uri ->
+            // Use the URL to display the image
+            Glide.with(context).load(uri).placeholder(R.drawable.img_17).into(holder.imageView)
+        }.addOnFailureListener { exception ->
+            // Handle any errors
+            Log.e("FirebaseStorage", "Error getting download URL", exception)
+        }
         holder.textView.text = item.cate_name
 
         holder.itemView.setOnClickListener {
