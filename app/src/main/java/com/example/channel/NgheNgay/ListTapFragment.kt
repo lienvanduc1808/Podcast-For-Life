@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ListView
+import androidx.appcompat.app.AppCompatActivity
 import com.example.channel.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -34,12 +35,7 @@ class ListTapFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_list_tap, container, false)
         ivBack4 = view.findViewById(R.id.ivBack4)
-        ivBack4?.setOnClickListener {
-            parentFragmentManager.popBackStack()
-            //nhớ phải add fragment này vào backStack thì mới dùng được
-            //https://www.youtube.com/watch?v=b9a3-gZ9CGc
 
-        }
         return view
     }
 
@@ -56,6 +52,19 @@ class ListTapFragment : Fragment() {
             val uniqueItems = ArrayList<ListTapData>()
             val set = HashSet<ListTapData>()
             val storage = Firebase.storage
+            val idAlbum = albumRef.key.toString()
+
+            ivBack4?.setOnClickListener {
+                val send_data = Bundle().apply {
+                    putString("idAlbum", idAlbum)
+                }
+                (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_idAlbum", send_data)
+                parentFragmentManager.popBackStack()
+                //nhớ phải add fragment này vào backStack thì mới dùng được
+                //https://www.youtube.com/watch?v=b9a3-gZ9CGc
+
+
+            }
             episodesRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     for (episodeSnapshot in snapshot.children) {

@@ -3,6 +3,7 @@ package com.example.channel.NgheNgay
 import android.annotation.SuppressLint
 import android.content.res.Resources
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,14 +45,8 @@ class AllReviewFragment : Fragment() {
     ): View? {
         var view = inflater.inflate(R.layout.fragment_all_review, container, false)
         ibBack2 = view.findViewById(R.id.ibBack2)
-        ibBack2?.setOnClickListener {
-            parentFragmentManager.popBackStack()
-        }
 
         tvBack = view.findViewById(R.id.tvBack)
-        tvBack?.setOnClickListener {
-            parentFragmentManager.popBackStack()
-        }
 
         lvAllReview = view.findViewById(R.id.lvAllReview)
 
@@ -74,13 +69,30 @@ class AllReviewFragment : Fragment() {
 
         userReference = FirebaseDatabase.getInstance().getReference("users")
 
-        parentFragmentManager.setFragmentResultListener("send_ref", this) { _, result ->
+        parentFragmentManager.setFragmentResultListener("send_ref1", this) { _, result ->
             parentFragmentManager.beginTransaction().show(this@AllReviewFragment)
             ref = result.getString("ref").toString()
-
             databaseReference = FirebaseDatabase.getInstance().getReference(ref)
+            val idAlbum = databaseReference.key.toString()
+
+            ibBack2?.setOnClickListener {
+                val send_data = Bundle().apply {
+                    putString("idAlbum", idAlbum)
+                }
+                (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_idAlbum", send_data)
+                parentFragmentManager.popBackStack()
+            }
+
+            tvBack?.setOnClickListener {
+                val send_data = Bundle().apply {
+                    putString("idAlbum", idAlbum)
+                }
+                (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_idAlbum", send_data)
+                parentFragmentManager.popBackStack()
+            }
             databaseReference.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(albumSnapshot: DataSnapshot) {
+                    reviews.clear()
                     for (reviewSnapshot in albumSnapshot.child("reviews").children) {
                         reviews.add(reviewData(
                             reviewSnapshot.child("from").value.toString(),
@@ -103,11 +115,12 @@ class AllReviewFragment : Fragment() {
             val send_data = Bundle().apply {
                 putString("ref", ref)
             }
-            (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_ref1", send_data)
+            (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_ref", send_data)
         }
     }
 
     fun showRating(){
+        Log.i("size", reviews.size.toString())
         if (reviews.size == 0){
             tvAverage.setText("5")
             tvTotalRating.setText("Hãy là người đầu tiên đánh giá")

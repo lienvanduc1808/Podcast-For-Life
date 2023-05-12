@@ -3,6 +3,7 @@ package com.example.channel.NgheNgay
 import android.annotation.SuppressLint
 import android.content.res.Resources
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,16 +23,6 @@ import com.google.firebase.storage.StorageReference
 import java.text.SimpleDateFormat
 import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ReviewBottomSheet.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ReviewBottomSheet : BottomSheetDialogFragment() {
     lateinit var tvCancelReview: TextView
     lateinit var tvPostReview: TextView
@@ -75,6 +66,7 @@ class ReviewBottomSheet : BottomSheetDialogFragment() {
             ref = result.getString("ref").toString()
 
             databaseReference = FirebaseDatabase.getInstance().getReference(ref)
+            Log.i("ref", databaseReference.key.toString())
             databaseReference.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(albumSnapshot: DataSnapshot) {
                     for (reviewSnapshot in albumSnapshot.child("reviews").children) {
@@ -95,47 +87,8 @@ class ReviewBottomSheet : BottomSheetDialogFragment() {
                     idCmt = databaseReference.push().key!!
                 databaseReference.child(idCmt).setValue(reviewData(auth.currentUser!!.uid, rbRating2.rating, etCmt.text.toString(),
                     SimpleDateFormat("yyyy-MM-dd").format(Date()).toString()) )
-//                do post cmt feature
-                val send_data = Bundle().apply {
-                    putString("idAlbum", databaseReference.key)
-                }
-                parentFragmentManager.setFragmentResult("send_idAlbum", send_data)
                 dismiss()
             }
         }
-        parentFragmentManager.setFragmentResultListener("send_ref1", this) { _, result ->
-            parentFragmentManager.beginTransaction().show(this@ReviewBottomSheet)
-            ref = result.getString("ref").toString()
-
-            databaseReference = FirebaseDatabase.getInstance().getReference(ref)
-            databaseReference.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(albumSnapshot: DataSnapshot) {
-                    for (reviewSnapshot in albumSnapshot.child("reviews").children) {
-                        if (reviewSnapshot.child("from").value.toString().equals(auth.currentUser!!.uid)) {
-                            idCmt = reviewSnapshot.key.toString()
-                            rbRating2.setRating(reviewSnapshot.child("rating").value.toString().toFloat())
-                            etCmt.setText(reviewSnapshot.child("comment").value.toString())
-                            break
-                        }
-                    }
-                }
-                override fun onCancelled(error: DatabaseError) {
-                }
-            })
-            tvPostReview?.setOnClickListener {
-                databaseReference = databaseReference.child("reviews")
-                if (idCmt == "")
-                    idCmt = databaseReference.push().key!!
-                databaseReference.child(idCmt).setValue(reviewData(auth.currentUser!!.uid, rbRating2.rating, etCmt.text.toString(),
-                    SimpleDateFormat("yyyy-MM-dd").format(Date()).toString()) )
-                val send_data = Bundle().apply {
-                    putString("ref", ref)
-                }
-                parentFragmentManager.setFragmentResult("send_ref", send_data)
-                dismiss()
-            }
-        }
-
     }
-
 }

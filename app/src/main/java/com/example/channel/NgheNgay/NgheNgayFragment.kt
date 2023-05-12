@@ -68,6 +68,7 @@ class NgheNgayFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_nghe_ngay, container, false)
+        view.setTag("NgheNgayFragmentTag")
         ibBack = view.findViewById(R.id.ibBack)
         ibSub = view.findViewById(R.id.addBtn)
         ibBack.setOnClickListener {
@@ -106,7 +107,6 @@ class NgheNgayFragment : Fragment() {
         parentFragmentManager.setFragmentResultListener("send_idAlbum", this) { _, result ->
             parentFragmentManager.beginTransaction().show(this@NgheNgayFragment)
             idAlbum = result.getString("idAlbum").toString()
-
             nodeUser?.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
 
@@ -142,6 +142,7 @@ class NgheNgayFragment : Fragment() {
             databaseReference = FirebaseDatabase.getInstance().getReference("categories")
             databaseReference?.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
+                    reviews.clear()
                     for (categorySnapshot in snapshot.children) {
                         for (albumSnapshot in categorySnapshot.child("albums").children) {
                             if (albumSnapshot.key.toString().equals(idAlbum)) {
@@ -196,13 +197,14 @@ class NgheNgayFragment : Fragment() {
 
                                 showRating()
                                 vpReview.adapter = ReviewAdapter(reviews)
+                                Log.i("viewslist", reviews.toString())
                                 tvAllReview?.setOnClickListener {
                                     parentFragmentManager.beginTransaction()
                                         .replace(R.id.frame_layout, AllReviewFragment()).addToBackStack(null).commit()
                                     val send_data = Bundle().apply {
                                         putString("ref", ref)
                                     }
-                                    (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_ref", send_data)
+                                    (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_ref1", send_data)
                                 }
                                 tvMakeReview?.setOnClickListener {
                                     ReviewBottomSheet().show(getParentFragmentManager(), "Review screen")
@@ -212,12 +214,12 @@ class NgheNgayFragment : Fragment() {
                                     (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_ref", send_data)
                                 }
 
-                                val epiRef = albumSnapshot.ref.toString()
-                                val episoRef = epiRef.replace("https://testdb-80aa6-default-rtdb.firebaseio.com/","")
-                                val send_data = Bundle().apply {
-                                    putString("ref", episoRef)
-                                }
-                                parentFragmentManager.setFragmentResult("send_ref", send_data)
+//                                val epiRef = albumSnapshot.ref.toString()
+//                                val episoRef = epiRef.replace("https://testdb-80aa6-default-rtdb.firebaseio.com/","")
+//                                val send_data = Bundle().apply {
+//                                    putString("ref", episoRef)
+//                                }
+//                                parentFragmentManager.setFragmentResult("send_ref", send_data)
                                 break
                             }
                         }
@@ -272,5 +274,16 @@ class NgheNgayFragment : Fragment() {
 //        pb1start.progress = 40
     }
 
+    override fun onPause() {
+        super.onPause()
+        Log.i("pause", "AAAAA")
+       // parentFragmentManager.clearFragmentResultListener("send_idAlbum")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("resume", "BBBB")
+
+    }
 }
 
