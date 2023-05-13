@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -52,15 +53,11 @@ class ItemDanhmucFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_item_danhmuc, container, false)
         tvAllAlbum2 = view.findViewById(R.id.tvAllAlbum2)
-        tvAllAlbum2.setOnClickListener {
-            replaceFragment(XemTatCaFragment(items))
-        }
+
         tvTenDanhmuc = view.findViewById(R.id.txtTenDanhmuc)
 
         tvAllAlbum3 = view.findViewById(R.id.tvAllAlbum3)
-        tvAllAlbum3.setOnClickListener {
-            replaceFragment(XemTatCaFragment(items2))
-        }
+
         imgBack = view.findViewById(R.id.imgBack)
         return view
     }
@@ -72,6 +69,7 @@ class ItemDanhmucFragment : Fragment() {
 
 
         val database = Firebase.database
+
 
 
         var reference = database.getReference("categories")
@@ -122,6 +120,24 @@ class ItemDanhmucFragment : Fragment() {
 
             }
 
+            tvAllAlbum2.setOnClickListener {
+                val send_data = Bundle().apply {
+                    putString("tendanhmucs",taskDanhmuc )
+                }
+                (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_tendm", send_data)
+
+                replaceFragment(XemTatCaFragment(items))
+            }
+            tvAllAlbum3.setOnClickListener {
+                val send_data = Bundle().apply {
+                    putString("tendanhmucs",taskDanhmuc )
+                }
+                (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_tendm", send_data)
+                replaceFragment(XemTatCaFragment(items2))
+            }
+
+
+
         }
         imgBack.setOnClickListener {
             parentFragmentManager.popBackStack()
@@ -140,6 +156,8 @@ class ItemDanhmucFragment : Fragment() {
         compositePageTransformer.addTransformer(MarginPageTransformer((5 * Resources.getSystem().displayMetrics.density).toInt()))
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                items.clear()
+
 
                 for (albumSnapshot in snapshot.child("albums").children) {
                     val albumName = albumSnapshot.child("album_name").value as? String
@@ -180,6 +198,7 @@ class ItemDanhmucFragment : Fragment() {
         compositePageTransformer.addTransformer(MarginPageTransformer((5 * Resources.getSystem().displayMetrics.density).toInt()))
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                items2.clear()
 
 
 
@@ -215,6 +234,18 @@ class ItemDanhmucFragment : Fragment() {
                 Toast.makeText(requireContext(), "Can not get data", Toast.LENGTH_SHORT);
             }
         })
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i("pause", "AAAAA")
+        // parentFragmentManager.clearFragmentResultListener("send_idAlbum")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("resume", "BBBB")
 
     }
 

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +25,18 @@ class XemTatCaFragment(private val albumList: ArrayList<Album>) : Fragment() {
         val view = inflater.inflate(R.layout.fragment_xem_tat_ca, container, false)
         ivBack3 = view.findViewById(R.id.ivBack3)
         ivBack3?.setOnClickListener {
+            parentFragmentManager.setFragmentResultListener("send_tendm", this) { _, result ->
+
+                parentFragmentManager.beginTransaction().show(this@XemTatCaFragment)
+                val taskDanhmuc = result.getString("tendanhmucs")
+
+                val send_data = Bundle().apply {
+                    putString("tendanhmuc", taskDanhmuc)
+                }
+                (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_dm", send_data)
+
+            }
+
             parentFragmentManager.popBackStack()
         }
         return view
