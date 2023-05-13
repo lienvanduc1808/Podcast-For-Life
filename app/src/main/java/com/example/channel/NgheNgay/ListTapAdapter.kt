@@ -37,6 +37,7 @@ class ListTapAdapter(context: Context, resource: Int, list: List<ListTapData>):
         val imgBtnPlay = rowView?.findViewById<ImageButton>(R.id.imgBtnPlay)
         val imgbtnMore = rowView?.findViewById<ImageButton>(R.id.imgBtnMore)
 
+
         val auth: FirebaseAuth
         val storageReference: StorageReference
         val databaseReference: DatabaseReference
@@ -70,6 +71,9 @@ class ListTapAdapter(context: Context, resource: Int, list: List<ListTapData>):
                         for (albumSnapshot in categorySnapshot.child("albums").children) {
                             for (episodeSnapshot in albumSnapshot.child("episodes").children) {
                                 if(currentItem?._id.toString().equals(episodeSnapshot.key.toString())){
+
+
+
 
 
                                     val numListener = episodeSnapshot.child("listener").value.toString().toInt()
@@ -156,6 +160,7 @@ class ListTapAdapter(context: Context, resource: Int, list: List<ListTapData>):
         tenTap?.text = currentItem?.title
 //        phut?.text = currentItem?.phut
         phut?.text = currentItem?.duration
+
 
 
 
