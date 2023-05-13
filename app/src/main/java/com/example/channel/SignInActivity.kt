@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -23,12 +24,19 @@ import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 
 
 class SignInActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
+    private lateinit var databaseReference: DatabaseReference
+    private lateinit var storageReference: StorageReference
+    private lateinit var imageUri: Uri
 
 
 
@@ -103,7 +111,7 @@ class SignInActivity : AppCompatActivity() {
             val account = task.getResult(ApiException::class.java)
             val credential = GoogleAuthProvider.getCredential(account.idToken , null)
 
-            FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener{
+            auth.signInWithCredential(credential).addOnCompleteListener{
                 task ->
                 if(task.isSuccessful){
                     val intent : Intent = Intent(this , MainActivity::class.java)
@@ -111,7 +119,43 @@ class SignInActivity : AppCompatActivity() {
                     intent.putExtra("name" , account.displayName)
                     Log.d("aimabietemail",account.email.toString())
                     Log.d("name",account.displayName.toString())
-                    startActivity(intent)
+                    val userprofile = userData(account.displayName.toString(), "Ho Chi Minh city", account.email.toString())
+                    databaseReference = FirebaseDatabase.getInstance().getReference("users")
+                    databaseReference.child(auth.currentUser?.uid.toString()).setValue(userprofile).addOnCompleteListener {
+                        if(it.isSuccessful){
+                            Toast.makeText(
+                                this,
+                                "Welcome! , ${account.email.toString()}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            imageUri = Uri.parse("android.resource://com.example.channel/${R.drawable.avatar_test}")
+                            storageReference =  FirebaseStorage.getInstance().getReference("User/"+auth.currentUser?.uid)
+                            storageReference.putFile(imageUri).addOnCompleteListener{
+                                Toast.makeText(
+                                    this,
+                                    "successful",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }.addOnFailureListener{
+                                Toast.makeText(
+                                    this,
+                                    "fail",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            startActivity(intent)
+
+                        }
+                        else{
+                            Toast.makeText(
+                                this,
+                                " Sign in fail!, ${account.email.toString()}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+
+
                 }else{
                     Toast.makeText(this, task.exception.toString() , Toast.LENGTH_SHORT).show()
                 }
@@ -119,9 +163,6 @@ class SignInActivity : AppCompatActivity() {
 
         }
     }
-
-
-
 
 
 

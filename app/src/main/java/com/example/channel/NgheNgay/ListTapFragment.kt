@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ListView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.channel.R
 import com.google.firebase.database.DataSnapshot
@@ -43,6 +44,7 @@ class ListTapFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         var list = mutableListOf<ListTapData>()
+        val tenKenh = view.findViewById<TextView>(R.id.txtTenKenh)
 
         parentFragmentManager.setFragmentResultListener("send_ref", this) { _, result ->
             parentFragmentManager.beginTransaction().show(this@ListTapFragment)
@@ -53,6 +55,8 @@ class ListTapFragment : Fragment() {
             val set = HashSet<ListTapData>()
             val storage = Firebase.storage
             val idAlbum = albumRef.key.toString()
+            val channelName = result.getString("ChannelName")
+            tenKenh.setText(channelName)
 
             ivBack4?.setOnClickListener {
                 val send_data = Bundle().apply {

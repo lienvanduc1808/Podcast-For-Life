@@ -158,6 +158,7 @@ class NgheNgayFragment : Fragment() {
                                         Log.d("eror", "Failed to read value.", error.toException())
                                     }
                                 })
+                                val ChannelName = albumSnapshot.child("channel").value.toString()
 
                                 tvAlbDescription.setText(albumSnapshot.child("description").value.toString())
                                 storageReference = FirebaseStorage.getInstance().reference.child("Album/$idAlbum")
@@ -187,6 +188,8 @@ class NgheNgayFragment : Fragment() {
                                         .replace(R.id.frame_layout, ListTapFragment()).addToBackStack(null).commit()
                                     val send_data = Bundle().apply {
                                         putString("ref", ref)
+                                        putString("ChannelName", ChannelName)
+
                                     }
                                     (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_ref", send_data)
                                 }
