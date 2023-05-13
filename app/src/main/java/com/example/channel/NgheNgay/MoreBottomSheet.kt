@@ -43,6 +43,7 @@ class MoreBottomSheet : BottomSheetDialogFragment(){
 
     private lateinit var auth: FirebaseAuth
     private lateinit var userReference: DatabaseReference
+    private lateinit var storageReference: StorageReference
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
@@ -51,6 +52,8 @@ class MoreBottomSheet : BottomSheetDialogFragment(){
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.bottomsheet_more, container, false)
+
+        ivCoverImage2 = view.findViewById(R.id.ivCoverImage2)
 
         tvTitle2 = view.findViewById(R.id.tvTitle2)
         tvTitle2.setSingleLine()
@@ -76,25 +79,39 @@ class MoreBottomSheet : BottomSheetDialogFragment(){
         auth = FirebaseAuth.getInstance()
         userReference = FirebaseDatabase.getInstance().getReference("users/"+auth.currentUser?.uid)
 
+
         parentFragmentManager.setFragmentResultListener("send_idEpisode2", this) { _, result ->
             parentFragmentManager.beginTransaction().show(this@MoreBottomSheet)
             idEpisode = result.getString("idEpisode").toString()
             idAlbum = idEpisode.substring(0, idEpisode.lastIndexOf("ep"))
 
+            storageReference = FirebaseStorage.getInstance().reference.child("Album/$idAlbum")
+            storageReference.downloadUrl.addOnSuccessListener { uri ->
+                Glide.with(requireContext()).load(uri).into(ivCoverImage2)
+            }.addOnFailureListener { exception ->
+                // Handle any errors
+                Log.e(
+                    "FirebaseStorage",
+                    "Error getting download URL",
+                    exception
+                )
+            }
             tvTitle2.text = result.getString("titleEpisode").toString()
             tvDate2.text = result.getString("dateEpisode").toString()
 
             llGoToAlb2.setOnClickListener {
-                Toast.makeText(context, "Goto", Toast.LENGTH_SHORT).show()
                 (context as AppCompatActivity).getSupportFragmentManager().beginTransaction()
                     .replace(R.id.frame_layout, NgheNgayFragment())
                     .addToBackStack(null)
                     .commit()
 
                 val send_data = Bundle().apply {
-                    putString("idAlbum", idAlbum)
+                    putString("idAlbum", idEpisode)
+                    Log.d("idAlbum", idEpisode)
+
                 }
                 (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_idAlbum", send_data)
+
                 dismiss()
             }
             llSave2.setOnClickListener {

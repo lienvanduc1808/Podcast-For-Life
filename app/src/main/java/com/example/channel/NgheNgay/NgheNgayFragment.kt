@@ -30,6 +30,7 @@ class NgheNgayFragment : Fragment() {
     private lateinit var tvAlbName: TextView
     private lateinit var tvAlbChannel: TextView
     private lateinit var tvAlbDescription: TextView
+    private lateinit var btnPlayNewest: Button
 
     private lateinit var tvAllEpisode: TextView
     private lateinit var lvListEpisode: ListView
@@ -79,6 +80,7 @@ class NgheNgayFragment : Fragment() {
         tvAlbName = view.findViewById(R.id.tvAlbName)
         tvAlbChannel = view.findViewById(R.id.tvAlbChannel)
         tvAlbDescription = view.findViewById(R.id.tvAlbDescription)
+        btnPlayNewest = view.findViewById(R.id.btnPlayNewest)
 
         tvAllEpisode = view.findViewById(R.id.tvAllEpisode)
         lvListEpisode = view.findViewById(R.id.lvListEpisode)
@@ -149,17 +151,7 @@ class NgheNgayFragment : Fragment() {
                                 val albref = albumSnapshot.ref.toString()
                                 ref = albref.replace("https://testdb-80aa6-default-rtdb.firebaseio.com/","")
                                 tvAlbName.setText(albumSnapshot.child("album_name").value.toString())
-
-                                userReference.child(albumSnapshot.child("channel").value.toString()).addValueEventListener(object : ValueEventListener {
-                                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                        tvAlbChannel.setText(dataSnapshot.child("name").value.toString())
-                                    }
-                                    override fun onCancelled(error: DatabaseError) {
-                                        Log.d("eror", "Failed to read value.", error.toException())
-                                    }
-                                })
-                                val ChannelName = albumSnapshot.child("channel").value.toString()
-
+                                tvAlbChannel.setText(albumSnapshot.child("channel").value.toString())
                                 tvAlbDescription.setText(albumSnapshot.child("description").value.toString())
                                 storageReference = FirebaseStorage.getInstance().reference.child("Album/$idAlbum")
                                 storageReference.downloadUrl.addOnSuccessListener { uri ->
@@ -181,6 +173,19 @@ class NgheNgayFragment : Fragment() {
                                     val _id = episodeSnapshot.key.toString()
                                     episodes.add(ListTapData(_id, date, epTitle, epdes, img, ""))
                                 }
+                                btnPlayNewest.setOnClickListener {
+                                    EpisodeBottomSheet().show((context as AppCompatActivity).getSupportFragmentManager(), "Episode screen")
+
+                                    val send_data = Bundle().apply {
+                                        putString("idEpisode", episodes.last()._id.toString())
+                                        putString("dateEpisode", episodes.last().date.toString())
+                                        putString("titleEpisode", episodes.last().title.toString())
+                                        putString("descriptEpisode", episodes.last().descript.toString())
+                                        putString("imgEpisode", episodes.last().img.toString())
+                                    }
+                                    (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_idEpisode", send_data)
+
+                                }
 
                                 lvListEpisode.adapter = ListOpisodeAdapter(requireContext(), R.layout.list_opisode, episodes.take(3))
                                 tvAllEpisode?.setOnClickListener {
@@ -188,8 +193,7 @@ class NgheNgayFragment : Fragment() {
                                         .replace(R.id.frame_layout, ListTapFragment()).addToBackStack(null).commit()
                                     val send_data = Bundle().apply {
                                         putString("ref", ref)
-                                        putString("ChannelName", ChannelName)
-
+                                        putString("ChannelName", albumSnapshot.child("channel").value.toString())
                                     }
                                     (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_ref", send_data)
                                 }

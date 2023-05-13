@@ -5,6 +5,7 @@ import android.content.res.Resources
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.MediaPlayer
+import android.media.PlaybackParams
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -21,22 +22,27 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-
+import java.util.concurrent.TimeUnit
 
 
 class EpisodeBottomSheet : BottomSheetDialogFragment() {
     lateinit var ivCoverImage: ImageView
     lateinit var tvTitle: TextView
     lateinit var tvDescription: TextView
-    lateinit var ibPause: ImageButton
-    lateinit var ibMore: ImageButton
-    lateinit var sbVolume: SeekBar
 
-    lateinit var curTime: TextView
-    lateinit var timeRemain: TextView
     lateinit var sbTimebar: SeekBar
+    lateinit var tvCurrentTime: TextView
+    lateinit var tvTimeRemaining: TextView
+
+    lateinit var ibPause: ImageButton
     lateinit var ibReplay: ImageButton
     lateinit var ibForward: ImageButton
+
+    lateinit var sbVolume: SeekBar
+
+    lateinit var tvSpeed: TextView
+    lateinit var ibMore: ImageButton
+
     lateinit var runnable: Runnable
     private var handler: Handler = Handler()
 
@@ -59,10 +65,13 @@ class EpisodeBottomSheet : BottomSheetDialogFragment() {
         ivCoverImage = view.findViewById(R.id.ivCoverImage)
         tvTitle = view.findViewById(R.id.tvTitle)
         tvDescription = view.findViewById(R.id.tvDescription)
+        tvCurrentTime = view.findViewById(R.id.tvCurrentTime)
+        tvTimeRemaining = view.findViewById(R.id.tvTimeRemaining)
         ibPause = view.findViewById(R.id.ibPause)
         ibReplay = view.findViewById(R.id.ibReplay)
         ibForward = view.findViewById(R.id.ibForward)
         sbTimebar = view.findViewById(R.id.sbTimeBar)
+        tvSpeed = view.findViewById(R.id.tvSpeed)
 
         tvDescription.setSingleLine()
         tvDescription.isSelected = true
@@ -126,8 +135,15 @@ class EpisodeBottomSheet : BottomSheetDialogFragment() {
                 mediaPlayer.prepare()
                 mediaPlayer.setOnPreparedListener{
                     sbTimebar.max = mediaPlayer.duration
+                    val duration = mediaPlayer.duration.toLong()
+                    tvTimeRemaining.text = String.format("%02d:%02d",
+                    TimeUnit.MILLISECONDS.toMinutes(duration),
+                    TimeUnit.MILLISECONDS.toSeconds(duration) -
+                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration))
+                    )
                 }
                 sbTimebar.progress = 0
+                mediaPlayer.playbackParams = PlaybackParams().setSpeed(1F)
                 mediaPlayer.start()
 
                 sbTimebar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
@@ -187,11 +203,32 @@ class EpisodeBottomSheet : BottomSheetDialogFragment() {
                     }
                 }
 
+                tvSpeed.setOnClickListener {
+                    if (tvSpeed.text.toString().trim().equals("1x")){
+                        tvSpeed.text = "1.5x"
+                        mediaPlayer.playbackParams = PlaybackParams().setSpeed(1.5F)
+                    }
+                    else if (tvSpeed.text.toString().trim().equals("1.5x")){
+                        tvSpeed.text = "2x"
+                        mediaPlayer.playbackParams = PlaybackParams().setSpeed(2F)
+                    }
+                    else if (tvSpeed.text.toString().trim().equals("2x")){
+                        tvSpeed.text = "1x"
+                        mediaPlayer.playbackParams = PlaybackParams().setSpeed(1F)
+                    }
+                }
+
                 handler.postDelayed(object: Runnable{
                     override fun run(){
                         try{
                             sbTimebar.progress = mediaPlayer.currentPosition
                             handler.postDelayed(this, 1000)
+                            val curTime = mediaPlayer.currentPosition.toLong()
+                            tvCurrentTime.text = String.format("%02d:%02d",
+                                TimeUnit.MILLISECONDS.toMinutes(curTime),
+                                TimeUnit.MILLISECONDS.toSeconds(curTime) -
+                                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(curTime))
+                            );
                         }catch(e:Exception) {
                             sbTimebar.progress=0
                         }
