@@ -9,11 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.channel.R
 import android.widget.*
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
+import com.example.channel.NgheNgay.ListTapData
 import com.example.channel.Profile.MyPodCastData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -34,8 +34,10 @@ class RankingTableFragment : Fragment() {
     private var idAlbum:String=""
     val items = arrayListOf<Top_Item>()
     val itemss = arrayListOf<Top_Item>()
-    val listTopTap = arrayListOf<TopTapData>()
-    val listTopTaps = arrayListOf<TopTapData>()
+//    val listTopTap = arrayListOf<TopTapData>()
+    val listTopEpisode = arrayListOf<ListTapData>()
+    val listTopEpisodes = arrayListOf<ListTapData>()
+//    val listTopTaps = arrayListOf<TopTapData>()
     private lateinit var adapter: TopItemAdapter
     private lateinit var tvAllAlbum2: TextView
     private lateinit var tvAllAlbum3: TextView
@@ -151,67 +153,34 @@ class RankingTableFragment : Fragment() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                     for (categorySnapshot in dataSnapshot.children) {
+//                        val categoryName = categorySnapshot.child("cate_name").value.toString()
                         for (albumSnapshot in categorySnapshot.child("albums").children) {
+                            idAlbum =  albumSnapshot.key.toString()
+                            albumName = albumSnapshot.child("album_name").value.toString()
+                            channelName = albumSnapshot.child("channel").value.toString()
                             for (episodeSnapshot in albumSnapshot.child("episodes").children) {
+                                 episodeID = episodeSnapshot.key.toString()
+                                 val episodeTitle = episodeSnapshot.child("title").value.toString()
+                                 val episodeDes = episodeSnapshot.child("descript").value.toString()
+                                 val episodeDate = episodeSnapshot.child("date").value.toString()
+                                 episodeImage = episodeSnapshot.child("img").value.toString()
+                                 var esposideListener  = episodeSnapshot.child("listener").value
 
+                                var numListener = 0
+                                 if(esposideListener !=null){
+                                     numListener= esposideListener.toString().toInt()
+                                 }else{
+                                    numListener =0
+                                 }
 
-                                 idAlbum =  albumSnapshot.key.toString()
-                                    episodeID = episodeSnapshot.key.toString()
-                                    val categoryName = categorySnapshot.child("cate_name").value.toString()
-
-                                     albumName = albumSnapshot.child("album_name").value.toString()
-                                    channelName = albumSnapshot.child("channel").value.toString()
-
-                                    val episodeDate = episodeSnapshot.child("date").value.toString()
-
-
-                                    val episodeDes = episodeSnapshot.child("descript").value.toString()
-
-
-                                     episodeImage = episodeSnapshot.child("img").value.toString()
-                                    var numListener = 0
-                                    var esposideListener  = episodeSnapshot.child("listener").value
-
-                                    if(esposideListener !=null){
-
-                                        numListener= esposideListener.toString().toInt()
-
-                                    }else{
-                                        numListener =0
-                                    }
-
-
-
-
-
-
-                                    val episodeName = episodeSnapshot.child("title").value.toString()
-                                listTopTap.add(TopTapData(episodeImage,episodeName,episodeDate,numListener))
-
-
-
-
-                                    sumListenerEpisode+=numListener.toInt()
-
-
-
-
-
-
-
+                                listTopEpisode.add(ListTapData(episodeID, episodeDate, episodeTitle, episodeDes, episodeImage, numListener))
+//                                listTopTap.add(TopTapData(episodeImage,episodeName,episodeDate,numListener))
+                                sumListenerEpisode+=numListener.toInt()
                             }
                             if(sumListenerEpisode!=0){
                                 items.add(Top_Item(albumName,channelName,episodeImage,sumListenerEpisode,idAlbum))
-
                             }
-
-
-
                             sumListenerEpisode =0
-
-
-
-
                         }
 
                     }
@@ -241,12 +210,13 @@ class RankingTableFragment : Fragment() {
                 viewPager.setPageTransformer(compositePageTransformer)
 
 
-                var sortlistTopTap = listTopTap.sortedWith(compareByDescending { it.totalListeners })
+                var sortlistTopTap = listTopEpisode.sortedWith(compareByDescending { it.listener })
                 for (episode in sortlistTopTap ){
-                    listTopTaps.add(episode)
+                    listTopEpisodes.add(episode)
+//                    listTopTaps.add(episode)
                 }
 
-                adapter2 = TopTapAdapter(requireContext(),R.layout.top_tap,listTopTaps)
+                adapter2 = TopTapAdapter(requireContext(),R.layout.top_tap,listTopEpisodes)
                 listView = view.findViewById(R.id.lvRankingTap)
                 listView.adapter = adapter2
 
@@ -317,34 +287,32 @@ class RankingTableFragment : Fragment() {
         var list = mutableListOf<MyPodCastData>()
         val itemCate = arrayListOf<Top_Item>()
         val itemCateSort = arrayListOf<Top_Item>()
-        val topEpisode = arrayListOf<TopTapData>()
-        val topEpisodeSort = arrayListOf<TopTapData>()
+        val topEpisode = arrayListOf<ListTapData>()
+        val topEpisodeSort = arrayListOf<ListTapData>()
 
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (albumSnapshot in dataSnapshot.child("albums").children) {
+                    idAlbum =  albumSnapshot.key.toString()
+                    albumName = albumSnapshot.child("album_name").value.toString()
+                    channelName = albumSnapshot.child("channel").value.toString()
                     for (episodeSnapshot in albumSnapshot.child("episodes").children) {
-                        Log.d("episodeSnapshot",episodeSnapshot.ref.toString())
-                        idAlbum =  albumSnapshot.key.toString()
                         episodeID = episodeSnapshot.key.toString()
-                        albumName = albumSnapshot.child("album_name").value.toString()
-                        channelName = albumSnapshot.child("channel").value.toString()
+                        val episodeTitle = episodeSnapshot.child("title").value.toString()
+                        val episodeDes = episodeSnapshot.child("descript").value.toString()
                         val episodeDate = episodeSnapshot.child("date").value.toString()
                         episodeImage = episodeSnapshot.child("img").value.toString()
-                        var numListener = 0
                         var esposideListener  = episodeSnapshot.child("listener").value
 
+                        var numListener = 0
                         if(esposideListener !=null){
-
                             numListener= esposideListener.toString().toInt()
-
                         }else{
                             numListener =0
                         }
 
-                        val episodeName = episodeSnapshot.child("title").value.toString()
-                        topEpisode.add(TopTapData(episodeImage,episodeName,episodeDate,numListener))
-                        Log.d("topEpisode",topEpisode.toString())
+                        listTopEpisode.add(ListTapData(episodeID, episodeDate, episodeTitle, episodeDes, episodeImage, numListener))
+//                                listTopTap.add(TopTapData(episodeImage,episodeName,episodeDate,numListener))
                         sumListenerEpisode+=numListener.toInt()
                     }
                     if(sumListenerEpisode!=0){
@@ -365,14 +333,14 @@ class RankingTableFragment : Fragment() {
                 }
 
 
-                val sortTopEpisode = topEpisode.sortedWith(compareByDescending { it.totalListeners })
+                val sortTopEpisode = topEpisode.sortedWith(compareByDescending { it.listener })
                 for (episode in sortTopEpisode ){
                     topEpisodeSort.add(episode)
                 }
 
 
 
-                adapter2 = TopTapAdapter(requireContext(),R.layout.top_tap,topEpisodeSort)
+                adapter2 = TopTapAdapter(requireContext(),R.layout.top_tap, topEpisodeSort)
                 listView = view!!.findViewById(R.id.lvRankingTap)
                 listView.adapter = adapter2
 

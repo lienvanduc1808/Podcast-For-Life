@@ -2,6 +2,7 @@ package com.example.channel.Search
 
 
 import android.content.Context
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,13 +12,21 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.example.channel.NgheNgay.EpisodeBottomSheet
+import com.example.channel.NgheNgay.ListTapData
+import com.example.channel.NgheNgay.episodeData
 import com.example.channel.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 
 
-class TopTapAdapter(context: Context, resource: Int, list: List<TopTapData>):
-    ArrayAdapter<TopTapData>(context, resource, list) {
+class TopTapAdapter(context: Context, resource: Int, list: ArrayList<ListTapData>):
+    ArrayAdapter<ListTapData>(context, resource, list) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var rowView = convertView
@@ -33,6 +42,13 @@ class TopTapAdapter(context: Context, resource: Int, list: List<TopTapData>):
         val img_top_tap = rowView?.findViewById<ImageView>(R.id.imgTopTap)
         val imgbtnMore = rowView?.findViewById<ImageButton>(R.id.imgBtnMoreRankingTap)
 
+        val auth: FirebaseAuth
+        val databaseReference: DatabaseReference
+
+        auth = FirebaseAuth.getInstance()
+        databaseReference = FirebaseDatabase.getInstance().getReference("users/"+auth.currentUser?.uid)
+
+
         //popup menu cho imgbutton more
         val popupMenu = PopupMenu(rowView?.context, imgbtnMore)
 
@@ -41,10 +57,26 @@ class TopTapAdapter(context: Context, resource: Int, list: List<TopTapData>):
             when (menuItem.itemId) {
                 R.id.menuPlay->{
 
+                    EpisodeBottomSheet().show((context as AppCompatActivity).getSupportFragmentManager(), "Episode screen")
+                    val send_data = Bundle().apply {
+                        putString("idEpisode", currentItem?._id.toString())
+                        putString("dateEpisode", currentItem?.date.toString())
+                        putString("titleEpisode", currentItem?.title.toString())
+                        putString("descriptEpisode", currentItem?.descript.toString())
+                        putString("imgEpisode", currentItem?.img.toString())
+                        Log.d("idEpisode", currentItem?._id.toString())
+//                putString("position", position.toString())
+                    }
+                    (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_idEpisode", send_data)
 
                     true
                 }
                 R.id.menuSave -> {
+                    databaseReference.get().addOnSuccessListener {
+                    if (it.exists()){
+                        databaseReference.child("saved").push().setValue(currentItem?._id.toString())
+                    }
+                }
                     true
                 }
                 R.id.menuDownload -> {
@@ -75,11 +107,11 @@ class TopTapAdapter(context: Context, resource: Int, list: List<TopTapData>):
         }
 
 
-        time_top_tap?.text = currentItem?.time_top_tap
-        ten_top_tap?.text = currentItem?.ten_top_tap
+        time_top_tap?.text = currentItem?.duration
+        ten_top_tap?.text = currentItem?.title
 
         val storageRef = FirebaseStorage.getInstance().reference
-        val logo = currentItem?.img_top_tap
+        val logo = currentItem?.img
 
         val imageRef = storageRef.child("Album/$logo")
 
