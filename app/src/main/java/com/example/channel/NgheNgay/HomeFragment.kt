@@ -1,6 +1,7 @@
 package com.example.channel.NgheNgay
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
@@ -30,6 +31,8 @@ import com.google.firebase.ktx.Firebase
 
 class HomeFragment : Fragment() {
 
+    private lateinit var fragmentContext: Context
+
     private lateinit var viewPager: ViewPager2
     private lateinit var viewPager2: ViewPager2
     private lateinit var adapter: HomeAdapter
@@ -39,6 +42,11 @@ class HomeFragment : Fragment() {
     private lateinit var tvAllAlbum3: TextView
     val items = arrayListOf<Album>()
     val items2 = arrayListOf<Album>()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fragmentContext = context
+    }
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
@@ -63,12 +71,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        if (!isAdded) {
-            // Nếu Fragment chưa được gắn vào Activity, thêm nó vào
-            childFragmentManager.beginTransaction()
-                .add(this, "HomeFragment")
-                .commit()
-        }
+
         val compositePageTransformer = CompositePageTransformer()
         compositePageTransformer.addTransformer(MarginPageTransformer((5 * Resources.getSystem().displayMetrics.density).toInt()))
 
@@ -96,7 +99,7 @@ class HomeFragment : Fragment() {
                     }
                     Log.d("hnlog", "The value of myValue is: $items")
                 }
-                adapter = HomeAdapter(items, requireContext())
+                adapter = HomeAdapter(items, fragmentContext)
                 adapter.onItemClick = { album ->
                     // Handle click events on album items here
 
@@ -142,7 +145,7 @@ class HomeFragment : Fragment() {
                 val itemShuffle = items2.shuffled().take(20)
 
 
-                adapter2 = HomeAdapter(itemShuffle as ArrayList<Album>, requireContext())
+                adapter2 = HomeAdapter(itemShuffle as ArrayList<Album>,fragmentContext)
                 viewPager2 = view!!.findViewById<ViewPager2>(R.id.viewPager2)
 
                 viewPager2.apply {
