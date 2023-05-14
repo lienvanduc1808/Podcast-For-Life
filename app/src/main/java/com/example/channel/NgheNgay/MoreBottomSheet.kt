@@ -2,9 +2,8 @@ package com.example.channel.NgheNgay
 
 import android.annotation.SuppressLint
 import android.content.res.Resources
-import android.media.AudioAttributes
-import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +20,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import java.io.File
 
 /**
  * A simple [Fragment] subclass.
@@ -44,6 +44,7 @@ class MoreBottomSheet : BottomSheetDialogFragment(){
     private lateinit var auth: FirebaseAuth
     private lateinit var userReference: DatabaseReference
     private lateinit var storageReference: StorageReference
+    private lateinit var audioReference: StorageReference
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
@@ -85,6 +86,7 @@ class MoreBottomSheet : BottomSheetDialogFragment(){
             idEpisode = result.getString("idEpisode").toString()
             idAlbum = idEpisode.substring(0, idEpisode.lastIndexOf("ep"))
 
+            audioReference = FirebaseStorage.getInstance().reference.child("AudioEpisode/$idEpisode")
             storageReference = FirebaseStorage.getInstance().reference.child("Album/$idAlbum")
             storageReference.downloadUrl.addOnSuccessListener { uri ->
                 Glide.with(requireContext()).load(uri).into(ivCoverImage2)
@@ -124,6 +126,15 @@ class MoreBottomSheet : BottomSheetDialogFragment(){
             }
             llDownload2.setOnClickListener {
                 //do here
+                val path = Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DOWNLOADS
+                )
+                val folder = File(path, "podcast4life")
+                folder.mkdirs()
+                val localFile = File(folder, result.getString("titleEpisode").toString())
+                localFile.createNewFile()
+                audioReference.getFile(localFile)
+
                 dismiss()
             }
 

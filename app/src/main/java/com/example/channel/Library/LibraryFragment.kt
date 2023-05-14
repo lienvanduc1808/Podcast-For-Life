@@ -1,12 +1,18 @@
 package com.example.channel.Library
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.os.Environment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import com.example.channel.R
+import java.io.File
+
 
 class LibraryFragment : Fragment() {
     private lateinit var clSaved: ConstraintLayout
@@ -36,6 +42,20 @@ class LibraryFragment : Fragment() {
 
         clDownloaded.setOnClickListener {
             replaceFragment(DownloadedFragment())
+//            val path = Environment.getExternalStorageDirectory().toString() + "/Download/podcast4life"
+//            val uri = Uri.parse(path)
+//            val intent = Intent(Intent.ACTION_GET_CONTENT)
+//            intent.setDataAndType(uri, "*/*")
+//            startActivity(Intent.createChooser(intent, "Open folder"))
+
+//            val intent = Intent(Intent.ACTION_GET_CONTENT)
+//            val uri = Uri.parse(
+//                Environment.getExternalStoragePublicDirectory(
+//                    Environment.DIRECTORY_DOWNLOADS
+//                ).toString() + "podcast4life"
+//            )
+//            intent.setDataAndType(uri, "*/*")
+//            startActivity(Intent.createChooser(intent, "Open folder"))
         }
 
         clFollowed.setOnClickListener {
