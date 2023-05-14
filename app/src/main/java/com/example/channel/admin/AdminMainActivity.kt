@@ -21,6 +21,7 @@ class AdminMainActivity : AppCompatActivity() {
                 R.id.action_ql_cate -> replaceFragment(CateManageFragment())
                 R.id.action_ql_album -> replaceFragment(AlbumManageFragment())
                 R.id.action_ql_user -> replaceFragment(UserManageFragment())
+                R.id.action_admin_profile -> replaceFragment(AdminProfileFragment())
                 else->{
 
                 }

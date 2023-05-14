@@ -17,6 +17,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.messaging.FirebaseMessaging
 
 
 class SignInFragment : Fragment() {
@@ -70,6 +71,7 @@ class SignInFragment : Fragment() {
                         "Sign in successful! Welcome, ${user?.email}",
                         Toast.LENGTH_SHORT
                     ).show()
+                    FirebaseMessaging.getInstance().subscribeToTopic("all_users")
                     switchToHomeFragment()
                 } else {
                     // If sign in fails, display a message to the user.
@@ -122,6 +124,7 @@ class SignInFragment : Fragment() {
                         "Sign in successful! Welcome, ${user?.displayName}",
                         Toast.LENGTH_SHORT
                     ).show()
+                    FirebaseMessaging.getInstance().subscribeToTopic("all_users")
                     switchToHomeFragment()
                 } else {
                     // If sign in fails, display a message to the user.
