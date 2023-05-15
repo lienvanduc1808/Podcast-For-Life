@@ -72,24 +72,30 @@
 
     <Button
         android:id="@+id/btnCateImg"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="30dp"
         android:drawableLeft="@drawable/ic_baseline_image_search_24"
         android:text="Chọn ảnh"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/admin_button_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivEditCateImg"
         app:layout_constraintTop_toTopOf="@+id/ivEditCateImg" />
 
     <Button
         android:id="@+id/btnUpdateCate"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="100dp"
         android:text="Cập nhật"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/admin_button_color"
+        android:textColor="#FFFFFF"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

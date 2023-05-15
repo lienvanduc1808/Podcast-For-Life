@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="16dp">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/logoPodcast"
+        android:layout_width="251dp"
+        android:layout_height="236dp"
+        android:background="@drawable/bg_icon_circle"
+        android:backgroundTint="#FFFFFF"
+        android:padding="3dp"
+        android:src="@drawable/logo"
+        app:riv_corner_radius="1000dp" />
 
     <EditText
         android:id="@+id/etEmail"
@@ -14,7 +26,8 @@
         android:hint="Enter email"
         android:inputType="textEmailAddress"
         android:maxLines="1"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:layout_margin= "10dp"/>
 
     <EditText
         android:id="@+id/etPassword"
@@ -23,28 +36,38 @@
         android:hint="Enter password"
         android:inputType="textPassword"
         android:maxLines="1"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:layout_margin= "10dp"
+        />
 
     <Button
         android:id="@+id/btnEmailSignIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign In With Email" />
+        android:text="Sign In With Email"
+        android:background="@drawable/button_gradient"
+        android:layout_margin= "10dp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"/>
 
     <Button
         android:id="@+id/btnGoogleSignIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign In With Google" />
-
+        android:text="Sign In With Google"
+        android:background="@drawable/button_gradient"
+        android:layout_margin= "10dp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/tvSwitchToSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create new account Sign up"
+        android:hint="Create new account Sign up"
         android:textAlignment="center"
         android:textColor="@color/purple"
-        android:textSize="18sp" />
+        android:textSize="20sp"
+        android:layout_margin= "10dp"/>
 
 </LinearLayout>
