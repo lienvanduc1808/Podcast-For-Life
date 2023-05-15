@@ -1,6 +1,7 @@
 package com.example.channel.NgheNgay
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
@@ -24,6 +25,7 @@ import com.makeramen.roundedimageview.RoundedImageView
 import kotlinx.coroutines.tasks.await
 
 class NgheNgayFragment : Fragment() {
+    private lateinit var fragmentContext: Context
     private lateinit var ibBack: ImageButton
     private lateinit var ibSub: ImageButton
     private lateinit var rivAlbLogo: RoundedImageView
@@ -61,6 +63,10 @@ class NgheNgayFragment : Fragment() {
     private lateinit var databaseReference: DatabaseReference
     private lateinit var storageReference: StorageReference
     private lateinit var userReference: DatabaseReference
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fragmentContext = context
+    }
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
@@ -155,7 +161,7 @@ class NgheNgayFragment : Fragment() {
                                 tvAlbDescription.setText(albumSnapshot.child("description").value.toString())
                                 storageReference = FirebaseStorage.getInstance().reference.child("Album/$idAlbum")
                                 storageReference.downloadUrl.addOnSuccessListener { uri ->
-                                    Glide.with(requireContext()).load(uri).into(rivAlbLogo)
+                                    Glide.with(fragmentContext).load(uri).into(rivAlbLogo)
                                 }.addOnFailureListener { exception ->
                                     // Handle any errors
                                     Log.e(
@@ -187,7 +193,7 @@ class NgheNgayFragment : Fragment() {
 
                                 }
 
-                                lvListEpisode.adapter = ListOpisodeAdapter(requireContext(), R.layout.list_opisode, episodes.take(3))
+                                lvListEpisode.adapter = ListOpisodeAdapter(fragmentContext, R.layout.list_opisode, episodes.take(3))
                                 tvAllEpisode?.setOnClickListener {
                                     parentFragmentManager.beginTransaction()
                                         .replace(R.id.frame_layout, ListTapFragment()).addToBackStack(null).commit()
@@ -221,12 +227,7 @@ class NgheNgayFragment : Fragment() {
                                     (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_ref", send_data)
                                 }
 
-//                                val epiRef = albumSnapshot.ref.toString()
-//                                val episoRef = epiRef.replace("https://testdb-80aa6-default-rtdb.firebaseio.com/","")
-//                                val send_data = Bundle().apply {
-//                                    putString("ref", episoRef)
-//                                }
-//                                parentFragmentManager.setFragmentResult("send_ref", send_data)
+
                                 break
                             }
                         }
@@ -259,26 +260,17 @@ class NgheNgayFragment : Fragment() {
                 if (rv.rating == 2F) rat2 += 1
                 if (rv.rating == 1F) rat1 += 1
             }
-//            Thread {
+
             pb5start.progress = (rat5 * 100 / reviews.size).toInt()
             pb4start.progress = (rat4 * 100 / reviews.size).toInt()
             pb3start.progress = (rat3 * 100 / reviews.size).toInt()
             pb2start.progress = (rat2 * 100 / reviews.size).toInt()
             pb1start.progress = (rat1 * 100 / reviews.size).toInt()
-//                pb1start.progress = 90
-//            }
-//            pb5start.progress = 50
-//            pb4start.progress = 50
-//            pb3start.progress = 30
-//            pb2start.progress = 20
+
             tvAverage.setText(((5*rat5 + 4*rat4 + 3*rat3 + 2*rat2 + rat1).toFloat()/reviews.size).toString().format(1))
             tvTotalRating.setText(reviews.size.toString() + " lượt đánh giá")
         }
-//        pb5start.progress = 80
-//        pb4start.progress = 50
-//        pb3start.progress = 30
-//        pb2start.progress = 20
-//        pb1start.progress = 40
+
     }
 
     override fun onPause() {
