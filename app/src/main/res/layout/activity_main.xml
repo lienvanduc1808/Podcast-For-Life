@@ -30,6 +30,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/ivNowPlaying"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:scaleType="centerCrop"
@@ -37,14 +38,17 @@
             app:riv_corner_radius="8dp" />
 
         <TextView
+            android:id="@+id/tvTitle"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginHorizontal="20dp"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:text="zxcvbnmsdfghj" />
 
         <ImageButton
-            android:id="@+id/playBtn"
+            android:id="@+id/ibPlay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -53,6 +57,7 @@
             android:src="@drawable/play_arrow" />
 
         <ImageButton
+            android:id="@+id/ibForward"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

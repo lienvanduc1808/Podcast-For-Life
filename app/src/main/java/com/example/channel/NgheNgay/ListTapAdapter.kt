@@ -7,10 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ImageButton
-import android.widget.PopupMenu
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.channel.Profile.MyPodcastFragment
 import com.example.channel.R
@@ -122,7 +119,25 @@ class ListTapAdapter(context: Context, resource: Int, list: List<ListTapData>):
                 R.id.menuSave -> {
                     databaseReference.get().addOnSuccessListener {
                         if (it.exists()){
-                            databaseReference.child("saved").push().setValue(currentItem?._id.toString())
+                            if(it.child("saved").exists()){
+                                var found = false
+                                for (i in it.child("saved").children){
+                                    if(i.value.toString().equals(currentItem?._id
+                                            .toString())){
+                                        Toast.makeText(context, "Episode has been saved", Toast.LENGTH_SHORT).show()
+                                        found = true
+                                        break
+                                    }
+                                }
+                                if(!found){
+                                    Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show()
+                                    databaseReference.child("saved").push().setValue(currentItem?._id.toString())
+                                }
+                            }
+                            else{
+                                Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show()
+                                databaseReference.child("saved").push().setValue(currentItem?._id.toString())
+                            }
                         }
                     }
 

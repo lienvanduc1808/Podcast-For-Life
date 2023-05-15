@@ -1,6 +1,7 @@
 package com.example.channel.NgheNgay
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.content.res.Resources
 import android.media.AudioAttributes
 import android.media.AudioManager
@@ -17,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.bumptech.glide.Glide
+import com.example.channel.DataListener
 import com.example.channel.R
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.database.*
@@ -26,10 +28,14 @@ import java.util.concurrent.TimeUnit
 
 
 class EpisodeBottomSheet : BottomSheetDialogFragment() {
+    private lateinit var mListener: DataListener
+
     lateinit var ivCoverImage: ImageView
     lateinit var tvTitle: TextView
     lateinit var tvDescription: TextView
 
+    private var bundle: Bundle? = null
+    private val mediaPlayer = MediaPlayer()
     lateinit var sbTimebar: SeekBar
     lateinit var tvCurrentTime: TextView
     lateinit var tvTimeRemaining: TextView
@@ -43,10 +49,8 @@ class EpisodeBottomSheet : BottomSheetDialogFragment() {
     lateinit var tvSpeed: TextView
     lateinit var ibMore: ImageButton
 
-    lateinit var runnable: Runnable
     private var handler: Handler = Handler()
 
-    private lateinit var audioManager: AudioManager
     private lateinit var idEpisode: String
     private lateinit var idAlbum: String
 
@@ -61,6 +65,8 @@ class EpisodeBottomSheet : BottomSheetDialogFragment() {
     ): View? {
         var view = inflater.inflate(R.layout.bottomsheet_episode, container, false)
 
+        mListener = requireActivity() as DataListener
+
         //for more features option
         ivCoverImage = view.findViewById(R.id.ivCoverImage)
         tvTitle = view.findViewById(R.id.tvTitle)
@@ -72,6 +78,7 @@ class EpisodeBottomSheet : BottomSheetDialogFragment() {
         ibForward = view.findViewById(R.id.ibForward)
         sbTimebar = view.findViewById(R.id.sbTimeBar)
         tvSpeed = view.findViewById(R.id.tvSpeed)
+        sbVolume = view.findViewById(R.id.sbVolume)
 
         tvDescription.setSingleLine()
         tvDescription.isSelected = true
@@ -92,6 +99,8 @@ class EpisodeBottomSheet : BottomSheetDialogFragment() {
 
         parentFragmentManager.setFragmentResultListener("send_idEpisode", this) { _, result ->
             parentFragmentManager.beginTransaction().show(this@EpisodeBottomSheet)
+            bundle = result
+            Log.i("bundle", bundle!!.getString("idEpisode").toString())
             idEpisode = result.getString("idEpisode").toString()
             idAlbum = idEpisode.substring(0, idEpisode.lastIndexOf("ep"))
 
@@ -125,7 +134,7 @@ class EpisodeBottomSheet : BottomSheetDialogFragment() {
             Log.i("aa", idEpisode)
             val episodeAudio = audioReference.child(idEpisode)
             episodeAudio.downloadUrl.addOnSuccessListener { uri ->
-                val mediaPlayer = MediaPlayer()
+
                 mediaPlayer.setAudioAttributes(
                     AudioAttributes.Builder()
                         .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
@@ -145,6 +154,24 @@ class EpisodeBottomSheet : BottomSheetDialogFragment() {
                 sbTimebar.progress = 0
                 mediaPlayer.playbackParams = PlaybackParams().setSpeed(1F)
                 mediaPlayer.start()
+
+                sbVolume.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                        // Thiết lập âm lượng media player theo giá trị mới của SeekBar
+                        val volume = progress / 100f
+                        mediaPlayer.setVolume(volume, volume)
+                    }
+
+                    override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                        Log.i("start", "aaaaa")
+
+                    }
+
+                    override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                        Log.i("stop", "aaaaa")
+
+                    }
+                })
 
                 sbTimebar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener{
                     override fun onProgressChanged(p0: SeekBar?, pos: Int, changed: Boolean) {
@@ -243,6 +270,13 @@ class EpisodeBottomSheet : BottomSheetDialogFragment() {
                 // Xử lý khi không lấy được link URL của ảnh
             }
         }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        mListener.onDataRecevied(bundle)
+        mListener.onMediaPlayerRecevied(mediaPlayer)
+//        mediaPlayer.release()
     }
 }
 
