@@ -3,15 +3,12 @@ package com.example.channel.Search
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.PopupMenu
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.channel.NgheNgay.EpisodeBottomSheet
@@ -23,6 +20,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import java.io.File
 
 
 class TopTapAdapter(context: Context, resource: Int, list: ArrayList<ListTapData>):
@@ -80,7 +78,16 @@ class TopTapAdapter(context: Context, resource: Int, list: ArrayList<ListTapData
                     true
                 }
                 R.id.menuDownload -> {
-
+                    val path = Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_DOWNLOADS
+                    )
+                    val folder = File(path, "podcast4life")
+                    folder.mkdirs()
+                    val localFile = File(folder, currentItem?.title.toString() + ".mp3")
+                    localFile.createNewFile()
+                    val audioReference = FirebaseStorage.getInstance().reference.child("AudioEpisode/" + currentItem?._id.toString())
+                    audioReference.getFile(localFile)
+                    Toast.makeText(context, "Downloaded", Toast.LENGTH_SHORT).show()
                     true
                 }
 
@@ -107,7 +114,7 @@ class TopTapAdapter(context: Context, resource: Int, list: ArrayList<ListTapData
         }
 
 
-        time_top_tap?.text = currentItem?.duration
+        time_top_tap?.text = currentItem?.listener.toString() + " luợt nghe"
         ten_top_tap?.text = currentItem?.title
 
         val storageRef = FirebaseStorage.getInstance().reference

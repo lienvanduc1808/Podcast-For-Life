@@ -71,9 +71,10 @@ class FollowedFragment : Fragment() {
                                     }
                                     if(album.key.toString().equals(sub)){
                                         val albumName = album.child("album_name").value.toString()
+                                        val albumChannel = album.child("channel").value.toString()
                                         val albumDescription = album.child("description").value.toString()
                                         val albumImage = album.child("logo_album").value.toString()
-                                        items.add(albumData(albumName, albumDescription, albumImage))
+                                        items.add(albumData(albumName, albumChannel, albumDescription, albumImage))
                                         subSize -= 1
                                     }
                                 }

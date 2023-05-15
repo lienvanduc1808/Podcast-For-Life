@@ -148,9 +148,10 @@ class MoreBottomSheet : BottomSheetDialogFragment(){
                 )
                 val folder = File(path, "podcast4life")
                 folder.mkdirs()
-                val localFile = File(folder, result.getString("titleEpisode").toString())
+                val localFile = File(folder, result.getString("titleEpisode").toString() + ".mp3")
                 localFile.createNewFile()
                 audioReference.getFile(localFile)
+                Toast.makeText(context, "Downloaded", Toast.LENGTH_SHORT).show()
 
                 dismiss()
             }

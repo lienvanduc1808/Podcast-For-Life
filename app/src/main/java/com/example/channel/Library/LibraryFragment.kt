@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.provider.DocumentsContract
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -41,21 +42,18 @@ class LibraryFragment : Fragment() {
         }
 
         clDownloaded.setOnClickListener {
-            replaceFragment(DownloadedFragment())
+//            replaceFragment(DownloadedFragment())
 //            val path = Environment.getExternalStorageDirectory().toString() + "/Download/podcast4life"
 //            val uri = Uri.parse(path)
 //            val intent = Intent(Intent.ACTION_GET_CONTENT)
 //            intent.setDataAndType(uri, "*/*")
 //            startActivity(Intent.createChooser(intent, "Open folder"))
 
-//            val intent = Intent(Intent.ACTION_GET_CONTENT)
-//            val uri = Uri.parse(
-//                Environment.getExternalStoragePublicDirectory(
-//                    Environment.DIRECTORY_DOWNLOADS
-//                ).toString() + "podcast4life"
-//            )
-//            intent.setDataAndType(uri, "*/*")
-//            startActivity(Intent.createChooser(intent, "Open folder"))
+            val intent = Intent(Intent.ACTION_VIEW)
+            val uri = Uri.parse(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString() + "/podcast4life")
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.setDataAndType(uri, "*/*")
+            startActivity(Intent.createChooser(intent, "Open folder"))
         }
 
         clFollowed.setOnClickListener {

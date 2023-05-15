@@ -2,6 +2,7 @@ package com.example.channel.Library
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import java.io.File
 
 class ListSavedAdapter(context: Context, resource: Int, objects: MutableList<ListTapData>):
     ArrayAdapter<ListTapData>(context, resource, objects) {
@@ -87,8 +89,17 @@ class ListSavedAdapter(context: Context, resource: Int, objects: MutableList<Lis
                 val clUnSaved = popupView?.findViewById<ConstraintLayout>(R.id.clUnSaved)
 
                 clDownloadEpisode?.setOnClickListener{
-                    Toast.makeText(context, currentItem?._id.toString(), Toast.LENGTH_SHORT).show()
-                    Log.i("adfasd", "adfasdfadsf")
+                    val path = Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_DOWNLOADS
+                    )
+                    val folder = File(path, "podcast4life")
+                    folder.mkdirs()
+                    val localFile = File(folder, currentItem?.title.toString() + ".mp3")
+                    localFile.createNewFile()
+                    val audioReference = FirebaseStorage.getInstance().reference.child("AudioEpisode/" + currentItem?._id.toString())
+                    audioReference.getFile(localFile)
+                    Toast.makeText(context, "Downloaded", Toast.LENGTH_SHORT).show()
+                    popupWindows[position]?.dismiss()
                 }
 
                 clGotoChannel?.setOnClickListener{
