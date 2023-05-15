@@ -53,7 +53,7 @@ class DanhMucFragment : Fragment() {
 
             // replaceFragment(SearchAlbumFragment())
         }
-        val items = arrayListOf<DanhMuc>(DanhMuc("Bảng xếp hạng", "https://firebasestorage.googleapis.com/v0/b/testdb-80aa6.appspot.com/o/Category%2Fimg_11.png?alt=media&token=4fc51f1a-6dc9-4c8b-9bc1-2a18b943b696"))
+        val items = arrayListOf<DanhMuc>(DanhMuc("Bảng xếp hạng", "img_11.png"))
 
         val database = Firebase.database
         val reference = database.getReference("categories")

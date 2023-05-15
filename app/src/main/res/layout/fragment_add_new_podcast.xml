@@ -68,7 +68,9 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textAlignment="center"
-                android:text="Chọn File Audio " />
+                android:text="Chọn File Audio "
+                android:textColor="#FFFFFF"
+                android:background="@drawable/admin_button_color"/>
             <TextView
                 android:id="@+id/txtNameUri"
                 android:layout_marginLeft="30dp"
