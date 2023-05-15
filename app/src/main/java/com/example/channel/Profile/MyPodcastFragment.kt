@@ -49,7 +49,7 @@ class MyPodcastFragment : Fragment() {
         authId =auth.currentUser?.uid.toString()
         var list = mutableListOf<MyPodCastData>()
 
-        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+        ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if(dataSnapshot.children ==null){
                     for (categorySnapshot in dataSnapshot.children) {

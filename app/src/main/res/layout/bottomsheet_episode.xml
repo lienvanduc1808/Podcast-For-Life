@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="680dp"
+    android:layout_height="750dp"
     android:layout_gravity="bottom"
     tools:context=".NgheNgay.EpisodeBottomSheet"
     android:background="@color/white" >

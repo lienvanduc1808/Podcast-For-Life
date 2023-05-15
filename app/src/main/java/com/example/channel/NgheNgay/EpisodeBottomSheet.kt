@@ -2,6 +2,7 @@ package com.example.channel.NgheNgay
 
 import android.annotation.SuppressLint
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.res.Resources
 import android.media.AudioAttributes
 import android.media.AudioManager
@@ -9,6 +10,7 @@ import android.media.MediaPlayer
 import android.media.PlaybackParams
 import android.os.Bundle
 import android.os.Handler
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -47,6 +49,7 @@ class EpisodeBottomSheet : BottomSheetDialogFragment() {
     lateinit var sbVolume: SeekBar
 
     lateinit var tvSpeed: TextView
+    lateinit var ivAirPlay: ImageView
     lateinit var ibMore: ImageButton
 
     private var handler: Handler = Handler()
@@ -79,6 +82,11 @@ class EpisodeBottomSheet : BottomSheetDialogFragment() {
         sbTimebar = view.findViewById(R.id.sbTimeBar)
         tvSpeed = view.findViewById(R.id.tvSpeed)
         sbVolume = view.findViewById(R.id.sbVolume)
+        ivAirPlay = view.findViewById(R.id.ivAirPlay)
+        ivAirPlay.setOnClickListener {
+            val intent = Intent(Settings.ACTION_BLUETOOTH_SETTINGS)
+            context?.startActivity(intent)
+        }
 
         tvDescription.setSingleLine()
         tvDescription.isSelected = true
