@@ -1,5 +1,6 @@
 package com.example.channel.Search
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -26,10 +27,16 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 class DanhMucFragment : Fragment() {
+    private lateinit var fragmentContext: Context
     private var searchET: TextView? = null
     private var autoCompleteTVAdapter: ArrayAdapter<String>? = null
     private var recyclerView: RecyclerView? = null
     private var adapter: DanhMucAdapter? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fragmentContext = context
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -65,7 +72,7 @@ class DanhMucFragment : Fragment() {
                 items.add(DanhMuc("Dramas", ""))
                 items.add(DanhMuc("Nghệ thuật", ""))
                 Log.d("plog", "The value of myValue is: $items")
-                adapter = DanhMucAdapter(items,requireContext())
+                adapter = DanhMucAdapter(items,fragmentContext)
                 recyclerView!!.adapter = adapter
                 recyclerView!!.layoutManager = GridLayoutManager( context, 2)
                 //  setUpAutoCompleteTVAdapter(DanhMucList.getDanhMucNameList())
