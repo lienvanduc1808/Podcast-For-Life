@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
+
 import com.example.channel.Profile.InfoFragment
 import com.example.channel.Profile.MyPodcastFragment
 import com.example.channel.Profile.NotiFragment
@@ -13,8 +14,10 @@ import com.example.channel.R
 import com.example.channel.SignInActivity
 
 class AdminProfileFragment : Fragment() {
+
     private lateinit var clLogout: ConstraintLayout
     private lateinit var clNotification: ConstraintLayout
+    private lateinit var adminChart: ConstraintLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,6 +35,11 @@ class AdminProfileFragment : Fragment() {
             startActivity(intent)
 
         }
+        adminChart = view.findViewById(R.id.adminChart)
+        adminChart.setOnClickListener {
+            replaceFragment(ChartFragment())
+        }
+
 
         return view
     }
