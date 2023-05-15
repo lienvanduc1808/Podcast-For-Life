@@ -119,7 +119,24 @@ class MoreBottomSheet : BottomSheetDialogFragment(){
             llSave2.setOnClickListener {
                 userReference.get().addOnSuccessListener {
                     if (it.exists()){
-                        userReference.child("saved").push().setValue(idEpisode)
+                        if(it.child("saved").exists()){
+                            var found = false
+                            for (i in it.child("saved").children){
+                                if(i.value.toString().equals(idEpisode)){
+                                    Toast.makeText(context, "Episode has been saved", Toast.LENGTH_SHORT).show()
+                                    found = true
+                                    break
+                                }
+                            }
+                            if(!found){
+                                Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show()
+                                userReference.child("saved").push().setValue(idEpisode)
+                            }
+                        }
+                        else{
+                            Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show()
+                            userReference.child("saved").push().setValue(idEpisode)
+                        }
                     }
                 }
                 dismiss()
