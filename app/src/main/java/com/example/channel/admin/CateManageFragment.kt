@@ -1,5 +1,6 @@
 package com.example.channel.admin
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -27,6 +28,12 @@ class CateManageFragment : Fragment() {
     private var recyclerView: RecyclerView? = null
     private var adapter: CateManageAdapter? = null
     private var btnAddCate: Button? = null
+
+    private lateinit var fragmentContext: Context
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fragmentContext = context
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,7 +47,7 @@ class CateManageFragment : Fragment() {
         }
 
 
-        recyclerView?.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView?.layoutManager = LinearLayoutManager(fragmentContext)
         val items = arrayListOf<DanhMuc>()
 
         val database = Firebase.database
@@ -58,7 +65,7 @@ class CateManageFragment : Fragment() {
                     items.add(category)
                 }
                 Log.d("calog", "The value of search is: $items")
-                adapter = CateManageAdapter(items, requireContext())
+                adapter = CateManageAdapter(items, fragmentContext)
 
                 recyclerView!!.adapter = adapter
                 adapter?.onItemClick = { danhMuc ->

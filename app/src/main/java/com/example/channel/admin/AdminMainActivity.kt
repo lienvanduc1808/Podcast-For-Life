@@ -1,5 +1,6 @@
 package com.example.channel.admin
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
@@ -15,6 +16,7 @@ class AdminMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAdminMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        replaceFragment(CateManageFragment())
 
         binding.adminBottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:ignore="MissingDefaultResource">
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="152dp"
+        android:layout_height="157dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/card_background"
+        android:elevation="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvAlbumName"
+        android:layout_width="152dp"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintStart_toStartOf="@+id/ivLogo"
+        app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
+
+    <TextView
+        android:id="@+id/tvAlbumArtist"
+        android:layout_width="152dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-3dp"
+        android:text="TextView"
+        android:textSize="14dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintStart_toStartOf="@+id/tvAlbumName"
+        app:layout_constraintTop_toBottomOf="@+id/tvAlbumName" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,6 +17,7 @@ import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
@@ -76,11 +77,7 @@ class AdminEditAlbumFragment : Fragment() {
         val storageRef = FirebaseStorage.getInstance().reference
 
         imgBack = view.findViewById(R.id.imgBack)
-        imgBack.setOnClickListener {
-            parentFragmentManager!!.popBackStack()
 
-
-        }
 
         btnImage.setOnClickListener {
             val intent = Intent()
@@ -90,10 +87,20 @@ class AdminEditAlbumFragment : Fragment() {
         }
 
         parentFragmentManager.setFragmentResultListener("send_idAlbum", this) { _, result ->
-
             parentFragmentManager.beginTransaction().show(this@AdminEditAlbumFragment)
 
+
             val idAlbum = result.getString("idAlbum")
+
+            imgBack.setOnClickListener {
+                val taskDanhmuc = result.getString("tendanhmuc")
+                val send_data = Bundle().apply {
+                    putString("tendanhmuc", taskDanhmuc)
+                }
+                (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_dm", send_data)
+                parentFragmentManager!!.popBackStack()
+
+            }
             ref.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
 
@@ -154,6 +161,7 @@ class AdminEditAlbumFragment : Fragment() {
 
                                     btnDelete.setOnClickListener {
                                         myRef.removeValue()
+                                        parentFragmentManager.popBackStack()
                                        // replaceFragment(ItemAlbumManageFragment())
 
                                     }

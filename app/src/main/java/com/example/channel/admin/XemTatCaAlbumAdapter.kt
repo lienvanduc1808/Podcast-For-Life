@@ -31,7 +31,7 @@ class XemTatCaAlbumAdapter(private val items: ArrayList<Album>, val context: Con
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_album, parent, false)
+            .inflate(R.layout.item_album1, parent, false)
 
         return ItemViewHolder(view)
     }
@@ -60,7 +60,9 @@ class XemTatCaAlbumAdapter(private val items: ArrayList<Album>, val context: Con
                 .commit()
 
             val send_data = Bundle().apply {
-                putString("idAlbum", item.id_album.toString())
+                val id_album = item.id_album.split(",")
+                putString("idAlbum", id_album[0])
+                putString("tendanhmuc", id_album[1])
                 Log.d("idAlbum",item.id_album.toString())
 
             }

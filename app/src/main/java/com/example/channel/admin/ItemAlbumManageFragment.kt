@@ -1,6 +1,7 @@
 package com.example.channel
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
@@ -28,8 +29,14 @@ class ItemAlbumManageFragment : Fragment() {
 
     private lateinit var rvListAlbum: RecyclerView
     private lateinit var imgBack:ImageView
+    private var taskDanhmuc: String = ""
     val items = arrayListOf<Album>()
 
+    private lateinit var fragmentContext: Context
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fragmentContext = context
+    }
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
@@ -62,10 +69,10 @@ class ItemAlbumManageFragment : Fragment() {
         parentFragmentManager.setFragmentResultListener("send_dm", this) { _, result ->
         Log.d("ffsf","sdfsdfsfsdfdsf")
             parentFragmentManager.beginTransaction().show(this@ItemAlbumManageFragment)
-            val taskDanhmuc = result.getString("tendanhmuc")
+            taskDanhmuc = result.getString("tendanhmuc")!!
 
 
-            if(taskDanhmuc.equals("Tin tức")){
+            if(taskDanhmuc.toString().trim().equals("Tin tức")){
                 tvTenDanhmuc.setText("Tin tức")
                 reference= database.getReference("categories").child("category_id_1")
                 displayAlbum(reference)
@@ -131,17 +138,17 @@ class ItemAlbumManageFragment : Fragment() {
 
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-
+                items.clear()
                 for (albumSnapshot in snapshot.child("albums").children) {
                     val albumName = albumSnapshot.child("album_name").value as? String
                     val idAlbum = albumSnapshot.key as String
                     val channel = albumSnapshot.child("channel").value as? String
                     val logoAlbum = albumSnapshot.child("logo_album").value as? String
                     Log.d("fridaylog", "The value of logo name is: $logoAlbum")
-                    val album = Album(albumName!!, channel!!, logoAlbum!!,idAlbum!!)
+                    val album = Album(albumName!!, channel!!, logoAlbum!!,idAlbum!!+","+taskDanhmuc)
                     items.add(album)
                     Log.d("items",items.toString())
-                    rvListAlbum.adapter = XemTatCaAlbumAdapter(items, requireContext())
+                    rvListAlbum.adapter = XemTatCaAlbumAdapter(items, fragmentContext)
                     rvListAlbum.layoutManager = GridLayoutManager(context, 2)
 
 

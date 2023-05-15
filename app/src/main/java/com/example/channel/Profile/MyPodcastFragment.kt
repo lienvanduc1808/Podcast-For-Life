@@ -51,6 +51,7 @@ class MyPodcastFragment : Fragment() {
 
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                list.clear()
                 if(dataSnapshot.children ==null){
                     for (categorySnapshot in dataSnapshot.children) {
                         for (albumSnapshot in categorySnapshot.child("albums").children) {

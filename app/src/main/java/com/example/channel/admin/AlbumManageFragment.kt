@@ -1,5 +1,6 @@
 package com.example.channel
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -27,6 +28,11 @@ class AlbumManageFragment : Fragment() {
 
     private var recyclerView: RecyclerView? = null
     private var adapter: DanhMucAdminAdapter? = null
+    private lateinit var fragmentContext: Context
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fragmentContext = context
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,7 +59,7 @@ class AlbumManageFragment : Fragment() {
                 }
 
                 Log.d("plog", "The value of myValue is: $items")
-                adapter = DanhMucAdminAdapter(items,requireContext())
+                adapter = DanhMucAdminAdapter(items,fragmentContext)
                 recyclerView!!.adapter = adapter
                 recyclerView!!.layoutManager = GridLayoutManager( context, 2)
 
