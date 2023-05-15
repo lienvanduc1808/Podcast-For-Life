@@ -71,20 +71,21 @@ class ListTapFragment : Fragment() {
             }
             episodesRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
+                    list.clear()
                     for (episodeSnapshot in snapshot.children) {
                         val epTitle = episodeSnapshot.child("title").value.toString()
                         val epdes = episodeSnapshot.child("descript").value.toString()
                         val date = episodeSnapshot.child("date").value.toString()
                         val img = episodeSnapshot.child("img").value.toString()
                         val _id = episodeSnapshot.key.toString()
-                        list.add(ListTapData(_id, date, epTitle, epdes, img, ""))
+
                         Log.d("soluongeepisode",list.size.toString())
                         val numListEpisode = list.size
                         listTapAdapter = ListTapAdapter(requireContext(), R.layout.list_tap, list.toList())
                         listView = view.findViewById(R.id.lvTap)
                         listView.adapter = listTapAdapter
                         val storageRef = storage.reference.child("AudioEpisode/$_id")
-                        val mediaPlayer = MediaPlayer()
+
 
 
                         storageRef.downloadUrl.addOnSuccessListener { uri ->
@@ -107,22 +108,7 @@ class ListTapFragment : Fragment() {
                                 val minutes = TimeUnit.MILLISECONDS.toMinutes(duration.toLong()).toInt().toString() +" phút "
 
                                 Log.d("minutes",minutes.toString())
-                                uniqueItems.add(
-                                    ListTapData(
-                                        _id,
-                                        date,
-                                        epTitle,
-                                        epdes,
-                                        img,
-                                        minutes
-                                    )
-                                )
-                                listTapAdapter.clear()
-                                Log.d("sgsgdgf",uniqueItems.toString())
-
-
-                                listTapAdapter.addAll(uniqueItems)
-                                listTapAdapter.notifyDataSetChanged()
+                                list.add(ListTapData(_id, date, epTitle, epdes, img, minutes))
                             }
                         }
 
