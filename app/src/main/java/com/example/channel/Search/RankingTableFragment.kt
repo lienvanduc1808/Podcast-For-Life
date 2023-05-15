@@ -452,7 +452,7 @@ class RankingTableFragment : Fragment() {
                 Log.d("topEpisode",listTopEpisodess.toString())
 
 
-                val sortTopEpisode2 = listTopEpisodess.sortedWith(compareByDescending { it.listener })
+                val sortTopEpisode2 = listTopEpisode2.sortedWith(compareByDescending { it.listener })
                 for (episode in sortTopEpisode2 ){
                     topEpisodeSort2.add(episode)
                 }
