@@ -34,7 +34,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/trikycamxuc"
+            android:src="@drawable/img_17"
             app:riv_corner_radius="8dp" />
 
         <TextView
@@ -45,7 +45,7 @@
             android:layout_marginHorizontal="20dp"
             android:maxLines="1"
             android:ellipsize="end"
-            android:text="zxcvbnmsdfghj" />
+            android:text="unknown" />
 
         <ImageButton
             android:id="@+id/ibPlay"
