@@ -1,6 +1,7 @@
 package com.example.channel.NgheNgay
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
@@ -18,6 +19,7 @@ import com.google.firebase.database.*
 
 
 class AllReviewFragment : Fragment() {
+    private lateinit var fragmentContext: Context
 
     lateinit var ibBack2: ImageButton
     lateinit var tvBack: TextView
@@ -37,6 +39,11 @@ class AllReviewFragment : Fragment() {
 
     private lateinit var databaseReference: DatabaseReference
     private lateinit var userReference: DatabaseReference
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fragmentContext = context
+    }
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
@@ -101,7 +108,7 @@ class AllReviewFragment : Fragment() {
                             reviewSnapshot.child("date").value.toString()))
                     }
                     showRating()
-                    lvAllReview.adapter = ReviewAdapter4LV(requireContext(), R.layout.album_review, reviews)
+                    lvAllReview.adapter = ReviewAdapter4LV( fragmentContext, R.layout.album_review, reviews)
                 }
                 override fun onCancelled(error: DatabaseError) {
                     // Xử lý lỗi
