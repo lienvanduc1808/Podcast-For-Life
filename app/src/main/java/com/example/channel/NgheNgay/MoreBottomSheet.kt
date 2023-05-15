@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.io.File
+import java.lang.ProcessBuilder.Redirect
 
 /**
  * A simple [Fragment] subclass.
@@ -103,7 +104,7 @@ class MoreBottomSheet : BottomSheetDialogFragment(){
 
             llGoToAlb2.setOnClickListener {
                 (context as AppCompatActivity).getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frame_layout, NgheNgayFragment())
+                    .replace(R.id.frame_layout, RedirectNgheNgayFragment())
                     .addToBackStack(null)
                     .commit()
 
@@ -112,7 +113,7 @@ class MoreBottomSheet : BottomSheetDialogFragment(){
                     Log.d("idAlbum", idAlbum)
 
                 }
-                (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_idAlbum", send_data)
+                (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_idAlbum1", send_data)
 
                 dismiss()
             }
