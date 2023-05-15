@@ -108,8 +108,8 @@ class MoreBottomSheet : BottomSheetDialogFragment(){
                     .commit()
 
                 val send_data = Bundle().apply {
-                    putString("idAlbum", idEpisode)
-                    Log.d("idAlbum", idEpisode)
+                    putString("idAlbum", idAlbum)
+                    Log.d("idAlbum", idAlbum)
 
                 }
                 (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_idAlbum", send_data)
