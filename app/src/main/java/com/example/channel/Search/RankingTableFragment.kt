@@ -36,7 +36,10 @@ class RankingTableFragment : Fragment() {
     val itemss = arrayListOf<Top_Item>()
 //    val listTopTap = arrayListOf<TopTapData>()
     val listTopEpisode = arrayListOf<ListTapData>()
+    val listTopEpisodess = arrayListOf<ListTapData>()
     val listTopEpisodes = arrayListOf<ListTapData>()
+    val topEpisodeSort = arrayListOf<ListTapData>()
+    val topEpisode = arrayListOf<ListTapData>()
 //    val listTopTaps = arrayListOf<TopTapData>()
     private lateinit var adapter: TopItemAdapter
     private lateinit var tvAllAlbum2: TextView
@@ -213,8 +216,10 @@ class RankingTableFragment : Fragment() {
                 var sortlistTopTap = listTopEpisode.sortedWith(compareByDescending { it.listener })
                 for (episode in sortlistTopTap ){
                     listTopEpisodes.add(episode)
+
 //                    listTopTaps.add(episode)
                 }
+                Log.d("listTopEpisodes",listTopEpisodes.toString())
 
                 adapter2 = TopTapAdapter(requireContext(),R.layout.top_tap,listTopEpisodes)
                 listView = view.findViewById(R.id.lvRankingTap)
@@ -282,15 +287,17 @@ class RankingTableFragment : Fragment() {
 
 
         Log.d("co vi","co vo")
+        Log.d("ref",ref.toString())
         auth = FirebaseAuth.getInstance()
         authId =auth.currentUser?.uid.toString()
         var list = mutableListOf<MyPodCastData>()
         val itemCate = arrayListOf<Top_Item>()
         val itemCateSort = arrayListOf<Top_Item>()
-        val topEpisode = arrayListOf<ListTapData>()
-        val topEpisodeSort = arrayListOf<ListTapData>()
+
+
 
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
+
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (albumSnapshot in dataSnapshot.child("albums").children) {
                     idAlbum =  albumSnapshot.key.toString()
@@ -311,7 +318,7 @@ class RankingTableFragment : Fragment() {
                             numListener =0
                         }
 
-                        listTopEpisode.add(ListTapData(episodeID, episodeDate, episodeTitle, episodeDes, episodeImage, numListener))
+                        listTopEpisodess.add(ListTapData(episodeID, episodeDate, episodeTitle, episodeDes, episodeImage, numListener))
 //                                listTopTap.add(TopTapData(episodeImage,episodeName,episodeDate,numListener))
                         sumListenerEpisode+=numListener.toInt()
                     }
@@ -322,7 +329,10 @@ class RankingTableFragment : Fragment() {
                     sumListenerEpisode =0
 
 
+
                 }
+
+                Log.d("listTopEpisodess",listTopEpisodess.toString())
 
 
                 val sortlist = itemCate.sortedWith(compareByDescending { it.totalListeners })
@@ -331,12 +341,15 @@ class RankingTableFragment : Fragment() {
 
 
                 }
+                Log.d("topEpisode",listTopEpisodess.toString())
 
 
-                val sortTopEpisode = topEpisode.sortedWith(compareByDescending { it.listener })
+                var sortTopEpisode = listTopEpisodess.sortedWith(compareByDescending { it.listener })
                 for (episode in sortTopEpisode ){
                     topEpisodeSort.add(episode)
                 }
+
+                Log.d("topEpisodeSort",topEpisodeSort.toString())
 
 
 
