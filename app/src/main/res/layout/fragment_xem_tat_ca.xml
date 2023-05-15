@@ -44,7 +44,7 @@
         android:id="@+id/rvListAlbum"
 
         android:layout_width="match_parent"
-        android:layout_height="678dp"
+        android:layout_height="wrap_content"
         android:layout_margin="12dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="52dp"
