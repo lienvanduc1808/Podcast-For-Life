@@ -40,6 +40,7 @@ class ItemDanhmucFragment : Fragment() {
     private lateinit var tvTenDanhmuc: TextView
     private lateinit var tvAllAlbum3: TextView
     private  var cate: String =""
+    private  var taskDanhmuc:String =""
     private lateinit var imgBack: ImageView
     val items = arrayListOf<Album>()
     val items2 = arrayListOf<Album>()
@@ -76,7 +77,7 @@ class ItemDanhmucFragment : Fragment() {
         parentFragmentManager.setFragmentResultListener("send_dm", this) { _, result ->
 
             parentFragmentManager.beginTransaction().show(this@ItemDanhmucFragment)
-            val taskDanhmuc = result.getString("tendanhmuc")
+             taskDanhmuc = result.getString("tendanhmuc")!!
 
 
             if(taskDanhmuc.equals("Tin tức")){
@@ -165,7 +166,7 @@ class ItemDanhmucFragment : Fragment() {
                     val channel = albumSnapshot.child("channel").value as? String
                     val logoAlbum = albumSnapshot.child("logo_album").value as? String
                     Log.d("fridaylog", "The value of logo name is: $logoAlbum")
-                    val album = Album(albumName!!, channel!!, logoAlbum!!,idAlbum!!)
+                    val album = Album(albumName!!, channel!!, logoAlbum!!,idAlbum!!+","+taskDanhmuc)
                     items.add(album)
                 }
                 Log.d("hnlog", "The value of myValue is: $items")

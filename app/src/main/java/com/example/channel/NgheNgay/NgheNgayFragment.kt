@@ -78,9 +78,7 @@ class NgheNgayFragment : Fragment() {
         view.setTag("NgheNgayFragmentTag")
         ibBack = view.findViewById(R.id.ibBack)
         ibSub = view.findViewById(R.id.addBtn)
-        ibBack.setOnClickListener {
-            parentFragmentManager.popBackStack()
-        }
+
 
         rivAlbLogo = view.findViewById(R.id.rivAlbLogo)
         tvAlbName = view.findViewById(R.id.tvAlbName)
@@ -239,6 +237,20 @@ class NgheNgayFragment : Fragment() {
                     // Handle errors
                 }
             })
+            ibBack.setOnClickListener {
+
+
+                    val taskDanhmuc = result.getString("tendanhmucs")
+
+                    val send_data = Bundle().apply {
+                        putString("tendanhmuc", taskDanhmuc)
+                    }
+                    (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_dm", send_data)
+
+
+                parentFragmentManager.popBackStack()
+
+            }
         }
     }
 

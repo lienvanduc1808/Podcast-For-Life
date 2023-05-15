@@ -19,6 +19,8 @@ import com.google.firebase.storage.FirebaseStorage
 class ItemDanhMucAdapter(private val carouselDataList: ArrayList<Album>, val context: Context) :RecyclerView.Adapter<ItemDanhMucAdapter.CarouselItemViewHolder>()  {
     var onItemClick: ((Album) -> Unit)? = null
 
+    private var id_album :String =""
+
 
 
     inner class CarouselItemViewHolder(view: View) : RecyclerView.ViewHolder(view){
@@ -65,8 +67,17 @@ class ItemDanhMucAdapter(private val carouselDataList: ArrayList<Album>, val con
                 .commit()
 
             val send_data = Bundle().apply {
-                putString("idAlbum", album.id_album.toString())
-                Log.d("idAlbum",album.id_album.toString())
+
+                val id_album = album.id_album.split(",")
+
+                putString("idAlbum", id_album[0].toString())
+                putString("tendanhmucs", id_album[1].toString())
+
+
+
+
+
+                Log.d("idAlbum",id_album[1].toString())
 
             }
             (context as AppCompatActivity).getSupportFragmentManager().setFragmentResult("send_idAlbum", send_data)
