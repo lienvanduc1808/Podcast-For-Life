@@ -151,6 +151,7 @@ class NgheNgayFragment : Fragment() {
             databaseReference?.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     reviews.clear()
+                    episodes.clear()
                     for (categorySnapshot in snapshot.children) {
                         for (albumSnapshot in categorySnapshot.child("albums").children) {
                             if (albumSnapshot.key.toString().equals(idAlbum)) {

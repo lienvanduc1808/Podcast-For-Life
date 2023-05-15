@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ListTapFragment"
     android:orientation="vertical"
-    android:background="#e9e8e9">
+    android:background="#FFFFFF">
 
 
 
@@ -134,18 +134,6 @@
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/txtSeeAll2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="110dp"
-                    android:layout_weight="1"
-                    android:text="Xem tất cả "
-                    android:textAlignment="textEnd"
-                    android:textColor="#7a31d6"
-                    android:textSize="17dp"
-
-                    />
 
             </LinearLayout>
 
