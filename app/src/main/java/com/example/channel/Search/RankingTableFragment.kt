@@ -329,6 +329,7 @@ class RankingTableFragment : Fragment() {
                     if(sumListenerEpisode!=0){
                         itemCate.add(Top_Item(albumName,channelName,episodeImage,sumListenerEpisode,idAlbum))
                        // Log.d("hhhh",sumListenerEpisode.toString()+albumName)
+                        Log.d(" itemCate",itemCate.toString())
                     }
                     sumListenerEpisode =0
 
