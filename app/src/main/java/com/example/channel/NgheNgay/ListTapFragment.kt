@@ -81,9 +81,7 @@ class ListTapFragment : Fragment() {
 
                         Log.d("soluongeepisode",list.size.toString())
                         val numListEpisode = list.size
-                        listTapAdapter = ListTapAdapter(requireContext(), R.layout.list_tap, list.toList())
-                        listView = view.findViewById(R.id.lvTap)
-                        listView.adapter = listTapAdapter
+
                         val storageRef = storage.reference.child("AudioEpisode/$_id")
 
 
@@ -109,6 +107,9 @@ class ListTapFragment : Fragment() {
 
                                 Log.d("minutes",minutes.toString())
                                 list.add(ListTapData(_id, date, epTitle, epdes, img, minutes))
+                                listTapAdapter = ListTapAdapter(requireContext(), R.layout.list_tap, list.toList())
+                                listView = view.findViewById(R.id.lvTap)
+                                listView.adapter = listTapAdapter
                             }
                         }
 
