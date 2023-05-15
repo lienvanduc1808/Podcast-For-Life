@@ -199,7 +199,7 @@ class AddNewPodcastFragment : Fragment() {
         databaseReference.child(categorySource+"/albums")?.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (albumSnapshot in snapshot.children)
-                    if (auth.currentUser!!.uid.toString() in albumSnapshot.child("channel").value.toString()){
+                    if (auth.currentUser!!.uid.toString() in albumSnapshot.key.toString()){
                         albumChoice.add(albumSnapshot.child("album_name").value.toString())
                         albumKey.add(albumSnapshot.key.toString())
                     }
