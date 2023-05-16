@@ -57,7 +57,7 @@ class XemTatCaAdapter(private val items: ArrayList<Album>, val context: Context)
                 .commit()
 
             val send_data = Bundle().apply {
-                putString("idAlbum", item.id_album.toString())
+                putString("idAlbum", item.id_album.split(",")[0])
                 Log.d("idAlbum",item.id_album.toString())
 
             }

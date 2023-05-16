@@ -215,7 +215,7 @@ class ItemDanhmucFragment : Fragment() {
                     val albumName = albumSnapshot.child("album_name").value as? String
                     val channel = albumSnapshot.child("channel").value as? String
                     val logoAlbum = albumSnapshot.child("logo_album").value as? String
-                    val album = Album(albumName!!, channel!!, logoAlbum!!,idAlbum!!)
+                    val album = Album(albumName!!, channel!!, logoAlbum!!,idAlbum!! +"," + taskDanhmuc)
                     items2.add(album)
                 }
                 val itemShuffle = items2.shuffled().take(20)

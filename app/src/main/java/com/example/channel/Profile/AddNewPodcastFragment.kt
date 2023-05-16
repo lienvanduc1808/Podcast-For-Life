@@ -198,6 +198,10 @@ class AddNewPodcastFragment : Fragment() {
 
         databaseReference.child(categorySource+"/albums")?.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                albumChoice.clear()
+                albumChoice.add("---------------------")
+                albumChoice.add("Tạo Album mới")
+                val albumKey = mutableListOf<String>()
                 for (albumSnapshot in snapshot.children)
                     if (auth.currentUser!!.uid.toString() in albumSnapshot.key.toString()){
                         albumChoice.add(albumSnapshot.child("album_name").value.toString())
