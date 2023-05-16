@@ -31,7 +31,6 @@ import com.google.firebase.ktx.Firebase
 
 class HomeFragment : Fragment() {
 
-    private lateinit var fragmentContext: Context
 
     private lateinit var viewPager: ViewPager2
     private lateinit var viewPager2: ViewPager2
@@ -42,6 +41,7 @@ class HomeFragment : Fragment() {
     private lateinit var tvAllAlbum3: TextView
     val items = arrayListOf<Album>()
     val items2 = arrayListOf<Album>()
+    private lateinit var fragmentContext: Context
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

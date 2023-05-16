@@ -1,5 +1,6 @@
 package com.example.channel.admin
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -22,7 +23,12 @@ import com.google.firebase.ktx.Firebase
 class UserManageFragment : Fragment() {
     private var recyclerView: RecyclerView? = null
     private var adapter: UserManageAdapter? = null
+    private lateinit var fragmentContext: Context
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fragmentContext = context
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,7 +37,7 @@ class UserManageFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_admin_user_manage, container, false)
         recyclerView = view.findViewById(R.id.user_recycler_view)
 
-        recyclerView?.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView?.layoutManager = LinearLayoutManager(fragmentContext)
         val items = arrayListOf<User>()
 
         val database = Firebase.database
@@ -49,13 +55,13 @@ class UserManageFragment : Fragment() {
                     items.add(user)
                 }
                 Log.d("calog", "The value of search is: $items")
-                adapter = UserManageAdapter(items, requireContext())
+                adapter = UserManageAdapter(items, fragmentContext)
 
                 recyclerView!!.adapter = adapter
             }
             override fun onCancelled(error: DatabaseError) {
                 // Xử lý lỗi
-                Toast.makeText(requireContext(), "Can not get data", Toast.LENGTH_SHORT);
+                Toast.makeText(fragmentContext, "Can not get data", Toast.LENGTH_SHORT);
             }
         })
 

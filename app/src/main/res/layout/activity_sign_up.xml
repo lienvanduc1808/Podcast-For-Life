@@ -46,11 +46,11 @@
         android:id="@+id/btnSignUp"
         android:layout_width="357dp"
         android:layout_height="58dp"
-        android:text="Sign Up with Email"
-        android:textStyle="bold"
-        android:textColor="#FFFFFF"
+        android:layout_margin="10dp"
         android:background="@drawable/button_gradient"
-        android:layout_margin= "10dp"/>
+        android:text="Sign Up with Email"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvSwitchToSignIn"

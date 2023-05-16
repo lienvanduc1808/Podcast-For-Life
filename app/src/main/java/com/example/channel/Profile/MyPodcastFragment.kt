@@ -1,5 +1,6 @@
 package com.example.channel.Profile
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -29,7 +30,12 @@ class MyPodcastFragment : Fragment() {
     private lateinit var authId: String
     private var episodeID:String=""
 
+    private lateinit var fragmentContext: Context
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fragmentContext = context
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -135,7 +141,7 @@ class MyPodcastFragment : Fragment() {
                 }
 
 
-                adapter = MyPodcastAdapter(requireContext(), R.layout.my_podcast_item, list)
+                adapter = MyPodcastAdapter(fragmentContext, R.layout.my_podcast_item, list)
                 listView = view.findViewById(R.id.lvMyPodcast)
 
                 listView.adapter = adapter

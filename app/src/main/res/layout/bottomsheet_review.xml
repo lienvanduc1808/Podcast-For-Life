@@ -94,7 +94,7 @@
                     android:layout_marginTop="88dp"
                     android:inputType="textMultiLine"
                     android:minLines="8"
-                    android:text="Name"
+                    android:hint="Nhập bình luận của bạn"
                     android:textColor="@color/white"
                     app:layout_constraintStart_toStartOf="@+id/view"
                     app:layout_constraintTop_toBottomOf="@+id/view" />

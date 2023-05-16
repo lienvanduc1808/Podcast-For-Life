@@ -155,6 +155,8 @@ class AdminEditAlbumFragment : Fragment() {
                                             parentFragmentManager.popBackStack()
                                         }
 
+
+                                        Toast.makeText(requireContext(), "Update successfully", Toast.LENGTH_SHORT).show()
                                        // replaceFragment(ItemAlbumManageFragment())
 
                                     }

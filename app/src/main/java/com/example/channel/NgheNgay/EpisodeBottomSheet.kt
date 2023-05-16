@@ -230,7 +230,7 @@ class EpisodeBottomSheet : BottomSheetDialogFragment() {
                 ibPause.setOnClickListener{
                     if(!mediaPlayer.isPlaying){
                         mediaPlayer.start()
-                        ibPause.setImageResource(R.drawable.baseline_pause)
+                        ibPause.setImageResource(R.drawable.baseline_pause_40)
                     }
                     else{
                         mediaPlayer.pause()
