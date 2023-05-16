@@ -2,6 +2,7 @@ package com.example.channel.NgheNgay
 
 import android.annotation.SuppressLint
 import android.content.ClipData.Item
+import android.content.Context
 import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
@@ -45,6 +46,12 @@ class ItemDanhmucFragment : Fragment() {
     val items = arrayListOf<Album>()
     val items2 = arrayListOf<Album>()
 
+
+    private lateinit var fragmentContext: Context
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fragmentContext = context
+    }
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
@@ -171,7 +178,7 @@ class ItemDanhmucFragment : Fragment() {
                 }
                 Log.d("hnlog", "The value of myValue is: $items")
 
-                adapter = ItemDanhMucAdapter(items, requireContext())
+                adapter = ItemDanhMucAdapter(items, fragmentContext)
                 adapter.onItemClick = { album ->
                     // Handle click events on album items here
                 }
@@ -214,7 +221,7 @@ class ItemDanhmucFragment : Fragment() {
                 val itemShuffle = items2.shuffled().take(20)
 
 
-                adapter2 = ItemDanhMucAdapter(itemShuffle as ArrayList<Album>, requireContext())
+                adapter2 = ItemDanhMucAdapter(itemShuffle as ArrayList<Album>, fragmentContext)
                 viewPager2 = view!!.findViewById<ViewPager2>(R.id.viewPager2)
 
                 viewPager2.apply {

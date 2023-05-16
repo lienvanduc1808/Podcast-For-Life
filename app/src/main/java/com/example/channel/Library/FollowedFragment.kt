@@ -1,5 +1,6 @@
 package com.example.channel.Library
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -20,7 +21,11 @@ import com.google.firebase.storage.StorageReference
 class FollowedFragment : Fragment() {
     private lateinit var returnLibraryBtn: ImageButton
     private lateinit var rvListSubcribed: RecyclerView
-
+    private lateinit var fragmentContext: Context
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fragmentContext = context
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -81,9 +86,9 @@ class FollowedFragment : Fragment() {
                             }
                         }
                         Log.i("items", items.toString())
-                        val adapter = XemTatCaAlbumAdapter(items, requireContext())
+                        val adapter = XemTatCaAlbumAdapter(items, fragmentContext)
                         rvListSubcribed.adapter = adapter
-                        val layoutManager = GridLayoutManager(requireContext(), 2)
+                        val layoutManager = GridLayoutManager(fragmentContext, 2)
                         rvListSubcribed.layoutManager = layoutManager
                     }
 
