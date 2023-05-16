@@ -1,5 +1,6 @@
 package com.example.channel.Library
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -20,6 +21,13 @@ class SavedFragment : Fragment() {
     private lateinit var returnLibraryBtn: ImageButton
     private lateinit var listViewSaved: ListView
     private lateinit var listSavedAdapter: ListSavedAdapter
+    private lateinit var fragmentContext: Context
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fragmentContext = context
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -89,7 +97,7 @@ class SavedFragment : Fragment() {
                         }
                         Log.i("listEp", listSavedEpisode.toString())
                         listViewSaved = view.findViewById(R.id.lvSaved)
-                        listSavedAdapter = ListSavedAdapter(requireContext(), R.layout.item_episode_saved, listSavedEpisode)
+                        listSavedAdapter = ListSavedAdapter(fragmentContext, R.layout.item_episode_saved, listSavedEpisode)
                         listViewSaved.adapter = listSavedAdapter
 
                     }
